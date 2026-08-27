@@ -12,7 +12,7 @@
     <title>Agenda Amiga</title>
     
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'></text></svg>">
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -33,7 +33,6 @@
         
         .container { max-width: 1100px; margin: 0 auto; }
         
-        /* ============ TELA DE LOGIN ============ */
         .login-screen {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -47,11 +46,7 @@
             transition: opacity 0.5s, visibility 0.5s;
         }
         
-        .login-screen.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
+        .login-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
         
         .login-box {
             background: linear-gradient(135deg, #161b33, #1e2444);
@@ -64,11 +59,7 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
         }
         
-        .login-icon {
-            font-size: 4em;
-            margin-bottom: 15px;
-            animation: float 3s ease-in-out infinite;
-        }
+        .login-icon { font-size: 4em; margin-bottom: 15px; animation: float 3s ease-in-out infinite; }
         
         @keyframes float {
             0%, 100% { transform: translateY(0); }
@@ -84,11 +75,7 @@
             background-clip: text;
         }
         
-        .login-subtitle {
-            color: #8b949e;
-            margin-bottom: 30px;
-            font-size: 0.95em;
-        }
+        .login-subtitle { color: #8b949e; margin-bottom: 30px; font-size: 0.95em; }
         
         .login-input {
             width: 100%;
@@ -134,18 +121,9 @@
         
         .login-btn.biometric:hover { box-shadow: 0 6px 20px rgba(63, 185, 80, 0.5); }
         
-        .login-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none !important;
-        }
+        .login-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
         
-        .login-error {
-            color: #f85149;
-            margin-top: 10px;
-            font-size: 0.9em;
-            min-height: 20px;
-        }
+        .login-error { color: #f85149; margin-top: 10px; font-size: 0.9em; min-height: 20px; }
         
         .login-divider {
             display: flex;
@@ -164,20 +142,9 @@
         
         .login-divider span { padding: 0 10px; }
         
-        .biometric-setup {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid #30363d;
-        }
+        .biometric-setup { margin-top: 15px; padding-top: 15px; border-top: 1px solid #30363d; }
+        .biometric-setup small { color: #8b949e; font-size: 0.8em; display: block; margin-top: 8px; }
         
-        .biometric-setup small {
-            color: #8b949e;
-            font-size: 0.8em;
-            display: block;
-            margin-top: 8px;
-        }
-        
-        /* ============ APP PRINCIPAL ============ */
         #mainApp { display: none; }
         #mainApp.show { display: block; animation: fadeIn 0.5s; }
         
@@ -226,11 +193,7 @@
         .sync-dot.saving { background: #f0883e; animation: blink 1s infinite; }
         @keyframes blink { 50% { opacity: 0.3; } }
 
-        .top-actions {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
+        .top-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
         .icon-btn {
             background: rgba(30, 36, 68, 0.6);
@@ -313,22 +276,8 @@
         textarea { grid-column: 1 / -1; resize: vertical; min-height: 70px; }
         select option { background: #0d1117; color: #e6edf3; }
 
-        /* Campos que aparecem/desaparecem conforme categoria */
-        .field-medication-only {
-            display: none;
-        }
-        
-        .field-medication-only.show {
-            display: flex;
-        }
-        
-        .field-normal-only {
-            display: flex;
-        }
-        
-        .field-normal-only.hide {
-            display: none;
-        }
+        .field-normal-only { display: flex; }
+        .field-normal-only.hide { display: none; }
 
         .medication-fields {
             display: none;
@@ -349,9 +298,7 @@
             margin-top: 8px;
         }
         
-        .weekday-checkbox {
-            display: none;
-        }
+        .weekday-checkbox { display: none; }
         
         .weekday-label {
             background: #0d1117;
@@ -372,12 +319,7 @@
             color: #3fb950;
         }
 
-        .time-slots {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 8px;
-        }
+        .time-slots { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
         
         .time-slot {
             background: #0d1117;
@@ -390,10 +332,7 @@
             font-size: 0.9em;
         }
         
-        .time-slot input {
-            padding: 4px;
-            font-size: 0.9em;
-        }
+        .time-slot input { padding: 4px; font-size: 0.9em; }
         
         .remove-time {
             background: rgba(248, 81, 73, 0.2);
@@ -523,33 +462,14 @@
             min-width: 40px;
         }
         
-        .btn-delete {
-            background: rgba(248, 81, 73, 0.15);
-            color: #f85149;
-            border: 1px solid rgba(248, 81, 73, 0.3);
-        }
-        
+        .btn-delete { background: rgba(248, 81, 73, 0.15); color: #f85149; border: 1px solid rgba(248, 81, 73, 0.3); }
         .btn-delete:hover { background: rgba(248, 81, 73, 0.3); transform: scale(1.1); }
         
-        .btn-check {
-            background: rgba(63, 185, 80, 0.15);
-            color: #3fb950;
-            border: 1px solid rgba(63, 185, 80, 0.3);
-        }
-        
+        .btn-check { background: rgba(63, 185, 80, 0.15); color: #3fb950; border: 1px solid rgba(63, 185, 80, 0.3); }
         .btn-check:hover { background: rgba(63, 185, 80, 0.3); transform: scale(1.1); }
+        .btn-check.done { background: #3fb950; color: white; }
         
-        .btn-check.done {
-            background: #3fb950;
-            color: white;
-        }
-        
-        .btn-edit {
-            background: rgba(88, 166, 255, 0.15);
-            color: #58a6ff;
-            border: 1px solid rgba(88, 166, 255, 0.3);
-        }
-        
+        .btn-edit { background: rgba(88, 166, 255, 0.15); color: #58a6ff; border: 1px solid rgba(88, 166, 255, 0.3); }
         .btn-edit:hover { background: rgba(88, 166, 255, 0.3); transform: scale(1.1); }
 
         .category-medico { border-left-color: #f85149; }
@@ -603,11 +523,7 @@
             flex-wrap: wrap;
         }
         
-        .notification-permission-text {
-            flex: 1;
-            font-weight: 600;
-            font-size: 0.95em;
-        }
+        .notification-permission-text { flex: 1; font-weight: 600; font-size: 0.95em; }
         
         .notification-permission button {
             background: white;
@@ -644,7 +560,6 @@
             border: 1px solid rgba(63, 185, 80, 0.4);
         }
 
-        /* ============ MODAL ============ */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -680,19 +595,9 @@
             gap: 10px;
         }
         
-        .modal-section {
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #30363d;
-        }
-        
+        .modal-section { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #30363d; }
         .modal-section:last-child { border-bottom: none; }
-        
-        .modal-section h4 {
-            color: #c9d1d9;
-            margin-bottom: 12px;
-            font-size: 1em;
-        }
+        .modal-section h4 { color: #c9d1d9; margin-bottom: 12px; font-size: 1em; }
         
         .setting-row {
             display: flex;
@@ -702,32 +607,11 @@
             gap: 10px;
         }
         
-        .setting-label {
-            color: #c9d1d9;
-            font-size: 0.9em;
-            flex: 1;
-        }
+        .setting-label { color: #c9d1d9; font-size: 0.9em; flex: 1; }
+        .setting-label small { display: block; color: #8b949e; font-size: 0.8em; margin-top: 2px; }
         
-        .setting-label small {
-            display: block;
-            color: #8b949e;
-            font-size: 0.8em;
-            margin-top: 2px;
-        }
-        
-        .toggle {
-            position: relative;
-            width: 50px;
-            height: 28px;
-            flex-shrink: 0;
-        }
-        
-        .toggle input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        
+        .toggle { position: relative; width: 50px; height: 28px; flex-shrink: 0; }
+        .toggle input { opacity: 0; width: 0; height: 0; }
         .toggle-slider {
             position: absolute;
             cursor: pointer;
@@ -736,7 +620,6 @@
             border-radius: 28px;
             transition: 0.3s;
         }
-        
         .toggle-slider:before {
             content: '';
             position: absolute;
@@ -748,14 +631,8 @@
             border-radius: 50%;
             transition: 0.3s;
         }
-        
-        .toggle input:checked + .toggle-slider {
-            background: linear-gradient(135deg, #1f6feb, #0099ff);
-        }
-        
-        .toggle input:checked + .toggle-slider:before {
-            transform: translateX(22px);
-        }
+        .toggle input:checked + .toggle-slider { background: linear-gradient(135deg, #1f6feb, #0099ff); }
+        .toggle input:checked + .toggle-slider:before { transform: translateX(22px); }
         
         .sound-selector {
             display: grid;
@@ -777,18 +654,8 @@
         }
         
         .sound-option:hover { border-color: #58a6ff; }
-        
-        .sound-option.active {
-            border-color: #00d4ff;
-            background: rgba(0, 212, 255, 0.1);
-            color: #00d4ff;
-        }
-        
-        .sound-option .sound-icon {
-            font-size: 1.5em;
-            display: block;
-            margin-bottom: 4px;
-        }
+        .sound-option.active { border-color: #00d4ff; background: rgba(0, 212, 255, 0.1); color: #00d4ff; }
+        .sound-option .sound-icon { font-size: 1.5em; display: block; margin-bottom: 4px; }
         
         .number-input {
             width: 70px;
@@ -801,10 +668,7 @@
             font-size: 1em;
         }
         
-        .number-input:focus {
-            outline: none;
-            border-color: #00d4ff;
-        }
+        .number-input:focus { outline: none; border-color: #00d4ff; }
         
         .modal-close {
             width: 100%;
@@ -820,6 +684,25 @@
         }
         
         .modal-close:hover { transform: translateY(-2px); }
+
+        .voice-selector {
+            width: 100%;
+            padding: 10px;
+            background: #0d1117;
+            border: 2px solid #30363d;
+            border-radius: 8px;
+            color: #e6edf3;
+            font-size: 0.95em;
+            margin-top: 8px;
+        }
+        
+        .voice-selector:focus { outline: none; border-color: #00d4ff; }
+
+        .range-input {
+            width: 100%;
+            margin-top: 8px;
+            accent-color: #00d4ff;
+        }
 
         footer { text-align: center; color: #8b949e; padding: 20px 10px; font-size: 0.85em; }
         footer a { color: #58a6ff; text-decoration: none; }
@@ -842,9 +725,7 @@
             .form-grid { grid-template-columns: repeat(2, 1fr); }
         }
         
-        @media (min-width: 901px) {
-            body { padding: 30px; }
-        }
+        @media (min-width: 901px) { body { padding: 30px; } }
         
         @media (max-width: 360px) {
             header h1 { font-size: 1.6em; }
@@ -877,15 +758,11 @@
             
             <div id="biometricSection" style="display: none;">
                 <div class="login-divider"><span>ou</span></div>
-                <button class="login-btn biometric" id="biometricBtn" onclick="tryBiometric()">
-                    🔓 Entrar com Biometria
-                </button>
+                <button class="login-btn biometric" id="biometricBtn" onclick="tryBiometric()">🔓 Entrar com Biometria</button>
             </div>
             
             <div class="biometric-setup" id="biometricSetup" style="display: none;">
-                <button class="login-btn biometric" onclick="setupBiometric()">
-                    ️ Cadastrar Biometria
-                </button>
+                <button class="login-btn biometric" onclick="setupBiometric()">⚙️ Cadastrar Biometria</button>
                 <small>Use impressao digital ou reconhecimento facial</small>
             </div>
         </div>
@@ -912,9 +789,9 @@
                     <span id="syncText">Conectando...</span>
                 </div>
                 <div class="top-actions">
-                    <button class="icon-btn" onclick="openSettings()" title="Configuracoes">️</button>
+                    <button class="icon-btn" onclick="openSettings()" title="Configuracoes">⚙️</button>
                     <button class="icon-btn" onclick="testNotification()" title="Testar notificacao">🔔</button>
-                    <button class="logout-btn" onclick="doLogout()"> Sair</button>
+                    <button class="logout-btn" onclick="doLogout()">🔒 Sair</button>
                 </div>
             </div>
 
@@ -931,8 +808,8 @@
                         <div class="form-group">
                             <label>Categoria *</label>
                             <select id="category" required>
-                                <option value="medico">🏥 Medico</option>
-                                <option value="escola"> Escola</option>
+                                <option value="medico"> Medico</option>
+                                <option value="escola">🎓 Escola</option>
                                 <option value="reuniao">💼 Reuniao</option>
                                 <option value="evento">🎉 Evento</option>
                                 <option value="aniversario">🎂 Aniversario</option>
@@ -940,7 +817,6 @@
                             </select>
                         </div>
                         
-                        <!-- Campos DATA e HORA - aparecem apenas para categorias NORMAIS -->
                         <div class="form-group field-normal-only" id="fieldDate">
                             <label>Data *</label>
                             <input type="date" id="date">
@@ -951,12 +827,11 @@
                         </div>
                         
                         <div class="form-group" style="grid-column: 1 / -1;">
-                            <label>Descricao (opcional)</label>
-                            <textarea id="description" placeholder="Detalhes do compromisso..."></textarea>
+                            <label>Descricao (sera narrada pela voz)</label>
+                            <textarea id="description" placeholder="Detalhes do compromisso... A voz ira ler este texto no alerta!"></textarea>
                         </div>
                     </div>
                     
-                    <!-- Campos exclusivos de MEDICAMENTO -->
                     <div class="medication-fields" id="medicationFields">
                         <h4 style="color: #3fb950; margin-bottom: 12px;">💊 Configuracao de Medicamento Recorrente</h4>
                         
@@ -977,26 +852,13 @@
                         <div class="form-group" id="customWeekdays" style="display: none; margin-bottom: 12px;">
                             <label>Dias da Semana</label>
                             <div class="weekdays-selector">
-                                <input type="checkbox" id="day0" class="weekday-checkbox" value="0">
-                                <label for="day0" class="weekday-label">Dom</label>
-                                
-                                <input type="checkbox" id="day1" class="weekday-checkbox" value="1">
-                                <label for="day1" class="weekday-label">Seg</label>
-                                
-                                <input type="checkbox" id="day2" class="weekday-checkbox" value="2">
-                                <label for="day2" class="weekday-label">Ter</label>
-                                
-                                <input type="checkbox" id="day3" class="weekday-checkbox" value="3">
-                                <label for="day3" class="weekday-label">Qua</label>
-                                
-                                <input type="checkbox" id="day4" class="weekday-checkbox" value="4">
-                                <label for="day4" class="weekday-label">Qui</label>
-                                
-                                <input type="checkbox" id="day5" class="weekday-checkbox" value="5">
-                                <label for="day5" class="weekday-label">Sex</label>
-                                
-                                <input type="checkbox" id="day6" class="weekday-checkbox" value="6">
-                                <label for="day6" class="weekday-label">Sab</label>
+                                <input type="checkbox" id="day0" class="weekday-checkbox" value="0"><label for="day0" class="weekday-label">Dom</label>
+                                <input type="checkbox" id="day1" class="weekday-checkbox" value="1"><label for="day1" class="weekday-label">Seg</label>
+                                <input type="checkbox" id="day2" class="weekday-checkbox" value="2"><label for="day2" class="weekday-label">Ter</label>
+                                <input type="checkbox" id="day3" class="weekday-checkbox" value="3"><label for="day3" class="weekday-label">Qua</label>
+                                <input type="checkbox" id="day4" class="weekday-checkbox" value="4"><label for="day4" class="weekday-label">Qui</label>
+                                <input type="checkbox" id="day5" class="weekday-checkbox" value="5"><label for="day5" class="weekday-label">Sex</label>
+                                <input type="checkbox" id="day6" class="weekday-checkbox" value="6"><label for="day6" class="weekday-label">Sab</label>
                             </div>
                         </div>
                         
@@ -1041,7 +903,7 @@
                     <button class="filter-btn" data-filter="completed">✅ Realizados</button>
                 </div>
                 <div class="events-list" id="eventsList"></div>
-                <div class="cloud-actions" style="display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap;">
+                <div style="display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap;">
                     <button class="btn btn-secondary btn-small" onclick="syncFromCloud()">🔄 Sincronizar</button>
                     <button class="btn btn-secondary btn-small" onclick="forceSyncToCloud()">☁️ Enviar Nuvem</button>
                 </div>
@@ -1072,7 +934,7 @@
                 </div>
                 
                 <div class="setting-label" style="margin-top: 15px; margin-bottom: 5px;">
-                    <strong>Tipo de som</strong>
+                    <strong>Tipo de som (mais extenso)</strong>
                     <small>Escolha o som para suas notificacoes</small>
                 </div>
                 <div class="sound-selector" id="soundSelector">
@@ -1085,11 +947,11 @@
                         Bip
                     </div>
                     <div class="sound-option" data-sound="alert" onclick="selectSound('alert')">
-                        <span class="sound-icon"></span>
+                        <span class="sound-icon">🚨</span>
                         Alerta
                     </div>
                     <div class="sound-option" data-sound="gentle" onclick="selectSound('gentle')">
-                        <span class="sound-icon"></span>
+                        <span class="sound-icon">🎵</span>
                         Suave
                     </div>
                     <div class="sound-option" data-sound="urgent" onclick="selectSound('urgent')">
@@ -1111,17 +973,53 @@
                 <div class="setting-row">
                     <div class="setting-label">
                         <strong>Quantas vezes repetir</strong>
-                        <small>Numero de vezes que a notificacao sera repetida</small>
+                        <small>Numero de vezes que a notificacao sera repetida (som + voz)</small>
                     </div>
-                    <input type="number" class="number-input" id="repeatCount" value="1" min="1" max="10" onchange="saveSettings()">
+                    <input type="number" class="number-input" id="repeatCount" value="3" min="1" max="10" onchange="saveSettings()">
                 </div>
                 <div class="setting-row">
                     <div class="setting-label">
                         <strong>Intervalo entre repeticoes</strong>
                         <small>Tempo em segundos entre cada repeticao</small>
                     </div>
-                    <input type="number" class="number-input" id="repeatInterval" value="5" min="1" max="60" onchange="saveSettings()">
+                    <input type="number" class="number-input" id="repeatInterval" value="8" min="3" max="60" onchange="saveSettings()">
                 </div>
+            </div>
+            
+            <div class="modal-section">
+                <h4>🗣️ Voz Narradora</h4>
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <strong>Ativar voz</strong>
+                        <small>Narra o titulo e descricao do compromisso</small>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" id="voiceEnabled" checked onchange="saveSettings()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-label" style="margin-top: 15px; margin-bottom: 5px;">
+                    <strong>Voz do sistema</strong>
+                    <small>Escolha a voz que ira narrar</small>
+                </div>
+                <select class="voice-selector" id="voiceSelector" onchange="saveSettings()">
+                    <option>Carregando vozes...</option>
+                </select>
+                
+                <div class="setting-label" style="margin-top: 15px; margin-bottom: 5px;">
+                    <strong>Velocidade da voz: <span id="voiceRateValue">1.0</span>x</strong>
+                </div>
+                <input type="range" class="range-input" id="voiceRate" min="0.5" max="2" step="0.1" value="1" oninput="document.getElementById('voiceRateValue').textContent = this.value; saveSettings();">
+                
+                <div class="setting-label" style="margin-top: 15px; margin-bottom: 5px;">
+                    <strong>Tom da voz: <span id="voicePitchValue">1.0</span></strong>
+                </div>
+                <input type="range" class="range-input" id="voicePitch" min="0.5" max="2" step="0.1" value="1" oninput="document.getElementById('voicePitchValue').textContent = this.value; saveSettings();">
+                
+                <button class="btn btn-small btn-secondary" style="margin-top: 10px; width: 100%;" onclick="testVoice()">
+                    🗣️ Testar Voz
+                </button>
             </div>
             
             <div class="modal-section">
@@ -1129,7 +1027,7 @@
                 <div class="setting-row">
                     <div class="setting-label">
                         <strong>Modo silencioso</strong>
-                        <small>Desativa todos os sons de notificacao</small>
+                        <small>Desativa todos os sons e voz de notificacao</small>
                     </div>
                     <label class="toggle">
                         <input type="checkbox" id="silentMode" onchange="saveSettings()">
@@ -1145,7 +1043,7 @@
     <!-- Modal de Edicao -->
     <div class="modal-overlay" id="editModal">
         <div class="modal">
-            <h3>✏️ Editar Compromisso</h3>
+            <h3>️ Editar Compromisso</h3>
             <form id="editForm">
                 <input type="hidden" id="editId">
                 <div class="form-grid">
@@ -1156,12 +1054,12 @@
                     <div class="form-group">
                         <label>Categoria *</label>
                         <select id="editCategory" required>
-                            <option value="medico">🏥 Medico</option>
+                            <option value="medico"> Medico</option>
                             <option value="escola">🎓 Escola</option>
                             <option value="reuniao">💼 Reuniao</option>
-                            <option value="evento"> Evento</option>
+                            <option value="evento">🎉 Evento</option>
                             <option value="aniversario">🎂 Aniversario</option>
-                            <option value="medicamento"> Medicamento</option>
+                            <option value="medicamento">💊 Medicamento</option>
                         </select>
                     </div>
                     <div class="form-group field-normal-only" id="editFieldDate">
@@ -1205,50 +1103,278 @@
         let alertedToday = JSON.parse(localStorage.getItem(STORAGE_KEYS.alerted) || '{}');
         let medicationAlerts = JSON.parse(localStorage.getItem(STORAGE_KEYS.medAlerts) || '{}');
         let saveTimeout = null;
+        let availableVoices = [];
         
         let settings = JSON.parse(localStorage.getItem(STORAGE_KEYS.settings) || JSON.stringify({
             soundEnabled: true,
             soundType: 'chime',
-            repeatCount: 1,
-            repeatInterval: 5,
-            silentMode: false
+            repeatCount: 3,
+            repeatInterval: 8,
+            silentMode: false,
+            voiceEnabled: true,
+            voiceName: '',
+            voiceRate: 1,
+            voicePitch: 1
         }));
 
-        const categoryIcons = { medico: '🏥', escola: '🎓', reuniao: '💼', evento: '🎉', aniversario: '🎂', medicamento: '' };
+        const categoryIcons = { medico: '🏥', escola: '🎓', reuniao: '💼', evento: '🎉', aniversario: '🎂', medicamento: '💊' };
         const categoryNames = { medico: 'Medico', escola: 'Escola', reuniao: 'Reuniao', evento: 'Evento', aniversario: 'Aniversario', medicamento: 'Medicamento' };
         const categoryColors = { medico: 'badge-medico', escola: 'badge-escola', reuniao: 'badge-reuniao', evento: 'badge-evento', aniversario: 'badge-aniversario', medicamento: 'badge-medicamento' };
 
-        // ============ CONTROLE DE CAMPOS POR CATEGORIA ============
-        function updateFormFields() {
-            var category = document.getElementById('category').value;
-            var isMedication = (category === 'medicamento');
+        // ============ SERVICE WORKER PARA APP FECHADO ============
+        if ('serviceWorker' in navigator) {
+            const swCode = `
+                self.addEventListener('install', e => { self.skipWaiting(); });
+                self.addEventListener('activate', e => { e.waitUntil(clients.claim()); });
+                self.addEventListener('notificationclick', event => {
+                    event.notification.close();
+                    event.waitUntil(
+                        clients.matchAll({type: 'window'}).then(clients => {
+                            if (clients.length > 0) {
+                                clients[0].focus();
+                            } else {
+                                clients.openWindow('./');
+                            }
+                        })
+                    );
+                });
+            `;
+            const swBlob = new Blob([swCode], {type: 'application/javascript'});
+            const swUrl = URL.createObjectURL(swBlob);
+            navigator.serviceWorker.register(swUrl).catch(err => console.log('SW:', err));
+        }
+
+        // ============ VOZ NARRADORA (Web Speech API) ============
+        function loadVoices() {
+            availableVoices = speechSynthesis.getVoices();
+            if (availableVoices.length === 0) return;
             
-            // Campos Data/Hora principais
-            var fieldDate = document.getElementById('fieldDate');
-            var fieldTime = document.getElementById('fieldTime');
-            var dateInput = document.getElementById('date');
-            var timeInput = document.getElementById('time');
+            const selector = document.getElementById('voiceSelector');
+            selector.innerHTML = '';
             
-            if (isMedication) {
-                // Ocultar Data/Hora principais para medicamentos
-                fieldDate.classList.add('hide');
-                fieldTime.classList.add('hide');
-                dateInput.removeAttribute('required');
-                timeInput.removeAttribute('required');
-                
-                // Mostrar campos de medicamento
-                document.getElementById('medicationFields').classList.add('show');
-                document.getElementById('medStartDate').value = getTodayStr();
-            } else {
-                // Mostrar Data/Hora principais para outras categorias
-                fieldDate.classList.remove('hide');
-                fieldTime.classList.remove('hide');
-                dateInput.setAttribute('required', 'required');
-                timeInput.setAttribute('required', 'required');
-                
-                // Ocultar campos de medicamento
-                document.getElementById('medicationFields').classList.remove('show');
+            // Priorizar vozes em português
+            const ptVoices = availableVoices.filter(v => v.lang && v.lang.toLowerCase().startsWith('pt'));
+            const otherVoices = availableVoices.filter(v => v.lang && !v.lang.toLowerCase().startsWith('pt'));
+            const sortedVoices = [...ptVoices, ...otherVoices];
+            
+            sortedVoices.forEach((voice, index) => {
+                const option = document.createElement('option');
+                option.value = voice.name;
+                option.textContent = voice.name + ' (' + voice.lang + ')';
+                if (voice.name === settings.voiceName) option.selected = true;
+                selector.appendChild(option);
+            });
+            
+            // Se nenhuma voz estava selecionada, selecionar a primeira em português
+            if (!settings.voiceName && ptVoices.length > 0) {
+                settings.voiceName = ptVoices[0].name;
+                selector.value = ptVoices[0].name;
             }
+        }
+        
+        if ('speechSynthesis' in window) {
+            loadVoices();
+            speechSynthesis.onvoiceschanged = loadVoices;
+        }
+
+        function speakText(text, title) {
+            if (!settings.voiceEnabled || settings.silentMode) return;
+            if (!('speechSynthesis' in window)) return;
+            
+            // Cancelar falas anteriores
+            speechSynthesis.cancel();
+            
+            const fullText = (title ? title + '. ' : '') + text;
+            if (!fullText.trim()) return;
+            
+            const utterance = new SpeechSynthesisUtterance(fullText);
+            utterance.lang = 'pt-BR';
+            utterance.rate = settings.voiceRate || 1;
+            utterance.pitch = settings.voicePitch || 1;
+            utterance.volume = 1;
+            
+            // Selecionar voz
+            if (settings.voiceName && availableVoices.length > 0) {
+                const voice = availableVoices.find(v => v.name === settings.voiceName);
+                if (voice) utterance.voice = voice;
+            }
+            
+            // Pequeno delay para não sobrepor o som
+            setTimeout(() => {
+                try {
+                    speechSynthesis.speak(utterance);
+                } catch (e) {
+                    console.log('Erro na voz:', e);
+                }
+            }, 500);
+        }
+
+        function testVoice() {
+            speakText('Esta e uma notificacao de teste da Agenda Amiga. Voce configurou a voz com sucesso!', 'Teste de voz');
+        }
+
+        // ============ SISTEMA DE SONS EXTENSOS ============
+        function playSound(type) {
+            if (!settings.soundEnabled || settings.silentMode) return;
+            
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const now = ctx.currentTime;
+                const masterGain = ctx.createGain();
+                masterGain.gain.value = 0.4;
+                masterGain.connect(ctx.destination);
+                
+                switch(type) {
+                    case 'chime':
+                        // Sino longo e melodioso - 3 segundos
+                        const chimeNotes = [
+                            {freq: 523.25, start: 0, dur: 0.8},
+                            {freq: 659.25, start: 0.3, dur: 0.8},
+                            {freq: 783.99, start: 0.6, dur: 0.8},
+                            {freq: 1046.50, start: 0.9, dur: 1.2},
+                            {freq: 783.99, start: 1.5, dur: 0.8},
+                            {freq: 1046.50, start: 2.0, dur: 1.5}
+                        ];
+                        chimeNotes.forEach(note => {
+                            const osc = ctx.createOscillator();
+                            const gain = ctx.createGain();
+                            osc.connect(gain);
+                            gain.connect(masterGain);
+                            osc.type = 'sine';
+                            osc.frequency.value = note.freq;
+                            gain.gain.setValueAtTime(0, now + note.start);
+                            gain.gain.linearRampToValueAtTime(0.5, now + note.start + 0.05);
+                            gain.gain.exponentialRampToValueAtTime(0.01, now + note.start + note.dur);
+                            osc.start(now + note.start);
+                            osc.stop(now + note.start + note.dur + 0.1);
+                        });
+                        break;
+                        
+                    case 'beep':
+                        // Bip longo estilo hospital - 2.5 segundos
+                        for (let i = 0; i < 5; i++) {
+                            const osc = ctx.createOscillator();
+                            const gain = ctx.createGain();
+                            osc.connect(gain);
+                            gain.connect(masterGain);
+                            osc.type = 'sine';
+                            osc.frequency.value = 1000;
+                            gain.gain.setValueAtTime(0, now + i * 0.5);
+                            gain.gain.linearRampToValueAtTime(0.4, now + i * 0.5 + 0.05);
+                            gain.gain.setValueAtTime(0.4, now + i * 0.5 + 0.3);
+                            gain.gain.linearRampToValueAtTime(0, now + i * 0.5 + 0.45);
+                            osc.start(now + i * 0.5);
+                            osc.stop(now + i * 0.5 + 0.5);
+                        }
+                        break;
+                        
+                    case 'alert':
+                        // Alerta longo e urgente - 3.5 segundos
+                        const alertPattern = [
+                            {freq: 880, dur: 0.4}, {freq: 880, dur: 0.4},
+                            {freq: 0, dur: 0.2},
+                            {freq: 880, dur: 0.4}, {freq: 880, dur: 0.4},
+                            {freq: 0, dur: 0.2},
+                            {freq: 660, dur: 0.4}, {freq: 660, dur: 0.4},
+                            {freq: 0, dur: 0.2},
+                            {freq: 440, dur: 0.8}
+                        ];
+                        let alertTime = 0;
+                        alertPattern.forEach(note => {
+                            if (note.freq > 0) {
+                                const osc = ctx.createOscillator();
+                                const gain = ctx.createGain();
+                                osc.connect(gain);
+                                gain.connect(masterGain);
+                                osc.type = 'square';
+                                osc.frequency.value = note.freq;
+                                gain.gain.setValueAtTime(0.3, now + alertTime);
+                                gain.gain.setValueAtTime(0.3, now + alertTime + note.dur - 0.05);
+                                gain.gain.linearRampToValueAtTime(0, now + alertTime + note.dur);
+                                osc.start(now + alertTime);
+                                osc.stop(now + alertTime + note.dur);
+                            }
+                            alertTime += note.dur;
+                        });
+                        break;
+                        
+                    case 'gentle':
+                        // Suave e longo - 4 segundos
+                        const gentleNotes = [
+                            {freq: 392, start: 0, dur: 1},
+                            {freq: 493.88, start: 0.5, dur: 1},
+                            {freq: 587.33, start: 1, dur: 1},
+                            {freq: 783.99, start: 1.5, dur: 1.5},
+                            {freq: 880, start: 2.5, dur: 1.5}
+                        ];
+                        gentleNotes.forEach(note => {
+                            const osc = ctx.createOscillator();
+                            const gain = ctx.createGain();
+                            osc.connect(gain);
+                            gain.connect(masterGain);
+                            osc.type = 'sine';
+                            osc.frequency.value = note.freq;
+                            gain.gain.setValueAtTime(0, now + note.start);
+                            gain.gain.linearRampToValueAtTime(0.3, now + note.start + 0.2);
+                            gain.gain.setValueAtTime(0.3, now + note.start + note.dur - 0.3);
+                            gain.gain.linearRampToValueAtTime(0, now + note.start + note.dur);
+                            osc.start(now + note.start);
+                            osc.stop(now + note.start + note.dur + 0.1);
+                        });
+                        break;
+                        
+                    case 'urgent':
+                        // Urgente longo e intenso - 4 segundos
+                        for (let i = 0; i < 8; i++) {
+                            const osc = ctx.createOscillator();
+                            const gain = ctx.createGain();
+                            osc.connect(gain);
+                            gain.connect(masterGain);
+                            osc.type = 'sawtooth';
+                            osc.frequency.value = i % 2 === 0 ? 1200 : 800;
+                            gain.gain.setValueAtTime(0.3, now + i * 0.5);
+                            gain.gain.setValueAtTime(0.3, now + i * 0.5 + 0.35);
+                            gain.gain.linearRampToValueAtTime(0, now + i * 0.5 + 0.45);
+                            osc.start(now + i * 0.5);
+                            osc.stop(now + i * 0.5 + 0.5);
+                        }
+                        break;
+                        
+                    case 'ding':
+                        // Ding longo estilo iOS - 3 segundos
+                        const dingOsc1 = ctx.createOscillator();
+                        const dingGain1 = ctx.createGain();
+                        dingOsc1.connect(dingGain1);
+                        dingGain1.connect(masterGain);
+                        dingOsc1.type = 'sine';
+                        dingOsc1.frequency.setValueAtTime(1400, now);
+                        dingOsc1.frequency.exponentialRampToValueAtTime(900, now + 0.5);
+                        dingGain1.gain.setValueAtTime(0.4, now);
+                        dingGain1.gain.exponentialRampToValueAtTime(0.01, now + 1.5);
+                        dingOsc1.start(now);
+                        dingOsc1.stop(now + 1.5);
+                        
+                        const dingOsc2 = ctx.createOscillator();
+                        const dingGain2 = ctx.createGain();
+                        dingOsc2.connect(dingGain2);
+                        dingGain2.connect(masterGain);
+                        dingOsc2.type = 'sine';
+                        dingOsc2.frequency.setValueAtTime(1800, now + 1.5);
+                        dingOsc2.frequency.exponentialRampToValueAtTime(1200, now + 2.5);
+                        dingGain2.gain.setValueAtTime(0, now + 1.5);
+                        dingGain2.gain.linearRampToValueAtTime(0.4, now + 1.6);
+                        dingGain2.gain.exponentialRampToValueAtTime(0.01, now + 3);
+                        dingOsc2.start(now + 1.5);
+                        dingOsc2.stop(now + 3);
+                        break;
+                }
+            } catch (e) {
+                console.log('Audio nao suportado');
+            }
+        }
+
+        function previewSound() {
+            playSound(settings.soundType);
         }
 
         // ============ NOTIFICACOES DO SISTEMA ============
@@ -1262,6 +1388,7 @@
                 if (permission === 'granted') {
                     document.getElementById('notifPermission').style.display = 'none';
                     showSystemNotification('Notificacoes ativadas!', 'Voce recebera alertas do sistema.', '');
+                    speakText('Notificacoes ativadas com sucesso!');
                 } else {
                     alert('Permissao negada. As notificacoes aparecerao apenas no app.');
                 }
@@ -1269,6 +1396,7 @@
         }
 
         function showSystemNotification(title, body, icon) {
+            // Notificacao visual do sistema (funciona com app fechado se permission granted)
             if ('Notification' in window && Notification.permission === 'granted') {
                 try {
                     const notif = new Notification(title, {
@@ -1276,15 +1404,14 @@
                         icon: icon || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">📅</text></svg>',
                         badge: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">📅</text></svg>',
                         tag: 'agenda-amiga-' + Date.now(),
-                        requireInteraction: false
+                        requireInteraction: true,
+                        silent: false
                     });
                     
                     notif.onclick = function() {
                         window.focus();
                         notif.close();
                     };
-                    
-                    setTimeout(() => notif.close(), 10000);
                 } catch (e) {
                     console.log('Erro ao mostrar notificacao:', e);
                 }
@@ -1301,121 +1428,82 @@
             }
         }
 
-        // ============ SISTEMA DE SONS ============
-        function playSound(type) {
-            if (!settings.soundEnabled || settings.silentMode) return;
+        // ============ ALERTA COM REPETICAO CORRETA + VOZ ============
+        let activeAlertIntervals = [];
+
+        function triggerFullAlert(title, body, type, eventData) {
+            // Parar alertas anteriores
+            stopAllAlerts();
             
-            try {
-                const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                const now = ctx.currentTime;
+            const count = settings.repeatCount || 1;
+            const intervalSec = settings.repeatInterval || 8;
+            const intervalMs = intervalSec * 1000;
+            
+            // Primeira execucao imediata
+            executeAlertOnce(title, body, type, eventData);
+            
+            // Repeticoes subsequentes
+            if (count > 1) {
+                let executed = 1;
+                const intervalId = setInterval(() => {
+                    if (executed >= count) {
+                        clearInterval(intervalId);
+                        return;
+                    }
+                    executeAlertOnce(title, body, type, eventData);
+                    executed++;
+                }, intervalMs);
                 
-                switch(type) {
-                    case 'chime':
-                        [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
-                            const osc = ctx.createOscillator();
-                            const gain = ctx.createGain();
-                            osc.connect(gain);
-                            gain.connect(ctx.destination);
-                            osc.type = 'sine';
-                            osc.frequency.value = freq;
-                            gain.gain.setValueAtTime(0, now + i * 0.15);
-                            gain.gain.linearRampToValueAtTime(0.3, now + i * 0.15 + 0.05);
-                            gain.gain.linearRampToValueAtTime(0, now + i * 0.15 + 0.4);
-                            osc.start(now + i * 0.15);
-                            osc.stop(now + i * 0.15 + 0.4);
-                        });
-                        break;
-                        
-                    case 'beep':
-                        for (let i = 0; i < 3; i++) {
-                            const osc = ctx.createOscillator();
-                            const gain = ctx.createGain();
-                            osc.connect(gain);
-                            gain.connect(ctx.destination);
-                            osc.type = 'square';
-                            osc.frequency.value = 880;
-                            gain.gain.setValueAtTime(0.2, now + i * 0.2);
-                            gain.gain.linearRampToValueAtTime(0, now + i * 0.2 + 0.15);
-                            osc.start(now + i * 0.2);
-                            osc.stop(now + i * 0.2 + 0.15);
-                        }
-                        break;
-                        
-                    case 'alert':
-                        [880, 660, 440, 330].forEach((freq, i) => {
-                            const osc = ctx.createOscillator();
-                            const gain = ctx.createGain();
-                            osc.connect(gain);
-                            gain.connect(ctx.destination);
-                            osc.type = 'sawtooth';
-                            osc.frequency.value = freq;
-                            gain.gain.setValueAtTime(0.25, now + i * 0.15);
-                            gain.gain.linearRampToValueAtTime(0, now + i * 0.15 + 0.2);
-                            osc.start(now + i * 0.15);
-                            osc.stop(now + i * 0.15 + 0.2);
-                        });
-                        break;
-                        
-                    case 'gentle':
-                        [392, 493.88, 587.33, 783.99].forEach((freq, i) => {
-                            const osc = ctx.createOscillator();
-                            const gain = ctx.createGain();
-                            osc.connect(gain);
-                            gain.connect(ctx.destination);
-                            osc.type = 'sine';
-                            osc.frequency.value = freq;
-                            gain.gain.setValueAtTime(0, now + i * 0.2);
-                            gain.gain.linearRampToValueAtTime(0.2, now + i * 0.2 + 0.1);
-                            gain.gain.linearRampToValueAtTime(0, now + i * 0.2 + 0.5);
-                            osc.start(now + i * 0.2);
-                            osc.stop(now + i * 0.2 + 0.5);
-                        });
-                        break;
-                        
-                    case 'urgent':
-                        for (let i = 0; i < 5; i++) {
-                            const osc = ctx.createOscillator();
-                            const gain = ctx.createGain();
-                            osc.connect(gain);
-                            gain.connect(ctx.destination);
-                            osc.type = 'square';
-                            osc.frequency.value = i % 2 === 0 ? 1000 : 800;
-                            gain.gain.setValueAtTime(0.3, now + i * 0.1);
-                            gain.gain.linearRampToValueAtTime(0, now + i * 0.1 + 0.08);
-                            osc.start(now + i * 0.1);
-                            osc.stop(now + i * 0.1 + 0.08);
-                        }
-                        break;
-                        
-                    case 'ding':
-                        const osc1 = ctx.createOscillator();
-                        const gain1 = ctx.createGain();
-                        osc1.connect(gain1);
-                        gain1.connect(ctx.destination);
-                        osc1.type = 'sine';
-                        osc1.frequency.setValueAtTime(1200, now);
-                        osc1.frequency.exponentialRampToValueAtTime(800, now + 0.3);
-                        gain1.gain.setValueAtTime(0.3, now);
-                        gain1.gain.linearRampToValueAtTime(0, now + 0.5);
-                        osc1.start(now);
-                        osc1.stop(now + 0.5);
-                        break;
-                }
-            } catch (e) {
-                console.log('Audio nao suportado');
+                activeAlertIntervals.push(intervalId);
             }
         }
 
-        function previewSound() {
-            playSound(settings.soundType);
+        function executeAlertOnce(title, body, type, eventData) {
+            // 1. Notificacao do sistema (visual)
+            showSystemNotification(title, body, '');
+            
+            // 2. Som (se ativado)
+            if (settings.soundEnabled && !settings.silentMode) {
+                playSound(settings.soundType);
+            }
+            
+            // 3. Voz narrando (se ativada)
+            if (eventData && settings.voiceEnabled && !settings.silentMode) {
+                const description = eventData.description || '';
+                speakText(description, title);
+            } else if (settings.voiceEnabled && !settings.silentMode) {
+                speakText(body, title);
+            }
+        }
+
+        function stopAllAlerts() {
+            activeAlertIntervals.forEach(id => clearInterval(id));
+            activeAlertIntervals = [];
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
+            }
+        }
+
+        function testNotification() {
+            triggerFullAlert(
+                '🔔 Teste de Notificacao',
+                'Esta e uma notificacao de teste!\nSom: ' + settings.soundType + '\nRepeticoes: ' + settings.repeatCount + 'x\nIntervalo: ' + settings.repeatInterval + 's',
+                '',
+                { title: 'Teste de Notificacao', description: 'Esta e uma notificacao de teste da Agenda Amiga. O som tocara ' + settings.repeatCount + ' vezes com intervalo de ' + settings.repeatInterval + ' segundos entre cada repeticao.' }
+            );
         }
 
         // ============ CONFIGURACOES ============
         function openSettings() {
             document.getElementById('soundEnabled').checked = settings.soundEnabled;
             document.getElementById('silentMode').checked = settings.silentMode;
+            document.getElementById('voiceEnabled').checked = settings.voiceEnabled;
             document.getElementById('repeatCount').value = settings.repeatCount;
             document.getElementById('repeatInterval').value = settings.repeatInterval;
+            document.getElementById('voiceRate').value = settings.voiceRate;
+            document.getElementById('voicePitch').value = settings.voicePitch;
+            document.getElementById('voiceRateValue').textContent = settings.voiceRate;
+            document.getElementById('voicePitchValue').textContent = settings.voicePitch;
             
             document.querySelectorAll('.sound-option').forEach(opt => {
                 opt.classList.toggle('active', opt.dataset.sound === settings.soundType);
@@ -1440,8 +1528,16 @@
         function saveSettings() {
             settings.soundEnabled = document.getElementById('soundEnabled').checked;
             settings.silentMode = document.getElementById('silentMode').checked;
+            settings.voiceEnabled = document.getElementById('voiceEnabled').checked;
             settings.repeatCount = parseInt(document.getElementById('repeatCount').value) || 1;
             settings.repeatInterval = parseInt(document.getElementById('repeatInterval').value) || 5;
+            settings.voiceRate = parseFloat(document.getElementById('voiceRate').value) || 1;
+            settings.voicePitch = parseFloat(document.getElementById('voicePitch').value) || 1;
+            
+            const voiceSelector = document.getElementById('voiceSelector');
+            if (voiceSelector && voiceSelector.value) {
+                settings.voiceName = voiceSelector.value;
+            }
             
             localStorage.setItem(STORAGE_KEYS.settings, JSON.stringify(settings));
         }
@@ -1643,6 +1739,31 @@
         function isToday(dateStr) { return dateStr === getTodayStr(); }
         function isPast(dateStr) { return dateStr < getTodayStr(); }
 
+        function updateFormFields() {
+            var category = document.getElementById('category').value;
+            var isMedication = (category === 'medicamento');
+            
+            var fieldDate = document.getElementById('fieldDate');
+            var fieldTime = document.getElementById('fieldTime');
+            var dateInput = document.getElementById('date');
+            var timeInput = document.getElementById('time');
+            
+            if (isMedication) {
+                fieldDate.classList.add('hide');
+                fieldTime.classList.add('hide');
+                dateInput.removeAttribute('required');
+                timeInput.removeAttribute('required');
+                document.getElementById('medicationFields').classList.add('show');
+                document.getElementById('medStartDate').value = getTodayStr();
+            } else {
+                fieldDate.classList.remove('hide');
+                fieldTime.classList.remove('hide');
+                dateInput.setAttribute('required', 'required');
+                timeInput.setAttribute('required', 'required');
+                document.getElementById('medicationFields').classList.remove('show');
+            }
+        }
+
         function getSelectedWeekdays() {
             var days = [];
             for (var i = 0; i < 7; i++) {
@@ -1686,10 +1807,9 @@
             
             var config = event.medicationConfig;
             var now = new Date();
-            var currentDay = now.getDay();
             var currentTime = getCurrentTimeStr();
             
-            var times = config.times.sort();
+            var times = config.times.slice().sort();
             var nextTime = null;
             var nextDate = new Date(now);
             
@@ -1716,8 +1836,8 @@
                     }
                     
                     if (isValidDay) {
-                        if (config.startDate && checkDate < new Date(config.startDate)) continue;
-                        if (config.endDate && checkDate > new Date(config.endDate)) return null;
+                        if (config.startDate && checkDate < new Date(config.startDate + 'T00:00:00')) continue;
+                        if (config.endDate && checkDate > new Date(config.endDate + 'T23:59:59')) return null;
                         
                         nextDate = checkDate;
                         nextTime = times[0];
@@ -1794,7 +1914,7 @@
                 html += '<div class="event-title">' + escapeHtml(ev.title) + ' <span class="badge ' + badgeClass + '">' + badgeText + '</span>' + todayBadge + completedBadge + '</div>';
                 
                 if (ev.category === 'medicamento') {
-                    html += '<div class="event-meta">💊 Recorrente - Prox: ' + formatDate(ev.date) + ' as ' + ev.time + '</div>';
+                    html += '<div class="event-meta"> Recorrente - Prox: ' + formatDate(ev.date) + ' as ' + ev.time + '</div>';
                 } else {
                     html += '<div class="event-meta">📅 ' + formatDate(ev.date) + '  🕐 ' + ev.time + '</div>';
                 }
@@ -1807,7 +1927,7 @@
                 }
                 html += '</div>';
                 html += '<div class="event-actions">';
-                html += '<button class="action-icon-btn btn-check ' + (ev.completed ? 'done' : '') + '" onclick="toggleCompleted(\'' + ev.id + '\')" title="' + (ev.completed ? 'Desmarcar' : 'Marcar como realizado') + '">' + (ev.completed ? '↩️' : '✓') + '</button>';
+                html += '<button class="action-icon-btn btn-check ' + (ev.completed ? 'done' : '') + '" onclick="toggleCompleted(\'' + ev.id + '\')" title="' + (ev.completed ? 'Desmarcar' : 'Marcar como realizado') + '">' + (ev.completed ? '️' : '✓') + '</button>';
                 html += '<button class="action-icon-btn btn-edit" onclick="openEditModal(\'' + ev.id + '\')" title="Editar">✏️</button>';
                 html += '<button class="action-icon-btn btn-delete" onclick="deleteEvent(\'' + ev.id + '\')" title="Excluir">🗑️</button>';
                 html += '</div>';
@@ -1825,11 +1945,21 @@
                         ev.date = next.date;
                         ev.time = next.time;
                         ev.completed = false;
-                        showSystemNotification('💊 Medicamento confirmado!', 'Proximo horario: ' + formatDate(next.date) + ' as ' + next.time, '');
+                        triggerFullAlert(
+                            '💊 Medicamento confirmado!',
+                            'Proximo horario: ' + formatDate(next.date) + ' as ' + next.time,
+                            'medication',
+                            { title: 'Medicamento confirmado', description: ev.title + '. Proximo horario: ' + formatDate(next.date) + ' as ' + next.time + (ev.dosage ? '. Dosagem: ' + ev.dosage : '') }
+                        );
                     } else {
                         ev.completed = true;
                         ev.completedAt = new Date().toISOString();
-                        showSystemNotification('✅ Tratamento concluido!', ev.title + ' foi concluido.', '');
+                        triggerFullAlert(
+                            '✅ Tratamento concluido!',
+                            ev.title + ' foi concluido.',
+                            '',
+                            { title: 'Tratamento concluido', description: ev.title + ' foi concluido com sucesso.' }
+                        );
                     }
                 } else {
                     ev.completed = !ev.completed;
@@ -1861,7 +1991,7 @@
             var timeStr = String(hour).padStart(2, '0') + ':' + min;
             var dateStr = formatDate(getTodayStr());
 
-            var status = '📆 ' + dateStr + ' •  ' + timeStr;
+            var status = '📆 ' + dateStr + ' • 🕐 ' + timeStr;
             if (todayEvents.length > 0) {
                 status += ' • 🔥 ' + todayEvents.length + ' compromisso(s) hoje';
             } else {
@@ -1870,14 +2000,13 @@
 
             if (hour >= 1 && hour < 12) status += ' • 🌅 Bom dia!';
             else if (hour >= 12 && hour < 18) status += ' • ☀️ Boa tarde!';
-            else status += ' •  Boa noite!';
+            else status += ' • 🌙 Boa noite!';
             
             if (settings.silentMode) status += ' • 🔇 Silencioso';
 
             document.getElementById('statusBar').textContent = status;
         }
 
-        // ============ FORMULÁRIO PRINCIPAL ============
         document.getElementById('eventForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -1892,7 +2021,6 @@
             };
             
             if (category === 'medicamento') {
-                // Para medicamentos: usar data/hora do próximo horário configurado
                 var times = getSelectedTimes();
                 var startDate = document.getElementById('medStartDate').value;
                 
@@ -1906,7 +2034,6 @@
                     return;
                 }
                 
-                // Definir data/hora inicial como o primeiro horário do dia de início
                 newEvent.date = startDate;
                 newEvent.time = times.sort()[0];
                 
@@ -1919,7 +2046,6 @@
                     endDate: document.getElementById('medEndDate').value
                 };
             } else {
-                // Para outras categorias: usar data/hora principais
                 newEvent.date = document.getElementById('date').value;
                 newEvent.time = document.getElementById('time').value;
                 
@@ -1940,11 +2066,14 @@
             document.getElementById('timeSlots').innerHTML = '<div class="time-slot"><input type="time" class="med-time" value="08:00"><button type="button" class="remove-time" onclick="removeTimeSlot(this)">✕</button></div>';
             updateFormFields();
             
-            showSystemNotification('✅ Compromisso salvo!', newEvent.title, '');
-            playSound(settings.soundType);
+            triggerFullAlert(
+                '✅ Compromisso salvo!',
+                newEvent.title + ' em ' + formatDate(newEvent.date) + ' as ' + newEvent.time,
+                '',
+                { title: 'Compromisso salvo', description: newEvent.title + ' foi salvo para ' + formatDate(newEvent.date) + ' as ' + newEvent.time + (newEvent.description ? '. ' + newEvent.description : '') }
+            );
         });
 
-        // Quando mudar a categoria, atualizar campos visíveis
         document.getElementById('category').addEventListener('change', updateFormFields);
 
         document.getElementById('frequency').addEventListener('change', function() {
@@ -1966,7 +2095,6 @@
             }
         }
 
-        // ============ EDICAO ============
         function openEditModal(id) {
             var ev = events.find(function(e) { return e.id === id; });
             if (!ev) return;
@@ -1978,7 +2106,6 @@
             document.getElementById('editTime').value = ev.time;
             document.getElementById('editDescription').value = ev.description || '';
             
-            // Mostrar/ocultar campos conforme categoria
             var isMedication = (ev.category === 'medicamento');
             document.getElementById('editFieldDate').classList.toggle('hide', isMedication);
             document.getElementById('editFieldTime').classList.toggle('hide', isMedication);
@@ -2009,8 +2136,12 @@
                 updateStatusBar();
                 
                 closeEditModal();
-                showSystemNotification('✏️ Compromisso editado!', ev.title + ' foi atualizado.', '');
-                playSound(settings.soundType);
+                triggerFullAlert(
+                    '✏️ Compromisso editado!',
+                    ev.title + ' foi atualizado.',
+                    '',
+                    { title: 'Compromisso editado', description: ev.title + ' foi atualizado com sucesso.' }
+                );
             }
         });
 
@@ -2058,8 +2189,17 @@
                 msg += '🕐 ' + e.time + ' - ' + e.title + '\n';
             }
 
-            showSystemNotification('🔔 Lembrete do dia!', msg, '');
-            playSound(settings.soundType);
+            var descriptions = todayEvents.map(function(e) {
+                return e.time + ' - ' + e.title + (e.description ? '. ' + e.description : '');
+            }).join('. ');
+
+            triggerFullAlert(
+                '🔔 Lembrete do dia!',
+                msg,
+                '',
+                { title: 'Lembrete do dia', description: 'Voce tem ' + todayEvents.length + ' compromissos hoje. ' + descriptions }
+            );
+            
             alertedToday[todayStr] = true;
             localStorage.setItem(STORAGE_KEYS.alerted, JSON.stringify(alertedToday));
         }
@@ -2079,15 +2219,22 @@
             if (medications.length === 0) return;
             
             var msg = 'Hora de tomar:\n\n';
+            var descriptions = [];
             for (var i = 0; i < medications.length; i++) {
                 var med = medications[i];
                 msg += '💊 ' + med.title;
                 if (med.dosage) msg += ' - ' + med.dosage;
                 msg += '\n';
+                descriptions.push(med.title + (med.dosage ? ', dosagem: ' + med.dosage : '') + (med.description ? '. ' + med.description : ''));
             }
             
-            showSystemNotification('⏰ Hora do Medicamento!', msg, '');
-            playSound(settings.soundType);
+            triggerFullAlert(
+                '⏰ Hora do Medicamento!',
+                msg,
+                'medication',
+                { title: 'Hora do medicamento', description: 'Esta na hora de tomar: ' + descriptions.join('. ') }
+            );
+            
             medicationAlerts[alertKey] = true;
             localStorage.setItem(STORAGE_KEYS.medAlerts, JSON.stringify(medicationAlerts));
             
@@ -2098,11 +2245,6 @@
                 toRemove.forEach(function(k) { delete medicationAlerts[k]; });
                 localStorage.setItem(STORAGE_KEYS.medAlerts, JSON.stringify(medicationAlerts));
             }
-        }
-
-        function testNotification() {
-            showSystemNotification('🔔 Teste de Notificacao', 'Esta e uma notificacao de teste do sistema!', '');
-            playSound(settings.soundType);
         }
 
         function initApp() {
