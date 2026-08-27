@@ -6,7 +6,262 @@
   <meta name="description" content="Agenda Amiga - Sua companheira para não esquecer nenhum compromisso!">
   <meta name="theme-color" content="#764ba2">
   <title>📅 Agenda Amiga</title>
-  <link rel="stylesheet" href="styles.css">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      color: #333;
+    }
+    .container { max-width: 1000px; margin: 0 auto; }
+    header {
+      text-align: center;
+      color: white;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    header h1 { font-size: 2.8em; margin-bottom: 5px; }
+    header p { font-size: 1.1em; opacity: 0.95; }
+
+    .sync-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.2);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85em;
+      margin-top: 10px;
+      backdrop-filter: blur(10px);
+    }
+    .sync-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: #ffd700;
+    }
+    .sync-dot.ok { background: #4caf50; }
+    .sync-dot.error { background: #f44336; }
+    .sync-dot.saving { background: #ffd700; animation: blink 1s infinite; }
+    @keyframes blink { 50% { opacity: 0.3; } }
+
+    .card {
+      background: white;
+      border-radius: 15px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    .card h2 { color: #764ba2; margin-bottom: 15px; font-size: 1.4em; }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    .form-group { display: flex; flex-direction: column; }
+    label { font-weight: 600; margin-bottom: 5px; color: #555; font-size: 0.9em; }
+    input, select, textarea {
+      padding: 10px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1em;
+      transition: border 0.3s;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #764ba2;
+    }
+    textarea { resize: vertical; min-height: 60px; grid-column: 1 / -1; }
+
+    .btn {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(118,75,162,0.4); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .btn-danger { background: linear-gradient(135deg, #ff6b6b, #ee5a6f); }
+    .btn-small { padding: 6px 12px; font-size: 0.85em; }
+    .btn-secondary { background: linear-gradient(135deg, #6c757d, #495057); }
+
+    .events-list { display: flex; flex-direction: column; gap: 12px; }
+    .event-item {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      border-radius: 10px;
+      background: #f8f9ff;
+      border-left: 5px solid #764ba2;
+      position: relative;
+      transition: transform 0.2s;
+    }
+    .event-item:hover { transform: translateX(5px); }
+    .event-item.today { background: #fff4e6; border-left-color: #ff9800; animation: pulse 2s infinite; }
+    .event-item.past { opacity: 0.6; }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255,152,0,0.4); }
+      50% { box-shadow: 0 0 0 10px rgba(255,152,0,0); }
+    }
+
+    .event-icon { font-size: 2em; margin-right: 15px; min-width: 50px; text-align: center; }
+    .event-info { flex: 1; }
+    .event-title { font-weight: 700; font-size: 1.1em; color: #333; }
+    .event-meta { color: #666; font-size: 0.9em; margin-top: 3px; }
+    .event-desc { color: #777; font-size: 0.85em; margin-top: 5px; font-style: italic; }
+    .event-actions { display: flex; gap: 8px; }
+
+    .category-medico { border-left-color: #e74c3c; }
+    .category-escola { border-left-color: #3498db; }
+    .category-reuniao { border-left-color: #27ae60; }
+    .category-evento { border-left-color: #f39c12; }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.75em;
+      font-weight: 600;
+      color: white;
+      margin-left: 5px;
+    }
+    .badge-medico { background: #e74c3c; }
+    .badge-escola { background: #3498db; }
+    .badge-reuniao { background: #27ae60; }
+    .badge-evento { background: #f39c12; }
+
+    .empty { text-align: center; padding: 40px; color: #888; }
+    .empty-icon { font-size: 3em; margin-bottom: 10px; }
+
+    .alert-balloon {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: white;
+      border-radius: 15px;
+      padding: 20px 25px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+      max-width: 350px;
+      z-index: 1000;
+      border-left: 6px solid #ff9800;
+      animation: slideIn 0.5s ease-out;
+      display: none;
+    }
+    .alert-balloon.show { display: block; }
+    .alert-balloon::before {
+      content: '';
+      position: absolute;
+      top: -15px;
+      right: 20px;
+      font-size: 2em;
+      background: white;
+      border-radius: 50%;
+      padding: 5px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    }
+    @keyframes slideIn {
+      from { transform: translateX(400px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    .alert-title { color: #ff9800; font-weight: 700; font-size: 1.2em; margin-bottom: 8px; }
+    .alert-content { color: #555; line-height: 1.5; }
+    .alert-close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 1.5em;
+      cursor: pointer;
+      color: #999;
+    }
+
+    .tooltip-balloon {
+      position: absolute;
+      bottom: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #333;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-size: 0.85em;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      z-index: 100;
+    }
+    .tooltip-balloon::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: #333;
+    }
+    .event-item:hover .tooltip-balloon { opacity: 1; }
+
+    .status-bar {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 0.9em;
+    }
+
+    .filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+    }
+    .filter-btn {
+      padding: 6px 14px;
+      border: 2px solid #764ba2;
+      background: white;
+      color: #764ba2;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.85em;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+    .filter-btn.active { background: #764ba2; color: white; }
+
+    .cloud-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+
+    footer {
+      text-align: center;
+      color: white;
+      padding: 20px;
+      font-size: 0.9em;
+      opacity: 0.9;
+    }
+    footer a { color: white; font-weight: 600; }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 2em; }
+      .event-item { flex-direction: column; align-items: flex-start; }
+      .event-actions { margin-top: 10px; width: 100%; justify-content: flex-end; }
+    }
+  </style>
 </head>
 <body>
 <div class="container">
@@ -73,17 +328,337 @@
   </div>
 
   <footer>
-    <p>Feito com ❤️ | <a href="https://github.com/SEU-USUARIO/agenda-amiga" target="_blank">Código no GitHub</a></p>
+    <p>Feito com ❤️ | <a href="https://github.com/evicom/agenda_amiga" target="_blank">Código no GitHub</a></p>
   </footer>
 </div>
 
 <div class="alert-balloon" id="alertBalloon">
   <button class="alert-close" onclick="closeAlert()">×</button>
-  <div class="alert-title" id="alertTitle">🔔 Lembrete!</div>
+  <div class="alert-title" id="alertTitle"> Lembrete!</div>
   <div class="alert-content" id="alertContent"></div>
 </div>
 
-<script src="config.js"></script>
-<script src="script.js"></script>
+<script>
+// ============================================
+// ⚙️ CONFIGURAÇÃO DA NUVEM (JSONBin.io)
+// ============================================
+// ⚠️ ATENÇÃO: Para usar a nuvem, preencha abaixo:
+const CLOUD_CONFIG = {
+  binId: '6a8f816cda38895dfe15b0d6',           // SEU BIN ID
+  masterKey: '$2a$10$8Wm2Ixc0mRA38i0rNyecw.HFCnENmYPaEOnz6iIeon0uyxDxgzHAS', // SUA CHAVE
+  baseUrl: 'https://api.jsonbin.io/v3/b'
+};
+
+// ============ ESTADO ============
+let events = [];
+let currentFilter = 'all';
+let alertedToday = JSON.parse(localStorage.getItem('agendaAmiga_alerted') || '{}');
+let saveTimeout = null;
+
+const categoryIcons = { medico: '🏥', escola: '🎓', reuniao: '💼', evento: '🎉' };
+const categoryNames = { medico: 'Médico', escola: 'Escola', reuniao: 'Reunião', evento: 'Evento' };
+
+// ============ STATUS DE SINCRONIZAÇÃO ============
+function setSyncStatus(state, text) {
+  const dot = document.getElementById('syncDot');
+  const txt = document.getElementById('syncText');
+  if (!dot || !txt) return;
+  dot.className = 'sync-dot ' + state;
+  txt.textContent = text;
+}
+
+// ============ CARREGAR DA NUVEM ============
+async function loadFromCloud() {
+  if (!CLOUD_CONFIG?.binId || !CLOUD_CONFIG?.masterKey) {
+    setSyncStatus('error', '⚠️ Configure as credenciais');
+    events = JSON.parse(localStorage.getItem('agendaAmiga_events') || '[]');
+    return;
+  }
+  setSyncStatus('saving', '🔄 Baixando da nuvem...');
+  try {
+    const response = await fetch(`${CLOUD_CONFIG.baseUrl}/${CLOUD_CONFIG.binId}/latest`, {
+      method: 'GET',
+      headers: { 'X-Master-Key': CLOUD_CONFIG.masterKey }
+    });
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        events = JSON.parse(localStorage.getItem('agendaAmiga_events') || '[]');
+        setSyncStatus('ok', '✅ Nuvem vazia — usando dados locais');
+        return;
+      }
+      throw new Error('Erro HTTP: ' + response.status);
+    }
+
+    const data = await response.json();
+    const cloudEvents = data.record?.events || [];
+    const cloudIds = new Set(cloudEvents.map(e => e.id));
+    const localOnly = JSON.parse(localStorage.getItem('agendaAmiga_events') || '[]')
+      .filter(e => !cloudIds.has(e.id));
+
+    events = [...cloudEvents, ...localOnly];
+    localStorage.setItem('agendaAmiga_events', JSON.stringify(events));
+
+    const count = events.length;
+    setSyncStatus('ok', `✅ Sincronizado (${count} compromisso${count !== 1 ? 's' : ''})`);
+  } catch (err) {
+    console.error('Erro ao baixar da nuvem:', err);
+    events = JSON.parse(localStorage.getItem('agendaAmiga_events') || '[]');
+    setSyncStatus('error', '⚠️ Offline — usando dados locais');
+  }
+}
+
+// ============ SALVAR NA NUVEM ============
+async function saveToCloud() {
+  if (!CLOUD_CONFIG?.binId || !CLOUD_CONFIG?.masterKey) return;
+  setSyncStatus('saving', '☁️ Salvando na nuvem...');
+  try {
+    const response = await fetch(`${CLOUD_CONFIG.baseUrl}/${CLOUD_CONFIG.binId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Master-Key': CLOUD_CONFIG.masterKey
+      },
+      body: JSON.stringify({ events: events })
+    });
+    if (!response.ok) throw new Error('Erro HTTP: ' + response.status);
+    setSyncStatus('ok', '✅ Salvo na nuvem com sucesso');
+  } catch (err) {
+    console.error('Erro ao salvar na nuvem:', err);
+    setSyncStatus('error', '️ Erro ao salvar — dados em cache local');
+  }
+}
+
+function scheduleSaveToCloud() {
+  if (saveTimeout) clearTimeout(saveTimeout);
+  setSyncStatus('saving', ' Aguardando para sincronizar...');
+  saveTimeout = setTimeout(() => saveToCloud(), 1000);
+}
+
+// ============ UTILITÁRIOS ============
+function saveLocal() { localStorage.setItem('agendaAmiga_events', JSON.stringify(events)); }
+
+function formatDate(dateStr) {
+  const [y, m, d] = dateStr.split('-');
+  return `${d}/${m}/${y}`;
+}
+
+function getTodayStr() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function isToday(dateStr) { return dateStr === getTodayStr(); }
+function isPast(dateStr) { return dateStr < getTodayStr(); }
+
+// ============ SOM DE ALERTA ============
+function playAlertSound() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const notes = [523.25, 659.25, 783.99, 1046.50];
+    notes.forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0, ctx.currentTime + i * 0.2);
+      gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + i * 0.2 + 0.05);
+      gain.gain.linearRampToValueAtTime(0, ctx.currentTime + i * 0.2 + 0.3);
+      osc.start(ctx.currentTime + i * 0.2);
+      osc.stop(ctx.currentTime + i * 0.2 + 0.3);
+    });
+  } catch (e) { console.log('Áudio não suportado'); }
+}
+
+// ============ RENDERIZAÇÃO ============
+function renderEvents() {
+  const list = document.getElementById('eventsList');
+  let filtered = [...events];
+
+  if (currentFilter === 'today') filtered = filtered.filter(e => isToday(e.date));
+  else if (currentFilter !== 'all') filtered = filtered.filter(e => e.category === currentFilter);
+
+  filtered.sort((a, b) => {
+    const aToday = isToday(a.date) ? 0 : 1;
+    const bToday = isToday(b.date) ? 0 : 1;
+    if (aToday !== bToday) return aToday - bToday;
+    const dateCompare = a.date.localeCompare(b.date);
+    if (dateCompare !== 0) return dateCompare;
+    return a.time.localeCompare(b.time);
+  });
+
+  if (filtered.length === 0) {
+    list.innerHTML = `
+      <div class="empty">
+        <div class="empty-icon">📭</div>
+        <p>Nenhum compromisso encontrado.</p>
+        <p style="font-size:0.9em;margin-top:5px;">Adicione um novo acima!</p>
+      </div>`;
+    return;
+  }
+
+  list.innerHTML = filtered.map(ev => {
+    const todayClass = isToday(ev.date) ? 'today' : '';
+    const pastClass = isPast(ev.date) && !isToday(ev.date) ? 'past' : '';
+    const tooltipText = ev.description ? ev.description.replace(/"/g, '&quot;') : 'Sem detalhes adicionais';
+    return `
+      <div class="event-item category-${ev.category} ${todayClass} ${pastClass}">
+        <div class="event-icon">${categoryIcons[ev.category]}</div>
+        <div class="event-info">
+          <div class="event-title">
+            ${ev.title}
+            <span class="badge badge-${ev.category}">${categoryNames[ev.category]}</span>
+          </div>
+          <div class="event-meta">
+            📅 ${formatDate(ev.date)} &nbsp; ⏰ ${ev.time}
+            ${isToday(ev.date) ? ' &nbsp; <strong style="color:#ff9800;">🔥 HOJE</strong>' : ''}
+          </div>
+          ${ev.description ? `<div class="event-desc">"${ev.description}"</div>` : ''}
+        </div>
+        <div class="tooltip-balloon">${tooltipText}</div>
+        <div class="event-actions">
+          <button class="btn btn-small btn-danger" onclick="deleteEvent('${ev.id}')">🗑️</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function updateStatusBar() {
+  const now = new Date();
+  const todayEvents = events.filter(e => isToday(e.date));
+  const hour = now.getHours();
+  const min = now.getMinutes();
+  const timeStr = `${String(hour).padStart(2,'0')}:${String(min).padStart(2,'0')}`;
+  const dateStr = formatDate(getTodayStr());
+
+  let status = `📆 ${dateStr} • 🕐 ${timeStr}`;
+  if (todayEvents.length > 0) status += ` • <strong>🔥 ${todayEvents.length} compromisso(s) hoje</strong>`;
+  else status += ` • ✨ Dia livre!`;
+
+  if (hour >= 1 && hour < 12) status += ` • 🌅 Bom dia!`;
+  else if (hour >= 12 && hour < 18) status += ` • ☀️ Boa tarde!`;
+  else status += ` • 🌙 Boa noite!`;
+
+  document.getElementById('statusBar').innerHTML = status;
+}
+
+// ============ FORMULÁRIO ============
+document.getElementById('eventForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const newEvent = {
+    id: Date.now().toString(),
+    title: document.getElementById('title').value.trim(),
+    category: document.getElementById('category').value,
+    date: document.getElementById('date').value,
+    time: document.getElementById('time').value,
+    description: document.getElementById('description').value.trim()
+  };
+  events.push(newEvent);
+  saveLocal();
+  scheduleSaveToCloud();
+  renderEvents();
+  updateStatusBar();
+  e.target.reset();
+  document.getElementById('date').value = getTodayStr();
+  showBalloon('✅ Compromisso salvo!', `${newEvent.title} em ${formatDate(newEvent.date)} às ${newEvent.time}`);
+});
+
+function deleteEvent(id) {
+  if (confirm('Deseja realmente excluir este compromisso?')) {
+    events = events.filter(e => e.id !== id);
+    saveLocal();
+    scheduleSaveToCloud();
+    renderEvents();
+    updateStatusBar();
+  }
+}
+
+// ============ FILTROS ============
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    renderEvents();
+  });
+});
+
+// ============ BALÃO DE ALERTA ============
+function showBalloon(title, content) {
+  document.getElementById('alertTitle').innerHTML = title;
+  document.getElementById('alertContent').innerHTML = content;
+  const balloon = document.getElementById('alertBalloon');
+  balloon.classList.add('show');
+  playAlertSound();
+  setTimeout(() => { balloon.classList.remove('show'); }, 10000);
+}
+
+function closeAlert() {
+  document.getElementById('alertBalloon').classList.remove('show');
+}
+
+// ============ AÇÕES MANUAIS ============
+async function syncFromCloud() {
+  await loadFromCloud();
+  renderEvents();
+  updateStatusBar();
+}
+
+async function forceSyncToCloud() { await saveToCloud(); }
+
+// ============ ALERTAS DIÁRIOS ============
+function checkDailyAlerts() {
+  const now = new Date();
+  const hour = now.getHours();
+  const todayStr = getTodayStr();
+
+  if (hour < 1) return;
+  if (alertedToday[todayStr]) return;
+
+  const todayEvents = events.filter(e => e.date === todayStr);
+  if (todayEvents.length === 0) return;
+
+  const list = todayEvents.map(e =>
+    `• <strong>${e.time}</strong> - ${e.title} (${categoryNames[e.category]})`
+  ).join('<br>');
+
+  showBalloon(
+    `🔔 Você tem ${todayEvents.length} compromisso(s) hoje!`,
+    `<br>${list}<br><br><em>Bom dia! Não esqueça de seus compromissos!</em>`
+  );
+
+  alertedToday[todayStr] = true;
+  localStorage.setItem('agendaAmiga_alerted', JSON.stringify(alertedToday));
+}
+
+// ============ INICIALIZAÇÃO ============
+async function init() {
+  document.getElementById('date').value = getTodayStr();
+  document.getElementById('time').value = '09:00';
+
+  await loadFromCloud();
+  renderEvents();
+  updateStatusBar();
+
+  checkDailyAlerts();
+  setInterval(() => {
+    checkDailyAlerts();
+    updateStatusBar();
+  }, 30000);
+
+  const keys = Object.keys(alertedToday);
+  if (keys.length > 7) {
+    keys.sort();
+    const toRemove = keys.slice(0, keys.length - 7);
+    toRemove.forEach(k => delete alertedToday[k]);
+    localStorage.setItem('agendaAmiga_alerted', JSON.stringify(alertedToday));
+  }
+}
+
+init();
+</script>
 </body>
 </html>
