@@ -11,9 +11,8 @@
     <meta name="description" content="Agenda Amiga - Sua companheira para nao esquecer nenhum compromisso!">
     <title>Agenda Amiga</title>
     
-    <link rel="manifest" href="./manifest.json">
-    <link rel="icon" href="./icon-192.png" type="image/png">
-    <link rel="apple-touch-icon" href="./icon-192.png">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>">
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -34,6 +33,7 @@
         
         .container { max-width: 1100px; margin: 0 auto; }
         
+        /* ============ TELA DE LOGIN ============ */
         .login-screen {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -177,6 +177,7 @@
             margin-top: 8px;
         }
         
+        /* ============ APP PRINCIPAL ============ */
         #mainApp { display: none; }
         #mainApp.show { display: block; animation: fadeIn 0.5s; }
         
@@ -225,6 +226,29 @@
         .sync-dot.saving { background: #f0883e; animation: blink 1s infinite; }
         @keyframes blink { 50% { opacity: 0.3; } }
 
+        .top-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .icon-btn {
+            background: rgba(30, 36, 68, 0.6);
+            border: 1px solid #30363d;
+            color: #c9d1d9;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .icon-btn:hover { background: rgba(88, 166, 255, 0.2); color: #58a6ff; border-color: #58a6ff; }
+        
         .logout-btn {
             background: rgba(248, 81, 73, 0.15);
             color: #f85149;
@@ -322,6 +346,7 @@
         .btn-danger { background: linear-gradient(135deg, #da3633, #f85149); box-shadow: 0 4px 15px rgba(248, 81, 73, 0.3); }
         .btn-small { padding: 8px 14px; font-size: 0.85em; min-height: 40px; }
         .btn-secondary { background: linear-gradient(135deg, #30363d, #484f58); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); }
+        .btn-success { background: linear-gradient(135deg, #238636, #3fb950); box-shadow: 0 4px 15px rgba(63, 185, 80, 0.3); }
 
         .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
         
@@ -369,10 +394,15 @@
             animation: pulse 2s infinite; 
         }
         
-        .event-item.medication-due {
-            background: linear-gradient(135deg, #1a2f1a, #0d1f0d);
+        .event-item.completed {
+            background: linear-gradient(135deg, #0d1f0d, #1a2f1a);
             border-left-color: #3fb950;
-            animation: medicationPulse 1.5s infinite;
+            opacity: 0.75;
+        }
+        
+        .event-item.completed .event-title {
+            text-decoration: line-through;
+            color: #8b949e;
         }
         
         .event-item.past { opacity: 0.5; }
@@ -380,11 +410,6 @@
         @keyframes pulse {
             0%, 100% { box-shadow: 0 0 0 0 rgba(240, 136, 62, 0.4); }
             50% { box-shadow: 0 0 0 10px rgba(240, 136, 62, 0); }
-        }
-        
-        @keyframes medicationPulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(63, 185, 80, 0.5); }
-            50% { box-shadow: 0 0 0 12px rgba(63, 185, 80, 0); }
         }
 
         .event-icon { font-size: 2em; min-width: 45px; text-align: center; }
@@ -398,7 +423,42 @@
         }
         .event-meta { color: #8b949e; font-size: 0.85em; margin-top: 3px; }
         .event-desc { color: #8b949e; font-size: 0.82em; margin-top: 6px; font-style: italic; word-break: break-word; }
-        .event-actions { display: flex; gap: 8px; flex-shrink: 0; }
+        .event-actions { display: flex; gap: 8px; flex-shrink: 0; flex-wrap: wrap; }
+
+        .action-icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            min-width: 40px;
+        }
+        
+        .btn-delete {
+            background: rgba(248, 81, 73, 0.15);
+            color: #f85149;
+            border: 1px solid rgba(248, 81, 73, 0.3);
+        }
+        
+        .btn-delete:hover { background: rgba(248, 81, 73, 0.3); transform: scale(1.1); }
+        
+        .btn-check {
+            background: rgba(63, 185, 80, 0.15);
+            color: #3fb950;
+            border: 1px solid rgba(63, 185, 80, 0.3);
+        }
+        
+        .btn-check:hover { background: rgba(63, 185, 80, 0.3); transform: scale(1.1); }
+        
+        .btn-check.done {
+            background: #3fb950;
+            color: white;
+        }
 
         .category-medico { border-left-color: #f85149; }
         .category-escola { border-left-color: #58a6ff; }
@@ -438,43 +498,135 @@
             font-weight: 500;
         }
 
-        .alert-balloon { 
-            position: fixed; 
-            top: 20px; 
-            right: 20px; 
+        /* ============ BALÕES DE NOTIFICAÇÃO SOBREPOSTOS ============ */
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
             left: 20px;
-            background: linear-gradient(135deg, #1e2444, #161b33);
-            border-radius: 12px; 
-            padding: 20px; 
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6); 
-            max-width: 400px; 
+            z-index: 10000;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 420px;
             margin: 0 auto;
-            z-index: 1000; 
-            border: 2px solid #00d4ff;
+        }
+        
+        .notification-balloon { 
+            background: linear-gradient(135deg, #1e2444, #161b33);
+            border-radius: 14px; 
+            padding: 18px 20px; 
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(0, 212, 255, 0.3);
             border-left: 6px solid #00d4ff;
-            display: none;
-            animation: slideIn 0.5s ease-out;
+            animation: notifSlideIn 0.4s ease-out, notifPulse 2s ease-in-out;
+            pointer-events: auto;
+            position: relative;
+            backdrop-filter: blur(10px);
         }
         
-        .alert-balloon.show { display: block; }
-        .alert-balloon.medication { border-color: #3fb950; border-left-color: #3fb950; }
-        
-        @keyframes slideIn {
-            from { transform: translateY(-100px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        .notification-balloon.medication { 
+            border-left-color: #3fb950;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(63, 185, 80, 0.3);
         }
         
-        .alert-title { color: #00d4ff; font-weight: 700; font-size: 1.2em; margin-bottom: 10px; }
-        .alert-balloon.medication .alert-title { color: #3fb950; }
-        .alert-content { color: #c9d1d9; line-height: 1.6; font-size: 0.95em; white-space: pre-wrap; word-break: break-word; }
-        
-        .alert-close { 
-            position: absolute; top: 10px; right: 15px; 
-            background: none; border: none; font-size: 1.5em; 
-            cursor: pointer; color: #8b949e;
-            min-width: 40px; min-height: 40px;
+        .notification-balloon.urgent {
+            border-left-color: #f85149;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(248, 81, 73, 0.3);
+            animation: notifSlideIn 0.4s ease-out, urgentShake 0.5s ease-in-out;
         }
         
+        .notification-balloon.birthday {
+            border-left-color: #d2a8ff;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(210, 168, 255, 0.3);
+        }
+        
+        .notification-balloon.closing {
+            animation: notifSlideOut 0.3s ease-in forwards;
+        }
+        
+        @keyframes notifSlideIn {
+            from { transform: translateX(120%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes notifSlideOut {
+            from { transform: translateX(0); opacity: 1; max-height: 200px; }
+            to { transform: translateX(120%); opacity: 0; max-height: 0; padding: 0; margin: 0; }
+        }
+        
+        @keyframes notifPulse {
+            0%, 100% { box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(0, 212, 255, 0.3); }
+            50% { box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), 0 0 0 3px rgba(0, 212, 255, 0.5); }
+        }
+        
+        @keyframes urgentShake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-5px); }
+            80% { transform: translateX(5px); }
+        }
+        
+        .notif-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .notif-title { 
+            color: #00d4ff; 
+            font-weight: 700; 
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .notification-balloon.medication .notif-title { color: #3fb950; }
+        .notification-balloon.urgent .notif-title { color: #f85149; }
+        .notification-balloon.birthday .notif-title { color: #d2a8ff; }
+        
+        .notif-close { 
+            background: rgba(255,255,255,0.1);
+            border: none; 
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            font-size: 1em; 
+            cursor: pointer; 
+            color: #8b949e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .notif-close:hover { background: rgba(255,255,255,0.2); color: #e6edf3; }
+        
+        .notif-content { 
+            color: #c9d1d9; 
+            line-height: 1.5; 
+            font-size: 0.92em; 
+            white-space: pre-wrap; 
+            word-break: break-word;
+        }
+        
+        .notif-timer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #00d4ff, #58a6ff);
+            border-radius: 0 0 0 14px;
+            transition: width linear;
+        }
+        
+        .notification-balloon.medication .notif-timer { background: linear-gradient(90deg, #3fb950, #56d364); }
+        .notification-balloon.urgent .notif-timer { background: linear-gradient(90deg, #f85149, #ff7b72); }
+        .notification-balloon.birthday .notif-timer { background: linear-gradient(90deg, #d2a8ff, #bc8cff); }
+
         .empty { text-align: center; padding: 40px 20px; color: #8b949e; }
         .empty-icon { font-size: 3em; margin-bottom: 10px; }
 
@@ -492,52 +644,195 @@
             border: 1px solid rgba(63, 185, 80, 0.3);
         }
 
-        .install-banner {
+        .completed-badge {
+            display: inline-block;
+            background: rgba(63, 185, 80, 0.2);
+            color: #3fb950;
+            padding: 3px 8px;
+            border-radius: 8px;
+            font-size: 0.75em;
+            font-weight: 700;
+            margin-left: 5px;
+            border: 1px solid rgba(63, 185, 80, 0.4);
+        }
+
+        /* ============ MODAL DE CONFIGURAÇÕES ============ */
+        .modal-overlay {
             position: fixed;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #1f6feb, #0099ff);
-            color: white;
-            padding: 15px 20px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            z-index: 999;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 9998;
             display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .modal-overlay.show { display: flex; animation: fadeIn 0.3s; }
+        
+        .modal {
+            background: linear-gradient(135deg, #161b33, #1e2444);
+            border: 1px solid #30363d;
+            border-radius: 15px;
+            padding: 25px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
+        
+        .modal h3 {
+            color: #58a6ff;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .modal-section {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #30363d;
+        }
+        
+        .modal-section:last-child { border-bottom: none; }
+        
+        .modal-section h4 {
+            color: #c9d1d9;
+            margin-bottom: 12px;
+            font-size: 1em;
+        }
+        
+        .setting-row {
+            display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 15px;
-            max-width: 500px;
-            margin: 0 auto;
-            animation: slideUp 0.5s ease-out;
+            padding: 10px 0;
+            gap: 10px;
         }
         
-        .install-banner.show { display: flex; }
-        
-        @keyframes slideUp {
-            from { transform: translateY(100px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        .install-banner-text { flex: 1; font-weight: 600; font-size: 0.95em; }
-        
-        .install-banner button {
-            background: white;
-            color: #1f6feb;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
+        .setting-label {
+            color: #c9d1d9;
             font-size: 0.9em;
-            white-space: nowrap;
+            flex: 1;
         }
         
-        .install-banner .close-install {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            padding: 8px 12px;
+        .setting-label small {
+            display: block;
+            color: #8b949e;
+            font-size: 0.8em;
+            margin-top: 2px;
         }
+        
+        /* Toggle Switch */
+        .toggle {
+            position: relative;
+            width: 50px;
+            height: 28px;
+            flex-shrink: 0;
+        }
+        
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #30363d;
+            border-radius: 28px;
+            transition: 0.3s;
+        }
+        
+        .toggle-slider:before {
+            content: '';
+            position: absolute;
+            height: 22px;
+            width: 22px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+        
+        .toggle input:checked + .toggle-slider {
+            background: linear-gradient(135deg, #1f6feb, #0099ff);
+        }
+        
+        .toggle input:checked + .toggle-slider:before {
+            transform: translateX(22px);
+        }
+        
+        .sound-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .sound-option {
+            background: #0d1117;
+            border: 2px solid #30363d;
+            border-radius: 10px;
+            padding: 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+            color: #c9d1d9;
+            font-size: 0.85em;
+        }
+        
+        .sound-option:hover { border-color: #58a6ff; }
+        
+        .sound-option.active {
+            border-color: #00d4ff;
+            background: rgba(0, 212, 255, 0.1);
+            color: #00d4ff;
+        }
+        
+        .sound-option .sound-icon {
+            font-size: 1.5em;
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        .number-input {
+            width: 70px;
+            padding: 8px;
+            background: #0d1117;
+            border: 2px solid #30363d;
+            border-radius: 8px;
+            color: #e6edf3;
+            text-align: center;
+            font-size: 1em;
+        }
+        
+        .number-input:focus {
+            outline: none;
+            border-color: #00d4ff;
+        }
+        
+        .modal-close {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #1f6feb, #0099ff);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .modal-close:hover { transform: translateY(-2px); }
 
         footer { text-align: center; color: #8b949e; padding: 20px 10px; font-size: 0.85em; }
         footer a { color: #58a6ff; text-decoration: none; }
@@ -552,8 +847,7 @@
             .form-grid { grid-template-columns: 1fr; }
             .medication-fields.show { grid-template-columns: 1fr; }
             .top-bar { flex-direction: column; align-items: stretch; }
-            .alert-balloon { left: 10px; right: 10px; top: 10px; }
-            .install-banner { flex-direction: column; text-align: center; left: 10px; right: 10px; bottom: 10px; }
+            .notification-container { left: 10px; right: 10px; top: 10px; }
             .filters { gap: 6px; }
             .filter-btn { padding: 7px 12px; font-size: 0.8em; }
         }
@@ -564,6 +858,7 @@
         
         @media (min-width: 901px) {
             body { padding: 30px; }
+            .notification-container { left: auto; }
         }
         
         @media (max-width: 360px) {
@@ -583,6 +878,7 @@
     </style>
 </head>
 <body>
+    <!-- TELA DE LOGIN -->
     <div class="login-screen" id="loginScreen">
         <div class="login-box">
             <div class="login-icon">🔐</div>
@@ -605,15 +901,16 @@
                 <button class="login-btn biometric" onclick="setupBiometric()">
                     ⚙️ Cadastrar Biometria
                 </button>
-                <small>Toque longo para usar impressao digital ou reconhecimento facial</small>
+                <small>Use impressao digital ou reconhecimento facial</small>
             </div>
         </div>
     </div>
 
+    <!-- APP PRINCIPAL -->
     <div id="mainApp">
         <div class="container">
             <header>
-                <h1> Agenda Amiga</h1>
+                <h1>📅 Agenda Amiga</h1>
                 <p>Sua companheira para nao esquecer nenhum compromisso!</p>
             </header>
 
@@ -622,7 +919,11 @@
                     <span class="sync-dot" id="syncDot"></span>
                     <span id="syncText">Conectando...</span>
                 </div>
-                <button class="logout-btn" onclick="doLogout()">🔒 Sair</button>
+                <div class="top-actions">
+                    <button class="icon-btn" onclick="openSettings()" title="Configuracoes">⚙️</button>
+                    <button class="icon-btn" onclick="testNotification()" title="Testar notificacao">🔔</button>
+                    <button class="logout-btn" onclick="doLogout()">🔒 Sair</button>
+                </div>
             </div>
 
             <div class="status-bar" id="statusBar">Carregando...</div>
@@ -641,7 +942,7 @@
                                 <option value="medico">🏥 Medico</option>
                                 <option value="escola">🎓 Escola</option>
                                 <option value="reuniao">💼 Reuniao</option>
-                                <option value="evento">🎉 Evento</option>
+                                <option value="evento"> Evento</option>
                                 <option value="aniversario">🎂 Aniversario</option>
                                 <option value="medicamento">💊 Medicamento</option>
                             </select>
@@ -682,7 +983,7 @@
                         </div>
                     </div>
                     
-                    <button type="submit" class="btn" style="width: 100%;">💾 Salvar Compromisso</button>
+                    <button type="submit" class="btn" style="width: 100%;"> Salvar Compromisso</button>
                 </form>
             </div>
 
@@ -693,10 +994,11 @@
                     <button class="filter-btn" data-filter="today">🔥 Hoje</button>
                     <button class="filter-btn" data-filter="medico">🏥 Medico</button>
                     <button class="filter-btn" data-filter="escola">🎓 Escola</button>
-                    <button class="filter-btn" data-filter="reuniao">💼 Reuniao</button>
-                    <button class="filter-btn" data-filter="evento">🎉 Evento</button>
-                    <button class="filter-btn" data-filter="aniversario">🎂 Aniversario</button>
-                    <button class="filter-btn" data-filter="medicamento">💊 Medicamento</button>
+                    <button class="filter-btn" data-filter="reuniao"> Reuniao</button>
+                    <button class="filter-btn" data-filter="evento"> Evento</button>
+                    <button class="filter-btn" data-filter="aniversario"> Aniversario</button>
+                    <button class="filter-btn" data-filter="medicamento"> Medicamento</button>
+                    <button class="filter-btn" data-filter="completed">✅ Realizados</button>
                 </div>
                 <div class="events-list" id="eventsList"></div>
                 <div class="cloud-actions">
@@ -711,16 +1013,96 @@
         </div>
     </div>
 
-    <div class="install-banner" id="installBanner">
-        <div class="install-banner-text"> Instalar Agenda Amiga no seu dispositivo?</div>
-        <button onclick="installPWA()">Instalar</button>
-        <button class="close-install" onclick="dismissInstall()">✕</button>
-    </div>
+    <!-- Container de Notificações -->
+    <div class="notification-container" id="notificationContainer"></div>
 
-    <div class="alert-balloon" id="alertBalloon">
-        <button class="alert-close" onclick="closeAlert()">✕</button>
-        <h3 class="alert-title" id="alertTitle">Lembrete!</h3>
-        <p class="alert-content" id="alertContent"></p>
+    <!-- Modal de Configurações -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal">
+            <h3>⚙️ Configuracoes de Notificacao</h3>
+            
+            <div class="modal-section">
+                <h4>🔊 Som das Notificacoes</h4>
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <strong>Som ativado</strong>
+                        <small>Reproduz som ao receber notificacao</small>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" id="soundEnabled" checked onchange="saveSettings()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-label" style="margin-top: 15px; margin-bottom: 5px;">
+                    <strong>Tipo de som</strong>
+                    <small>Escolha o som para suas notificacoes</small>
+                </div>
+                <div class="sound-selector" id="soundSelector">
+                    <div class="sound-option active" data-sound="chime" onclick="selectSound('chime')">
+                        <span class="sound-icon">🔔</span>
+                        Sino
+                    </div>
+                    <div class="sound-option" data-sound="beep" onclick="selectSound('beep')">
+                        <span class="sound-icon"></span>
+                        Bip
+                    </div>
+                    <div class="sound-option" data-sound="alert" onclick="selectSound('alert')">
+                        <span class="sound-icon"></span>
+                        Alerta
+                    </div>
+                    <div class="sound-option" data-sound="gentle" onclick="selectSound('gentle')">
+                        <span class="sound-icon">🎵</span>
+                        Suave
+                    </div>
+                    <div class="sound-option" data-sound="urgent" onclick="selectSound('urgent')">
+                        <span class="sound-icon">⚠️</span>
+                        Urgente
+                    </div>
+                    <div class="sound-option" data-sound="ding" onclick="selectSound('ding')">
+                        <span class="sound-icon">✨</span>
+                        Ding
+                    </div>
+                </div>
+                <button class="btn btn-small btn-secondary" style="margin-top: 10px; width: 100%;" onclick="previewSound()">
+                    🔊 Testar Som Selecionado
+                </button>
+            </div>
+            
+            <div class="modal-section">
+                <h4>🔁 Repeticao de Notificacoes</h4>
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <strong>Quantas vezes repetir</strong>
+                        <small>Numero de vezes que a notificacao sera repetida</small>
+                    </div>
+                    <input type="number" class="number-input" id="repeatCount" value="1" min="1" max="10" onchange="saveSettings()">
+                </div>
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <strong>Intervalo entre repeticoes</strong>
+                        <small>Tempo em segundos entre cada repeticao</small>
+                    </div>
+                    <input type="number" class="number-input" id="repeatInterval" value="5" min="1" max="60" onchange="saveSettings()">
+                </div>
+            </div>
+            
+            <div class="modal-section">
+                <h4> Silenciar Temporariamente</h4>
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <strong>Modo silencioso</strong>
+                        <small>Desativa todos os sons de notificacao</small>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" id="silentMode" onchange="saveSettings()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <button class="modal-close" onclick="closeSettings()">Fechar Configuracoes</button>
+        </div>
     </div>
 
     <script>
@@ -736,7 +1118,8 @@
             alerted: 'agendaAmiga_alerted',
             medAlerts: 'agendaAmiga_medAlerts',
             biometric: 'agendaAmiga_biometric',
-            session: 'agendaAmiga_session'
+            session: 'agendaAmiga_session',
+            settings: 'agendaAmiga_settings'
         };
 
         let events = [];
@@ -744,187 +1127,346 @@
         let alertedToday = JSON.parse(localStorage.getItem(STORAGE_KEYS.alerted) || '{}');
         let medicationAlerts = JSON.parse(localStorage.getItem(STORAGE_KEYS.medAlerts) || '{}');
         let saveTimeout = null;
-        let deferredPrompt = null;
+        
+        // Configuracoes padrao
+        let settings = JSON.parse(localStorage.getItem(STORAGE_KEYS.settings) || JSON.stringify({
+            soundEnabled: true,
+            soundType: 'chime',
+            repeatCount: 1,
+            repeatInterval: 5,
+            silentMode: false
+        }));
 
-        const categoryIcons = { medico: '🏥', escola: '', reuniao: '💼', evento: '🎉', aniversario: '🎂', medicamento: '💊' };
+        const categoryIcons = { medico: '', escola: '🎓', reuniao: '💼', evento: '🎉', aniversario: '🎂', medicamento: '💊' };
         const categoryNames = { medico: 'Medico', escola: 'Escola', reuniao: 'Reuniao', evento: 'Evento', aniversario: 'Aniversario', medicamento: 'Medicamento' };
         const categoryColors = { medico: 'badge-medico', escola: 'badge-escola', reuniao: 'badge-reuniao', evento: 'badge-evento', aniversario: 'badge-aniversario', medicamento: 'badge-medicamento' };
 
-        // ============ PWA SETUP ============
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(registration => {
-                        console.log('SW registrado com sucesso:', registration.scope);
-                    })
-                    .catch(err => {
-                        console.log('Falha ao registrar SW:', err);
-                    });
-            });
-        }
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            setTimeout(() => {
-                document.getElementById('installBanner').classList.add('show');
-            }, 2000);
-        });
-
-        window.addEventListener('appinstalled', () => {
-            document.getElementById('installBanner').classList.remove('show');
-            deferredPrompt = null;
-            console.log('PWA instalado com sucesso!');
-        });
-
-        function installPWA() {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then(choice => {
-                    if (choice.outcome === 'accepted') {
-                        document.getElementById('installBanner').classList.remove('show');
-                    }
-                    deferredPrompt = null;
-                });
-            } else {
-                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-                const isAndroid = /Android/.test(navigator.userAgent);
+        // ============ SISTEMA DE SONS ============
+        function playSound(type) {
+            if (!settings.soundEnabled || settings.silentMode) return;
+            
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const now = ctx.currentTime;
                 
-                if (isIOS) {
-                    alert('Para instalar no iPhone/iPad:\n1. Toque no botão Compartilhar (quadrado com seta)\n2. Role para baixo e toque em "Adicionar à Tela de Início"');
-                } else if (isAndroid) {
-                    alert('Para instalar no Android:\n1. Toque no menu (⋮) do navegador\n2. Selecione "Adicionar à tela inicial" ou "Instalar aplicativo"');
-                } else {
-                    alert('Para instalar no computador:\n1. Clique no ícone de instalação na barra de endereço\n2. Ou use o menu do navegador para "Instalar aplicativo"');
+                switch(type) {
+                    case 'chime':
+                        // Sino: Dó-Mi-Sol-Dó agudo
+                        [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
+                            const osc = ctx.createOscillator();
+                            const gain = ctx.createGain();
+                            osc.connect(gain);
+                            gain.connect(ctx.destination);
+                            osc.type = 'sine';
+                            osc.frequency.value = freq;
+                            gain.gain.setValueAtTime(0, now + i * 0.15);
+                            gain.gain.linearRampToValueAtTime(0.3, now + i * 0.15 + 0.05);
+                            gain.gain.linearRampToValueAtTime(0, now + i * 0.15 + 0.4);
+                            osc.start(now + i * 0.15);
+                            osc.stop(now + i * 0.15 + 0.4);
+                        });
+                        break;
+                        
+                    case 'beep':
+                        // Bip simples
+                        for (let i = 0; i < 3; i++) {
+                            const osc = ctx.createOscillator();
+                            const gain = ctx.createGain();
+                            osc.connect(gain);
+                            gain.connect(ctx.destination);
+                            osc.type = 'square';
+                            osc.frequency.value = 880;
+                            gain.gain.setValueAtTime(0.2, now + i * 0.2);
+                            gain.gain.linearRampToValueAtTime(0, now + i * 0.2 + 0.15);
+                            osc.start(now + i * 0.2);
+                            osc.stop(now + i * 0.2 + 0.15);
+                        }
+                        break;
+                        
+                    case 'alert':
+                        // Alerta: som descendente urgente
+                        [880, 660, 440, 330].forEach((freq, i) => {
+                            const osc = ctx.createOscillator();
+                            const gain = ctx.createGain();
+                            osc.connect(gain);
+                            gain.connect(ctx.destination);
+                            osc.type = 'sawtooth';
+                            osc.frequency.value = freq;
+                            gain.gain.setValueAtTime(0.25, now + i * 0.15);
+                            gain.gain.linearRampToValueAtTime(0, now + i * 0.15 + 0.2);
+                            osc.start(now + i * 0.15);
+                            osc.stop(now + i * 0.15 + 0.2);
+                        });
+                        break;
+                        
+                    case 'gentle':
+                        // Suave: arpeggio ascendente
+                        [392, 493.88, 587.33, 783.99].forEach((freq, i) => {
+                            const osc = ctx.createOscillator();
+                            const gain = ctx.createGain();
+                            osc.connect(gain);
+                            gain.connect(ctx.destination);
+                            osc.type = 'sine';
+                            osc.frequency.value = freq;
+                            gain.gain.setValueAtTime(0, now + i * 0.2);
+                            gain.gain.linearRampToValueAtTime(0.2, now + i * 0.2 + 0.1);
+                            gain.gain.linearRampToValueAtTime(0, now + i * 0.2 + 0.5);
+                            osc.start(now + i * 0.2);
+                            osc.stop(now + i * 0.2 + 0.5);
+                        });
+                        break;
+                        
+                    case 'urgent':
+                        // Urgente: bip-bip-bip rapido
+                        for (let i = 0; i < 5; i++) {
+                            const osc = ctx.createOscillator();
+                            const gain = ctx.createGain();
+                            osc.connect(gain);
+                            gain.connect(ctx.destination);
+                            osc.type = 'square';
+                            osc.frequency.value = i % 2 === 0 ? 1000 : 800;
+                            gain.gain.setValueAtTime(0.3, now + i * 0.1);
+                            gain.gain.linearRampToValueAtTime(0, now + i * 0.1 + 0.08);
+                            osc.start(now + i * 0.1);
+                            osc.stop(now + i * 0.1 + 0.08);
+                        }
+                        break;
+                        
+                    case 'ding':
+                        // Ding: som de notificacao classico
+                        const osc1 = ctx.createOscillator();
+                        const gain1 = ctx.createGain();
+                        osc1.connect(gain1);
+                        gain1.connect(ctx.destination);
+                        osc1.type = 'sine';
+                        osc1.frequency.setValueAtTime(1200, now);
+                        osc1.frequency.exponentialRampToValueAtTime(800, now + 0.3);
+                        gain1.gain.setValueAtTime(0.3, now);
+                        gain1.gain.linearRampToValueAtTime(0, now + 0.5);
+                        osc1.start(now);
+                        osc1.stop(now + 0.5);
+                        break;
                 }
+            } catch (e) {
+                console.log('Audio nao suportado');
             }
         }
 
-        function dismissInstall() {
-            document.getElementById('installBanner').classList.remove('show');
+        function previewSound() {
+            playSound(settings.soundType);
         }
+
+        // ============ SISTEMA DE NOTIFICACOES SOBREPOSTAS ============
+        let notificationQueue = [];
+        let isPlayingNotifications = false;
+
+        function showNotification(title, content, type, duration) {
+            duration = duration || 6000;
+            const container = document.getElementById('notificationContainer');
+            
+            const notif = document.createElement('div');
+            notif.className = 'notification-balloon ' + (type || '');
+            
+            const icons = {
+                '': '',
+                'medication': '',
+                'urgent': '🚨',
+                'birthday': '🎂'
+            };
+            
+            notif.innerHTML = `
+                <div class="notif-header">
+                    <div class="notif-title">${icons[type] || '🔔'} ${title}</div>
+                    <button class="notif-close" onclick="closeNotification(this)">✕</button>
+                </div>
+                <div class="notif-content">${content}</div>
+                <div class="notif-timer" style="width: 100%;"></div>
+            `;
+            
+            container.appendChild(notif);
+            
+            // Animacao da barra de tempo
+            const timer = notif.querySelector('.notif-timer');
+            timer.style.transition = `width ${duration}ms linear`;
+            setTimeout(() => { timer.style.width = '0%'; }, 50);
+            
+            // Auto-fechar
+            setTimeout(() => {
+                if (notif.parentNode) {
+                    notif.classList.add('closing');
+                    setTimeout(() => {
+                        if (notif.parentNode) notif.parentNode.removeChild(notif);
+                    }, 300);
+                }
+            }, duration);
+            
+            // Limitar numero de notificacoes visiveis
+            while (container.children.length > 3) {
+                container.removeChild(container.firstChild);
+            }
+        }
+
+        function closeNotification(btn) {
+            const notif = btn.closest('.notification-balloon');
+            if (notif) {
+                notif.classList.add('closing');
+                setTimeout(() => {
+                    if (notif.parentNode) notif.parentNode.removeChild(notif);
+                }, 300);
+            }
+        }
+
+        function showNotificationWithRepeat(title, content, type) {
+            const count = settings.repeatCount || 1;
+            const interval = (settings.repeatInterval || 5) * 1000;
+            const duration = 6000;
+            
+            // Primeira notificacao imediata
+            showNotification(title, content, type, duration);
+            if (settings.soundEnabled && !settings.silentMode) {
+                playSound(settings.soundType);
+            }
+            
+            // Repeticoes
+            if (count > 1) {
+                let remaining = count - 1;
+                const repeatInterval = setInterval(() => {
+                    if (remaining <= 0) {
+                        clearInterval(repeatInterval);
+                        return;
+                    }
+                    showNotification(title, content, type, duration);
+                    if (settings.soundEnabled && !settings.silentMode) {
+                        playSound(settings.soundType);
+                    }
+                    remaining--;
+                }, interval);
+            }
+        }
+
+        function testNotification() {
+            showNotificationWithRepeat(
+                'Teste de Notificacao',
+                'Esta e uma notificacao de teste!\nSom: ' + settings.soundType + '\nRepeticoes: ' + settings.repeatCount,
+                ''
+            );
+        }
+
+        // ============ CONFIGURACOES ============
+        function openSettings() {
+            document.getElementById('soundEnabled').checked = settings.soundEnabled;
+            document.getElementById('silentMode').checked = settings.silentMode;
+            document.getElementById('repeatCount').value = settings.repeatCount;
+            document.getElementById('repeatInterval').value = settings.repeatInterval;
+            
+            // Atualizar seletor de som
+            document.querySelectorAll('.sound-option').forEach(opt => {
+                opt.classList.toggle('active', opt.dataset.sound === settings.soundType);
+            });
+            
+            document.getElementById('settingsModal').classList.add('show');
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsModal').classList.remove('show');
+        }
+
+        function selectSound(type) {
+            settings.soundType = type;
+            document.querySelectorAll('.sound-option').forEach(opt => {
+                opt.classList.toggle('active', opt.dataset.sound === type);
+            });
+            saveSettings();
+            playSound(type);
+        }
+
+        function saveSettings() {
+            settings.soundEnabled = document.getElementById('soundEnabled').checked;
+            settings.silentMode = document.getElementById('silentMode').checked;
+            settings.repeatCount = parseInt(document.getElementById('repeatCount').value) || 1;
+            settings.repeatInterval = parseInt(document.getElementById('repeatInterval').value) || 5;
+            
+            localStorage.setItem(STORAGE_KEYS.settings, JSON.stringify(settings));
+        }
+
+        // Fechar modal ao clicar fora
+        document.getElementById('settingsModal').addEventListener('click', function(e) {
+            if (e.target === this) closeSettings();
+        });
 
         // ============ BIOMETRIA ============
         function isBiometricSupported() {
             return window.PublicKeyCredential && navigator.credentials;
         }
 
-        async function checkBiometricAvailability() {
-            if (!isBiometricSupported()) return false;
-            try {
-                return await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
-            } catch (e) {
-                return false;
-            }
-        }
-
         async function setupBiometric() {
             if (!isBiometricSupported()) {
-                alert('Biometria nao suportada neste dispositivo. Use a senha.');
+                alert('Biometria nao suportada neste dispositivo.');
                 return;
             }
             
             try {
                 const challenge = new Uint8Array(32);
                 crypto.getRandomValues(challenge);
-                
                 const userId = new Uint8Array(16);
                 crypto.getRandomValues(userId);
                 
-                const publicKey = {
-                    challenge: challenge,
-                    rp: { name: 'Agenda Amiga' },
-                    user: {
-                        id: userId,
-                        name: 'usuario@agendaamiga',
-                        displayName: 'Usuario Agenda Amiga'
-                    },
-                    pubKeyCredParams: [
-                        { type: 'public-key', alg: -7 },
-                        { type: 'public-key', alg: -257 }
-                    ],
-                    authenticatorSelection: {
-                        authenticatorAttachment: 'platform',
-                        userVerification: 'required',
-                        requireResidentKey: false
-                    },
-                    timeout: 60000,
-                    attestation: 'none'
-                };
+                const credential = await navigator.credentials.create({
+                    publicKey: {
+                        challenge: challenge,
+                        rp: { name: 'Agenda Amiga' },
+                        user: { id: userId, name: 'user@agendaamiga', displayName: 'Usuario' },
+                        pubKeyCredParams: [{ type: 'public-key', alg: -7 }, { type: 'public-key', alg: -257 }],
+                        authenticatorSelection: { authenticatorAttachment: 'platform', userVerification: 'required' },
+                        timeout: 60000,
+                        attestation: 'none'
+                    }
+                });
                 
-                const credential = await navigator.credentials.create({ publicKey });
-                
-                const credentialData = {
+                localStorage.setItem(STORAGE_KEYS.biometric, JSON.stringify({
                     id: credential.id,
                     rawId: Array.from(new Uint8Array(credential.rawId)),
-                    type: credential.type,
-                    publicKey: Array.from(new Uint8Array(credential.response.getPublicKey ? credential.response.getPublicKey() : []))
-                };
+                    type: credential.type
+                }));
                 
-                localStorage.setItem(STORAGE_KEYS.biometric, JSON.stringify(credentialData));
-                alert('✅ Biometria cadastrada com sucesso!\nAgora voce pode usar impressao digital ou reconhecimento facial para entrar.');
+                alert('✅ Biometria cadastrada com sucesso!');
                 updateBiometricUI();
             } catch (err) {
-                console.error('Erro ao cadastrar biometria:', err);
-                if (err.name === 'NotAllowedError') {
-                    alert('Cadastro cancelado pelo usuario.');
-                } else {
-                    alert('Erro ao cadastrar biometria: ' + err.message);
-                }
+                alert('Erro ao cadastrar biometria: ' + err.message);
             }
         }
 
         async function tryBiometric() {
             const saved = localStorage.getItem(STORAGE_KEYS.biometric);
-            if (!saved) {
-                alert('Nenhuma biometria cadastrada. Cadastre primeiro.');
-                return;
-            }
+            if (!saved) { alert('Nenhuma biometria cadastrada.'); return; }
             
             try {
                 const credData = JSON.parse(saved);
                 const challenge = new Uint8Array(32);
                 crypto.getRandomValues(challenge);
                 
-                const publicKey = {
-                    challenge: challenge,
-                    allowCredentials: [{
-                        type: 'public-key',
-                        id: new Uint8Array(credData.rawId),
-                        transports: ['internal']
-                    }],
-                    userVerification: 'required',
-                    timeout: 60000
-                };
-                
-                const assertion = await navigator.credentials.get({ publicKey });
+                const assertion = await navigator.credentials.get({
+                    publicKey: {
+                        challenge: challenge,
+                        allowCredentials: [{ type: 'public-key', id: new Uint8Array(credData.rawId), transports: ['internal'] }],
+                        userVerification: 'required',
+                        timeout: 60000
+                    }
+                });
                 
                 if (assertion) {
                     sessionStorage.setItem(STORAGE_KEYS.session, 'authenticated');
                     unlockApp();
                 }
             } catch (err) {
-                console.error('Erro na biometria:', err);
-                if (err.name === 'NotAllowedError') {
-                    document.getElementById('loginError').textContent = 'Autenticacao cancelada.';
-                } else {
-                    document.getElementById('loginError').textContent = 'Erro na biometria. Use a senha.';
-                }
+                document.getElementById('loginError').textContent = 'Erro na biometria. Use a senha.';
             }
         }
 
         function updateBiometricUI() {
             const hasBiometric = localStorage.getItem(STORAGE_KEYS.biometric);
-            const biometricSection = document.getElementById('biometricSection');
-            const biometricSetup = document.getElementById('biometricSetup');
-            
-            if (hasBiometric) {
-                biometricSection.style.display = 'block';
-                biometricSetup.style.display = 'none';
-            } else if (isBiometricSupported()) {
-                biometricSection.style.display = 'none';
-                biometricSetup.style.display = 'block';
-            }
+            document.getElementById('biometricSection').style.display = hasBiometric ? 'block' : 'none';
+            document.getElementById('biometricSetup').style.display = (!hasBiometric && isBiometricSupported()) ? 'block' : 'none';
         }
 
         // ============ LOGIN ============
@@ -940,12 +1482,9 @@
                 error.textContent = '❌ Senha incorreta!';
                 input.value = '';
                 input.focus();
-                
                 const box = document.querySelector('.login-box');
                 box.style.animation = 'none';
-                setTimeout(() => {
-                    box.style.animation = 'shake 0.5s';
-                }, 10);
+                setTimeout(() => { box.style.animation = 'shake 0.5s'; }, 10);
             }
         }
 
@@ -961,8 +1500,7 @@
         }
 
         function checkSession() {
-            const authenticated = sessionStorage.getItem(STORAGE_KEYS.session);
-            if (authenticated === 'authenticated') {
+            if (sessionStorage.getItem(STORAGE_KEYS.session) === 'authenticated') {
                 document.getElementById('loginScreen').classList.add('hidden');
                 document.getElementById('mainApp').classList.add('show');
                 initApp();
@@ -973,15 +1511,13 @@
         }
 
         const style = document.createElement('style');
-        style.textContent = `@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }`;
+        style.textContent = '@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }';
         document.head.appendChild(style);
 
         document.addEventListener('DOMContentLoaded', () => {
             const passInput = document.getElementById('passwordInput');
             if (passInput) {
-                passInput.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') tryLogin();
-                });
+                passInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') tryLogin(); });
             }
         });
 
@@ -1057,8 +1593,17 @@
 
             if (currentFilter === 'today') {
                 filtered = filtered.filter(function(e) { return isToday(e.date); });
+            } else if (currentFilter === 'completed') {
+                filtered = filtered.filter(function(e) { return e.completed; });
             } else if (currentFilter !== 'all') {
-                filtered = filtered.filter(function(e) { return e.category === currentFilter; });
+                filtered = filtered.filter(function(e) { return e.category === currentFilter && !e.completed; });
+            } else {
+                // Mostrar todos, mas realizados no final
+                filtered.sort(function(a, b) {
+                    if (a.completed && !b.completed) return 1;
+                    if (!a.completed && b.completed) return -1;
+                    return 0;
+                });
             }
 
             filtered.sort(function(a, b) {
@@ -1077,22 +1622,24 @@
             for (var i = 0; i < filtered.length; i++) {
                 var ev = filtered[i];
                 var todayClass = isToday(ev.date) ? 'today' : '';
-                var pastClass = isPast(ev.date) && !isToday(ev.date) ? 'style="opacity: 0.5;"' : '';
+                var completedClass = ev.completed ? 'completed' : '';
+                var pastClass = isPast(ev.date) && !isToday(ev.date) && !ev.completed ? 'style="opacity: 0.5;"' : '';
                 var icon = categoryIcons[ev.category] || '📅';
                 var badgeClass = categoryColors[ev.category] || '';
                 var badgeText = categoryNames[ev.category] || '';
                 var todayBadge = isToday(ev.date) ? ' <strong style="color:#f0883e;">HOJE</strong>' : '';
+                var completedBadge = ev.completed ? '<span class="completed-badge">✅ Realizado</span>' : '';
                 
                 var medicationInfo = '';
                 if (ev.category === 'medicamento' && ev.dosage) {
                     medicationInfo = '<div class="medication-reminder">💊 ' + ev.dosage + ' - ' + (ev.frequency || 'unica') + '</div>';
                 }
                 
-                html += '<div class="event-item category-' + ev.category + ' ' + todayClass + '" ' + pastClass + '>';
+                html += '<div class="event-item category-' + ev.category + ' ' + todayClass + ' ' + completedClass + '" ' + pastClass + '>';
                 html += '<div class="event-icon">' + icon + '</div>';
                 html += '<div class="event-info">';
-                html += '<div class="event-title">' + escapeHtml(ev.title) + ' <span class="badge ' + badgeClass + '">' + badgeText + '</span>' + todayBadge + '</div>';
-                html += '<div class="event-meta">📅 ' + formatDate(ev.date) + '  ' + ev.time + '</div>';
+                html += '<div class="event-title">' + escapeHtml(ev.title) + ' <span class="badge ' + badgeClass + '">' + badgeText + '</span>' + todayBadge + completedBadge + '</div>';
+                html += '<div class="event-meta">📅 ' + formatDate(ev.date) + '  🕐 ' + ev.time + '</div>';
                 if (ev.description) {
                     html += '<div class="event-desc">' + escapeHtml(ev.description) + '</div>';
                 }
@@ -1101,11 +1648,31 @@
                 }
                 html += '</div>';
                 html += '<div class="event-actions">';
-                html += '<button class="btn btn-danger btn-small" onclick="deleteEvent(\'' + ev.id + '\')">️</button>';
+                html += '<button class="action-icon-btn btn-check ' + (ev.completed ? 'done' : '') + '" onclick="toggleCompleted(\'' + ev.id + '\')" title="' + (ev.completed ? 'Desmarcar' : 'Marcar como realizado') + '">' + (ev.completed ? '↩️' : '✓') + '</button>';
+                html += '<button class="action-icon-btn btn-delete" onclick="deleteEvent(\'' + ev.id + '\')" title="Excluir">🗑️</button>';
                 html += '</div>';
                 html += '</div>';
             }
             list.innerHTML = html;
+        }
+
+        function toggleCompleted(id) {
+            var ev = events.find(function(e) { return e.id === id; });
+            if (ev) {
+                ev.completed = !ev.completed;
+                ev.completedAt = ev.completed ? new Date().toISOString() : null;
+                localStorage.setItem(STORAGE_KEYS.events, JSON.stringify(events));
+                scheduleSaveToCloud();
+                renderEvents();
+                
+                if (ev.completed) {
+                    showNotificationWithRepeat(
+                        '✅ Compromisso Realizado!',
+                        ev.title + '\n' + formatDate(ev.date) + ' as ' + ev.time,
+                        ''
+                    );
+                }
+            }
         }
 
         function escapeHtml(text) {
@@ -1117,7 +1684,7 @@
 
         function updateStatusBar() {
             var now = new Date();
-            var todayEvents = events.filter(function(e) { return isToday(e.date); });
+            var todayEvents = events.filter(function(e) { return isToday(e.date) && !e.completed; });
             var hour = now.getHours();
             var min = String(now.getMinutes()).padStart(2, '0');
             var timeStr = String(hour).padStart(2, '0') + ':' + min;
@@ -1130,9 +1697,11 @@
                 status += ' • ✨ Dia livre!';
             }
 
-            if (hour >= 1 && hour < 12) status += ' •  Bom dia!';
+            if (hour >= 1 && hour < 12) status += ' • 🌅 Bom dia!';
             else if (hour >= 12 && hour < 18) status += ' • ☀️ Boa tarde!';
-            else status += ' • 🌙 Boa noite!';
+            else status += ' •  Boa noite!';
+            
+            if (settings.silentMode) status += ' •  Silencioso';
 
             document.getElementById('statusBar').textContent = status;
         }
@@ -1146,7 +1715,8 @@
                 category: document.getElementById('category').value,
                 date: document.getElementById('date').value,
                 time: document.getElementById('time').value,
-                description: document.getElementById('description').value.trim()
+                description: document.getElementById('description').value.trim(),
+                completed: false
             };
             
             if (newEvent.category === 'medicamento') {
@@ -1163,7 +1733,11 @@
             this.reset();
             document.getElementById('date').value = getTodayStr();
             document.getElementById('medicationFields').classList.remove('show');
-            showBalloon('✅ Compromisso salvo!', newEvent.title + ' em ' + formatDate(newEvent.date) + ' as ' + newEvent.time, false);
+            showNotificationWithRepeat(
+                '✅ Compromisso salvo!',
+                newEvent.title + '\n' + formatDate(newEvent.date) + ' as ' + newEvent.time,
+                ''
+            );
         });
 
         document.getElementById('category').addEventListener('change', function() {
@@ -1197,44 +1771,6 @@
             });
         }
 
-        function playAlertSound() {
-            try {
-                var ctx = new (window.AudioContext || window.webkitAudioContext)();
-                var notes = [523.25, 659.25, 783.99, 1046.50];
-                notes.forEach(function(freq, i) {
-                    var osc = ctx.createOscillator();
-                    var gain = ctx.createGain();
-                    osc.connect(gain);
-                    gain.connect(ctx.destination);
-                    osc.type = 'sine';
-                    osc.frequency.value = freq;
-                    gain.gain.setValueAtTime(0, ctx.currentTime + i * 0.2);
-                    gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + i * 0.2 + 0.05);
-                    gain.gain.linearRampToValueAtTime(0, ctx.currentTime + i * 0.2 + 0.3);
-                    osc.start(ctx.currentTime + i * 0.2);
-                    osc.stop(ctx.currentTime + i * 0.2 + 0.3);
-                });
-            } catch (e) { console.log('Audio nao suportado'); }
-        }
-
-        function showBalloon(title, content, isMedication) {
-            document.getElementById('alertTitle').textContent = title;
-            document.getElementById('alertContent').textContent = content;
-            var balloon = document.getElementById('alertBalloon');
-            if (isMedication) {
-                balloon.classList.add('medication');
-            } else {
-                balloon.classList.remove('medication');
-            }
-            balloon.classList.add('show');
-            playAlertSound();
-            setTimeout(function() { balloon.classList.remove('show'); }, 8000);
-        }
-
-        function closeAlert() {
-            document.getElementById('alertBalloon').classList.remove('show');
-        }
-
         function syncFromCloud() {
             loadFromCloud().then(function() {
                 renderEvents();
@@ -1254,16 +1790,16 @@
             if (hour < 1) return;
             if (alertedToday[todayStr]) return;
 
-            var todayEvents = events.filter(function(e) { return e.date === todayStr; });
+            var todayEvents = events.filter(function(e) { return e.date === todayStr && !e.completed; });
             if (todayEvents.length === 0) return;
 
             var msg = 'Voce tem ' + todayEvents.length + ' compromisso(s) hoje!\n\n';
             for (var i = 0; i < todayEvents.length; i++) {
                 var e = todayEvents[i];
-                msg += e.time + ' - ' + e.title + '\n';
+                msg += '🕐 ' + e.time + ' - ' + e.title + '\n';
             }
 
-            showBalloon('🔔 Lembrete do dia!', msg, false);
+            showNotificationWithRepeat('🔔 Lembrete do dia!', msg, '');
             alertedToday[todayStr] = true;
             localStorage.setItem(STORAGE_KEYS.alerted, JSON.stringify(alertedToday));
         }
@@ -1277,7 +1813,7 @@
             if (medicationAlerts[alertKey]) return;
             
             var medications = events.filter(function(e) {
-                return e.category === 'medicamento' && e.time === currentTime;
+                return e.category === 'medicamento' && e.time === currentTime && !e.completed;
             });
             
             if (medications.length === 0) return;
@@ -1290,7 +1826,7 @@
                 msg += '\n';
             }
             
-            showBalloon(' Hora do Medicamento!', msg, true);
+            showNotificationWithRepeat('⏰ Hora do Medicamento!', msg, 'medication');
             medicationAlerts[alertKey] = true;
             localStorage.setItem(STORAGE_KEYS.medAlerts, JSON.stringify(medicationAlerts));
             
@@ -1303,6 +1839,35 @@
             }
         }
 
+        function checkUpcomingAlerts() {
+            var now = new Date();
+            var currentTime = getCurrentTimeStr();
+            var todayStr = getTodayStr();
+            var alertKey = 'upcoming_' + todayStr + '_' + currentTime;
+            
+            if (medicationAlerts[alertKey]) return;
+            
+            // Alertar 5 minutos antes
+            var upcomingTime = new Date(now.getTime() + 5 * 60000);
+            var upcomingTimeStr = String(upcomingTime.getHours()).padStart(2, '0') + ':' + String(upcomingTime.getMinutes()).padStart(2, '0');
+            
+            var upcoming = events.filter(function(e) {
+                return e.date === todayStr && e.time === upcomingTimeStr && !e.completed;
+            });
+            
+            if (upcoming.length === 0) return;
+            
+            var msg = 'Em 5 minutos:\n\n';
+            for (var i = 0; i < upcoming.length; i++) {
+                var ev = upcoming[i];
+                msg += '🕐 ' + ev.time + ' - ' + ev.title + '\n';
+            }
+            
+            showNotificationWithRepeat('⏳ Lembrete: em 5 minutos!', msg, 'urgent');
+            medicationAlerts[alertKey] = true;
+            localStorage.setItem(STORAGE_KEYS.medAlerts, JSON.stringify(medicationAlerts));
+        }
+
         function initApp() {
             document.getElementById('date').value = getTodayStr();
             document.getElementById('time').value = '09:00';
@@ -1313,10 +1878,12 @@
                 
                 setInterval(function() {
                     checkDailyAlerts();
+                    checkMedicationAlerts();
+                    checkUpcomingAlerts();
                     updateStatusBar();
                 }, 30000);
                 
-                setInterval(checkMedicationAlerts, 60000);
+                checkDailyAlerts();
                 checkMedicationAlerts();
             });
         }
