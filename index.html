@@ -17,7 +17,10 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
         
-        html, body { overflow-x: hidden; -webkit-text-size-adjust: 100%; }
+        html, body { 
+            overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
+        }
         
         body { 
             background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0d1117 100%);
@@ -30,6 +33,7 @@
         
         .container { max-width: 1100px; margin: 0 auto; }
         
+        /* ============ TELA DE LOGIN ============ */
         .login-screen {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -43,7 +47,11 @@
             transition: opacity 0.5s, visibility 0.5s;
         }
         
-        .login-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .login-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
         
         .login-box {
             background: linear-gradient(135deg, #161b33, #1e2444);
@@ -56,7 +64,11 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
         }
         
-        .login-icon { font-size: 4em; margin-bottom: 15px; animation: float 3s ease-in-out infinite; }
+        .login-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+            animation: float 3s ease-in-out infinite;
+        }
         
         @keyframes float {
             0%, 100% { transform: translateY(0); }
@@ -72,7 +84,11 @@
             background-clip: text;
         }
         
-        .login-subtitle { color: #8b949e; margin-bottom: 30px; font-size: 0.95em; }
+        .login-subtitle {
+            color: #8b949e;
+            margin-bottom: 30px;
+            font-size: 0.95em;
+        }
         
         .login-input {
             width: 100%;
@@ -87,7 +103,11 @@
             transition: all 0.3s;
         }
         
-        .login-input:focus { outline: none; border-color: #00d4ff; box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1); }
+        .login-input:focus {
+            outline: none;
+            border-color: #00d4ff;
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+        }
         
         .login-btn {
             width: 100%;
@@ -107,23 +127,64 @@
         .login-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(31, 111, 235, 0.5); }
         .login-btn:active { transform: translateY(0); }
         
-        .login-btn.biometric { background: linear-gradient(135deg, #238636, #3fb950); box-shadow: 0 4px 15px rgba(63, 185, 80, 0.3); }
+        .login-btn.biometric {
+            background: linear-gradient(135deg, #238636, #3fb950);
+            box-shadow: 0 4px 15px rgba(63, 185, 80, 0.3);
+        }
+        
         .login-btn.biometric:hover { box-shadow: 0 6px 20px rgba(63, 185, 80, 0.5); }
-        .login-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
         
-        .login-error { color: #f85149; margin-top: 10px; font-size: 0.9em; min-height: 20px; }
+        .login-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none !important;
+        }
         
-        .login-divider { display: flex; align-items: center; margin: 15px 0; color: #8b949e; font-size: 0.85em; }
-        .login-divider::before, .login-divider::after { content: ''; flex: 1; height: 1px; background: #30363d; }
+        .login-error {
+            color: #f85149;
+            margin-top: 10px;
+            font-size: 0.9em;
+            min-height: 20px;
+        }
+        
+        .login-divider {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            color: #8b949e;
+            font-size: 0.85em;
+        }
+        
+        .login-divider::before, .login-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #30363d;
+        }
+        
         .login-divider span { padding: 0 10px; }
         
-        .biometric-setup { margin-top: 15px; padding-top: 15px; border-top: 1px solid #30363d; }
-        .biometric-setup small { color: #8b949e; font-size: 0.8em; display: block; margin-top: 8px; }
+        .biometric-setup {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #30363d;
+        }
         
+        .biometric-setup small {
+            color: #8b949e;
+            font-size: 0.8em;
+            display: block;
+            margin-top: 8px;
+        }
+        
+        /* ============ APP PRINCIPAL ============ */
         #mainApp { display: none; }
         #mainApp.show { display: block; animation: fadeIn 0.5s; }
         
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
         
         header { text-align: center; margin-bottom: 25px; padding: 10px; }
         
@@ -138,7 +199,14 @@
         
         header p { color: #8b949e; font-size: clamp(0.9em, 2.5vw, 1.1em); }
 
-        .top-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
 
         .sync-status {
             display: inline-flex;
@@ -158,7 +226,11 @@
         .sync-dot.saving { background: #f0883e; animation: blink 1s infinite; }
         @keyframes blink { 50% { opacity: 0.3; } }
 
-        .top-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+        .top-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
 
         .icon-btn {
             background: rgba(30, 36, 68, 0.6);
@@ -232,10 +304,31 @@
             width: 100%;
         }
         
-        input:focus, select:focus, textarea:focus { outline: none; border-color: #00d4ff; box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1); }
+        input:focus, select:focus, textarea:focus { 
+            outline: none; 
+            border-color: #00d4ff;
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+        }
         
         textarea { grid-column: 1 / -1; resize: vertical; min-height: 70px; }
         select option { background: #0d1117; color: #e6edf3; }
+
+        /* Campos que aparecem/desaparecem conforme categoria */
+        .field-medication-only {
+            display: none;
+        }
+        
+        .field-medication-only.show {
+            display: flex;
+        }
+        
+        .field-normal-only {
+            display: flex;
+        }
+        
+        .field-normal-only.hide {
+            display: none;
+        }
 
         .medication-fields {
             display: none;
@@ -256,7 +349,9 @@
             margin-top: 8px;
         }
         
-        .weekday-checkbox { display: none; }
+        .weekday-checkbox {
+            display: none;
+        }
         
         .weekday-label {
             background: #0d1117;
@@ -277,7 +372,12 @@
             color: #3fb950;
         }
 
-        .time-slots { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+        .time-slots {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
         
         .time-slot {
             background: #0d1117;
@@ -290,7 +390,10 @@
             font-size: 0.9em;
         }
         
-        .time-slot input { padding: 4px; font-size: 0.9em; }
+        .time-slot input {
+            padding: 4px;
+            font-size: 0.9em;
+        }
         
         .remove-time {
             background: rgba(248, 81, 73, 0.2);
@@ -381,7 +484,10 @@
             opacity: 0.75;
         }
         
-        .event-item.completed .event-title { text-decoration: line-through; color: #8b949e; }
+        .event-item.completed .event-title {
+            text-decoration: line-through;
+            color: #8b949e;
+        }
         
         .event-item.past { opacity: 0.5; }
 
@@ -392,7 +498,13 @@
 
         .event-icon { font-size: 2em; min-width: 45px; text-align: center; }
         .event-info { flex: 1; min-width: 0; }
-        .event-title { font-weight: 700; font-size: 1.05em; color: #e6edf3; margin-bottom: 4px; word-break: break-word; }
+        .event-title { 
+            font-weight: 700; 
+            font-size: 1.05em; 
+            color: #e6edf3; 
+            margin-bottom: 4px;
+            word-break: break-word;
+        }
         .event-meta { color: #8b949e; font-size: 0.85em; margin-top: 3px; }
         .event-desc { color: #8b949e; font-size: 0.82em; margin-top: 6px; font-style: italic; word-break: break-word; }
         .event-actions { display: flex; gap: 8px; flex-shrink: 0; flex-wrap: wrap; }
@@ -411,14 +523,33 @@
             min-width: 40px;
         }
         
-        .btn-delete { background: rgba(248, 81, 73, 0.15); color: #f85149; border: 1px solid rgba(248, 81, 73, 0.3); }
+        .btn-delete {
+            background: rgba(248, 81, 73, 0.15);
+            color: #f85149;
+            border: 1px solid rgba(248, 81, 73, 0.3);
+        }
+        
         .btn-delete:hover { background: rgba(248, 81, 73, 0.3); transform: scale(1.1); }
         
-        .btn-check { background: rgba(63, 185, 80, 0.15); color: #3fb950; border: 1px solid rgba(63, 185, 80, 0.3); }
-        .btn-check:hover { background: rgba(63, 185, 80, 0.3); transform: scale(1.1); }
-        .btn-check.done { background: #3fb950; color: white; }
+        .btn-check {
+            background: rgba(63, 185, 80, 0.15);
+            color: #3fb950;
+            border: 1px solid rgba(63, 185, 80, 0.3);
+        }
         
-        .btn-edit { background: rgba(88, 166, 255, 0.15); color: #58a6ff; border: 1px solid rgba(88, 166, 255, 0.3); }
+        .btn-check:hover { background: rgba(63, 185, 80, 0.3); transform: scale(1.1); }
+        
+        .btn-check.done {
+            background: #3fb950;
+            color: white;
+        }
+        
+        .btn-edit {
+            background: rgba(88, 166, 255, 0.15);
+            color: #58a6ff;
+            border: 1px solid rgba(88, 166, 255, 0.3);
+        }
+        
         .btn-edit:hover { background: rgba(88, 166, 255, 0.3); transform: scale(1.1); }
 
         .category-medico { border-left-color: #f85149; }
@@ -472,7 +603,11 @@
             flex-wrap: wrap;
         }
         
-        .notification-permission-text { flex: 1; font-weight: 600; font-size: 0.95em; }
+        .notification-permission-text {
+            flex: 1;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
         
         .notification-permission button {
             background: white;
@@ -509,8 +644,7 @@
             border: 1px solid rgba(63, 185, 80, 0.4);
         }
 
-        .hidden-field { display: none !important; }
-
+        /* ============ MODAL ============ */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -537,18 +671,63 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
         }
         
-        .modal h3 { color: #58a6ff; margin-bottom: 20px; font-size: 1.3em; display: flex; align-items: center; gap: 10px; }
+        .modal h3 {
+            color: #58a6ff;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
         
-        .modal-section { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #30363d; }
+        .modal-section {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #30363d;
+        }
+        
         .modal-section:last-child { border-bottom: none; }
-        .modal-section h4 { color: #c9d1d9; margin-bottom: 12px; font-size: 1em; }
         
-        .setting-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; gap: 10px; }
-        .setting-label { color: #c9d1d9; font-size: 0.9em; flex: 1; }
-        .setting-label small { display: block; color: #8b949e; font-size: 0.8em; margin-top: 2px; }
+        .modal-section h4 {
+            color: #c9d1d9;
+            margin-bottom: 12px;
+            font-size: 1em;
+        }
         
-        .toggle { position: relative; width: 50px; height: 28px; flex-shrink: 0; }
-        .toggle input { opacity: 0; width: 0; height: 0; }
+        .setting-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            gap: 10px;
+        }
+        
+        .setting-label {
+            color: #c9d1d9;
+            font-size: 0.9em;
+            flex: 1;
+        }
+        
+        .setting-label small {
+            display: block;
+            color: #8b949e;
+            font-size: 0.8em;
+            margin-top: 2px;
+        }
+        
+        .toggle {
+            position: relative;
+            width: 50px;
+            height: 28px;
+            flex-shrink: 0;
+        }
+        
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
         .toggle-slider {
             position: absolute;
             cursor: pointer;
@@ -557,6 +736,7 @@
             border-radius: 28px;
             transition: 0.3s;
         }
+        
         .toggle-slider:before {
             content: '';
             position: absolute;
@@ -568,10 +748,21 @@
             border-radius: 50%;
             transition: 0.3s;
         }
-        .toggle input:checked + .toggle-slider { background: linear-gradient(135deg, #1f6feb, #0099ff); }
-        .toggle input:checked + .toggle-slider:before { transform: translateX(22px); }
         
-        .sound-selector { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; margin-top: 10px; }
+        .toggle input:checked + .toggle-slider {
+            background: linear-gradient(135deg, #1f6feb, #0099ff);
+        }
+        
+        .toggle input:checked + .toggle-slider:before {
+            transform: translateX(22px);
+        }
+        
+        .sound-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 8px;
+            margin-top: 10px;
+        }
         
         .sound-option {
             background: #0d1117;
@@ -584,9 +775,20 @@
             color: #c9d1d9;
             font-size: 0.85em;
         }
+        
         .sound-option:hover { border-color: #58a6ff; }
-        .sound-option.active { border-color: #00d4ff; background: rgba(0, 212, 255, 0.1); color: #00d4ff; }
-        .sound-option .sound-icon { font-size: 1.5em; display: block; margin-bottom: 4px; }
+        
+        .sound-option.active {
+            border-color: #00d4ff;
+            background: rgba(0, 212, 255, 0.1);
+            color: #00d4ff;
+        }
+        
+        .sound-option .sound-icon {
+            font-size: 1.5em;
+            display: block;
+            margin-bottom: 4px;
+        }
         
         .number-input {
             width: 70px;
@@ -598,7 +800,11 @@
             text-align: center;
             font-size: 1em;
         }
-        .number-input:focus { outline: none; border-color: #00d4ff; }
+        
+        .number-input:focus {
+            outline: none;
+            border-color: #00d4ff;
+        }
         
         .modal-close {
             width: 100%;
@@ -612,6 +818,7 @@
             cursor: pointer;
             margin-top: 10px;
         }
+        
         .modal-close:hover { transform: translateY(-2px); }
 
         footer { text-align: center; color: #8b949e; padding: 20px 10px; font-size: 0.85em; }
@@ -631,11 +838,28 @@
             .weekdays-selector { grid-template-columns: repeat(4, 1fr); }
         }
         
-        @media (min-width: 601px) and (max-width: 900px) { .form-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (min-width: 901px) { body { padding: 30px; } }
-        @media (max-width: 360px) { header h1 { font-size: 1.6em; } .login-box { padding: 30px 20px; } }
-        @media (max-height: 500px) and (orientation: landscape) { .login-screen { padding: 10px; } .login-box { padding: 20px; max-width: 500px; } .login-icon { font-size: 2.5em; margin-bottom: 8px; } }
-        @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+        @media (min-width: 601px) and (max-width: 900px) {
+            .form-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        
+        @media (min-width: 901px) {
+            body { padding: 30px; }
+        }
+        
+        @media (max-width: 360px) {
+            header h1 { font-size: 1.6em; }
+            .login-box { padding: 30px 20px; }
+        }
+        
+        @media (max-height: 500px) and (orientation: landscape) {
+            .login-screen { padding: 10px; }
+            .login-box { padding: 20px; max-width: 500px; }
+            .login-icon { font-size: 2.5em; margin-bottom: 8px; }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            * { animation: none !important; transition: none !important; }
+        }
     </style>
 </head>
 <body>
@@ -653,11 +877,15 @@
             
             <div id="biometricSection" style="display: none;">
                 <div class="login-divider"><span>ou</span></div>
-                <button class="login-btn biometric" id="biometricBtn" onclick="tryBiometric()">🔓 Entrar com Biometria</button>
+                <button class="login-btn biometric" id="biometricBtn" onclick="tryBiometric()">
+                    🔓 Entrar com Biometria
+                </button>
             </div>
             
             <div class="biometric-setup" id="biometricSetup" style="display: none;">
-                <button class="login-btn biometric" onclick="setupBiometric()">⚙️ Cadastrar Biometria</button>
+                <button class="login-btn biometric" onclick="setupBiometric()">
+                    ️ Cadastrar Biometria
+                </button>
                 <small>Use impressao digital ou reconhecimento facial</small>
             </div>
         </div>
@@ -672,7 +900,9 @@
             </header>
 
             <div class="notification-permission" id="notifPermission" style="display: none;">
-                <div class="notification-permission-text">🔔 Ativar notificacoes do sistema para receber alertas mesmo com o app fechado</div>
+                <div class="notification-permission-text">
+                    🔔 Ativar notificacoes do sistema para receber alertas mesmo com o app fechado
+                </div>
                 <button onclick="requestNotificationPermission()">Ativar</button>
             </div>
 
@@ -682,9 +912,9 @@
                     <span id="syncText">Conectando...</span>
                 </div>
                 <div class="top-actions">
-                    <button class="icon-btn" onclick="openSettings()" title="Configuracoes">⚙️</button>
+                    <button class="icon-btn" onclick="openSettings()" title="Configuracoes">️</button>
                     <button class="icon-btn" onclick="testNotification()" title="Testar notificacao">🔔</button>
-                    <button class="logout-btn" onclick="doLogout()">🔒 Sair</button>
+                    <button class="logout-btn" onclick="doLogout()"> Sair</button>
                 </div>
             </div>
 
@@ -702,33 +932,33 @@
                             <label>Categoria *</label>
                             <select id="category" required>
                                 <option value="medico">🏥 Medico</option>
-                                <option value="escola">🎓 Escola</option>
+                                <option value="escola"> Escola</option>
                                 <option value="reuniao">💼 Reuniao</option>
                                 <option value="evento">🎉 Evento</option>
                                 <option value="aniversario">🎂 Aniversario</option>
                                 <option value="medicamento">💊 Medicamento</option>
                             </select>
                         </div>
-                        <!-- Campos Data e Hora - ocultos para medicamentos -->
-                        <div class="form-group" id="dateField">
+                        
+                        <!-- Campos DATA e HORA - aparecem apenas para categorias NORMAIS -->
+                        <div class="form-group field-normal-only" id="fieldDate">
                             <label>Data *</label>
-                            <input type="date" id="date" required>
+                            <input type="date" id="date">
                         </div>
-                        <div class="form-group" id="timeField">
+                        <div class="form-group field-normal-only" id="fieldTime">
                             <label>Hora *</label>
-                            <input type="time" id="time" required>
+                            <input type="time" id="time">
                         </div>
+                        
                         <div class="form-group" style="grid-column: 1 / -1;">
                             <label>Descricao (opcional)</label>
                             <textarea id="description" placeholder="Detalhes do compromisso..."></textarea>
                         </div>
                     </div>
                     
+                    <!-- Campos exclusivos de MEDICAMENTO -->
                     <div class="medication-fields" id="medicationFields">
                         <h4 style="color: #3fb950; margin-bottom: 12px;">💊 Configuracao de Medicamento Recorrente</h4>
-                        <p style="color: #8b949e; font-size: 0.85em; margin-bottom: 15px;">
-                            Configure os dias, horarios e periodo de uso. Nao e necessario data/hora fixa.
-                        </p>
                         
                         <div class="form-group" style="margin-bottom: 12px;">
                             <label>Dosagem</label>
@@ -811,7 +1041,7 @@
                     <button class="filter-btn" data-filter="completed">✅ Realizados</button>
                 </div>
                 <div class="events-list" id="eventsList"></div>
-                <div style="display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap;">
+                <div class="cloud-actions" style="display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap;">
                     <button class="btn btn-secondary btn-small" onclick="syncFromCloud()">🔄 Sincronizar</button>
                     <button class="btn btn-secondary btn-small" onclick="forceSyncToCloud()">☁️ Enviar Nuvem</button>
                 </div>
@@ -847,25 +1077,33 @@
                 </div>
                 <div class="sound-selector" id="soundSelector">
                     <div class="sound-option active" data-sound="chime" onclick="selectSound('chime')">
-                        <span class="sound-icon"></span> Sino
+                        <span class="sound-icon">🔔</span>
+                        Sino
                     </div>
                     <div class="sound-option" data-sound="beep" onclick="selectSound('beep')">
-                        <span class="sound-icon">📟</span> Bip
+                        <span class="sound-icon">📟</span>
+                        Bip
                     </div>
                     <div class="sound-option" data-sound="alert" onclick="selectSound('alert')">
-                        <span class="sound-icon">🚨</span> Alerta
+                        <span class="sound-icon"></span>
+                        Alerta
                     </div>
                     <div class="sound-option" data-sound="gentle" onclick="selectSound('gentle')">
-                        <span class="sound-icon">🎵</span> Suave
+                        <span class="sound-icon"></span>
+                        Suave
                     </div>
                     <div class="sound-option" data-sound="urgent" onclick="selectSound('urgent')">
-                        <span class="sound-icon">⚠️</span> Urgente
+                        <span class="sound-icon">⚠️</span>
+                        Urgente
                     </div>
                     <div class="sound-option" data-sound="ding" onclick="selectSound('ding')">
-                        <span class="sound-icon">✨</span> Ding
+                        <span class="sound-icon">✨</span>
+                        Ding
                     </div>
                 </div>
-                <button class="btn btn-small btn-secondary" style="margin-top: 10px; width: 100%;" onclick="previewSound()">🔊 Testar Som Selecionado</button>
+                <button class="btn btn-small btn-secondary" style="margin-top: 10px; width: 100%;" onclick="previewSound()">
+                    🔊 Testar Som Selecionado
+                </button>
             </div>
             
             <div class="modal-section">
@@ -887,7 +1125,7 @@
             </div>
             
             <div class="modal-section">
-                <h4> Silenciar Temporariamente</h4>
+                <h4>🔇 Silenciar Temporariamente</h4>
                 <div class="setting-row">
                     <div class="setting-label">
                         <strong>Modo silencioso</strong>
@@ -921,81 +1159,24 @@
                             <option value="medico">🏥 Medico</option>
                             <option value="escola">🎓 Escola</option>
                             <option value="reuniao">💼 Reuniao</option>
-                            <option value="evento">🎉 Evento</option>
+                            <option value="evento"> Evento</option>
                             <option value="aniversario">🎂 Aniversario</option>
-                            <option value="medicamento">💊 Medicamento</option>
+                            <option value="medicamento"> Medicamento</option>
                         </select>
                     </div>
-                    <div class="form-group" id="editDateField">
+                    <div class="form-group field-normal-only" id="editFieldDate">
                         <label>Data *</label>
-                        <input type="date" id="editDate" required>
+                        <input type="date" id="editDate">
                     </div>
-                    <div class="form-group" id="editTimeField">
+                    <div class="form-group field-normal-only" id="editFieldTime">
                         <label>Hora *</label>
-                        <input type="time" id="editTime" required>
+                        <input type="time" id="editTime">
                     </div>
                     <div class="form-group" style="grid-column: 1 / -1;">
                         <label>Descricao</label>
                         <textarea id="editDescription"></textarea>
                     </div>
                 </div>
-                
-                <!-- Campos de edição de medicamento -->
-                <div class="medication-fields" id="editMedicationFields">
-                    <h4 style="color: #3fb950; margin-bottom: 12px;">💊 Configuracao de Medicamento</h4>
-                    
-                    <div class="form-group" style="margin-bottom: 12px;">
-                        <label>Dosagem</label>
-                        <input type="text" id="editDosage">
-                    </div>
-                    
-                    <div class="form-group" style="margin-bottom: 12px;">
-                        <label>Frequencia</label>
-                        <select id="editFrequency">
-                            <option value="diaria">Diaria (todos os dias)</option>
-                            <option value="weekdays">Dias da semana (Seg-Sex)</option>
-                            <option value="custom">Dias personalizados</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group" id="editCustomWeekdays" style="display: none; margin-bottom: 12px;">
-                        <label>Dias da Semana</label>
-                        <div class="weekdays-selector">
-                            <input type="checkbox" id="editDay0" class="weekday-checkbox" value="0">
-                            <label for="editDay0" class="weekday-label">Dom</label>
-                            <input type="checkbox" id="editDay1" class="weekday-checkbox" value="1">
-                            <label for="editDay1" class="weekday-label">Seg</label>
-                            <input type="checkbox" id="editDay2" class="weekday-checkbox" value="2">
-                            <label for="editDay2" class="weekday-label">Ter</label>
-                            <input type="checkbox" id="editDay3" class="weekday-checkbox" value="3">
-                            <label for="editDay3" class="weekday-label">Qua</label>
-                            <input type="checkbox" id="editDay4" class="weekday-checkbox" value="4">
-                            <label for="editDay4" class="weekday-label">Qui</label>
-                            <input type="checkbox" id="editDay5" class="weekday-checkbox" value="5">
-                            <label for="editDay5" class="weekday-label">Sex</label>
-                            <input type="checkbox" id="editDay6" class="weekday-checkbox" value="6">
-                            <label for="editDay6" class="weekday-label">Sab</label>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group" style="margin-bottom: 12px;">
-                        <label>Horarios</label>
-                        <div class="time-slots" id="editTimeSlots"></div>
-                        <button type="button" class="btn btn-small btn-secondary" style="margin-top: 8px;" onclick="addEditTimeSlot()">+ Adicionar Horario</button>
-                    </div>
-                    
-                    <div class="form-grid" style="margin-top: 12px;">
-                        <div class="form-group">
-                            <label>Data Inicio</label>
-                            <input type="date" id="editMedStartDate">
-                        </div>
-                        <div class="form-group">
-                            <label>Data Fim</label>
-                            <input type="date" id="editMedEndDate">
-                        </div>
-                    </div>
-                </div>
-                
                 <button type="submit" class="btn" style="width: 100%;">💾 Salvar Alteracoes</button>
                 <button type="button" class="btn btn-secondary" style="width: 100%; margin-top: 10px;" onclick="closeEditModal()">Cancelar</button>
             </form>
@@ -1033,10 +1214,42 @@
             silentMode: false
         }));
 
-        const categoryIcons = { medico: '🏥', escola: '🎓', reuniao: '', evento: '🎉', aniversario: '🎂', medicamento: '💊' };
+        const categoryIcons = { medico: '🏥', escola: '🎓', reuniao: '💼', evento: '🎉', aniversario: '🎂', medicamento: '' };
         const categoryNames = { medico: 'Medico', escola: 'Escola', reuniao: 'Reuniao', evento: 'Evento', aniversario: 'Aniversario', medicamento: 'Medicamento' };
         const categoryColors = { medico: 'badge-medico', escola: 'badge-escola', reuniao: 'badge-reuniao', evento: 'badge-evento', aniversario: 'badge-aniversario', medicamento: 'badge-medicamento' };
-        const weekdayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'];
+
+        // ============ CONTROLE DE CAMPOS POR CATEGORIA ============
+        function updateFormFields() {
+            var category = document.getElementById('category').value;
+            var isMedication = (category === 'medicamento');
+            
+            // Campos Data/Hora principais
+            var fieldDate = document.getElementById('fieldDate');
+            var fieldTime = document.getElementById('fieldTime');
+            var dateInput = document.getElementById('date');
+            var timeInput = document.getElementById('time');
+            
+            if (isMedication) {
+                // Ocultar Data/Hora principais para medicamentos
+                fieldDate.classList.add('hide');
+                fieldTime.classList.add('hide');
+                dateInput.removeAttribute('required');
+                timeInput.removeAttribute('required');
+                
+                // Mostrar campos de medicamento
+                document.getElementById('medicationFields').classList.add('show');
+                document.getElementById('medStartDate').value = getTodayStr();
+            } else {
+                // Mostrar Data/Hora principais para outras categorias
+                fieldDate.classList.remove('hide');
+                fieldTime.classList.remove('hide');
+                dateInput.setAttribute('required', 'required');
+                timeInput.setAttribute('required', 'required');
+                
+                // Ocultar campos de medicamento
+                document.getElementById('medicationFields').classList.remove('show');
+            }
+        }
 
         // ============ NOTIFICACOES DO SISTEMA ============
         function requestNotificationPermission() {
@@ -1072,7 +1285,9 @@
                     };
                     
                     setTimeout(() => notif.close(), 10000);
-                } catch (e) { console.log('Erro ao mostrar notificacao:', e); }
+                } catch (e) {
+                    console.log('Erro ao mostrar notificacao:', e);
+                }
             }
         }
 
@@ -1110,6 +1325,7 @@
                             osc.stop(now + i * 0.15 + 0.4);
                         });
                         break;
+                        
                     case 'beep':
                         for (let i = 0; i < 3; i++) {
                             const osc = ctx.createOscillator();
@@ -1124,6 +1340,7 @@
                             osc.stop(now + i * 0.2 + 0.15);
                         }
                         break;
+                        
                     case 'alert':
                         [880, 660, 440, 330].forEach((freq, i) => {
                             const osc = ctx.createOscillator();
@@ -1138,6 +1355,7 @@
                             osc.stop(now + i * 0.15 + 0.2);
                         });
                         break;
+                        
                     case 'gentle':
                         [392, 493.88, 587.33, 783.99].forEach((freq, i) => {
                             const osc = ctx.createOscillator();
@@ -1153,6 +1371,7 @@
                             osc.stop(now + i * 0.2 + 0.5);
                         });
                         break;
+                        
                     case 'urgent':
                         for (let i = 0; i < 5; i++) {
                             const osc = ctx.createOscillator();
@@ -1167,6 +1386,7 @@
                             osc.stop(now + i * 0.1 + 0.08);
                         }
                         break;
+                        
                     case 'ding':
                         const osc1 = ctx.createOscillator();
                         const gain1 = ctx.createGain();
@@ -1181,10 +1401,14 @@
                         osc1.stop(now + 0.5);
                         break;
                 }
-            } catch (e) { console.log('Audio nao suportado'); }
+            } catch (e) {
+                console.log('Audio nao suportado');
+            }
         }
 
-        function previewSound() { playSound(settings.soundType); }
+        function previewSound() {
+            playSound(settings.soundType);
+        }
 
         // ============ CONFIGURACOES ============
         function openSettings() {
@@ -1200,7 +1424,9 @@
             document.getElementById('settingsModal').classList.add('show');
         }
 
-        function closeSettings() { document.getElementById('settingsModal').classList.remove('show'); }
+        function closeSettings() {
+            document.getElementById('settingsModal').classList.remove('show');
+        }
 
         function selectSound(type) {
             settings.soundType = type;
@@ -1216,6 +1442,7 @@
             settings.silentMode = document.getElementById('silentMode').checked;
             settings.repeatCount = parseInt(document.getElementById('repeatCount').value) || 1;
             settings.repeatInterval = parseInt(document.getElementById('repeatInterval').value) || 5;
+            
             localStorage.setItem(STORAGE_KEYS.settings, JSON.stringify(settings));
         }
 
@@ -1224,10 +1451,15 @@
         });
 
         // ============ BIOMETRIA ============
-        function isBiometricSupported() { return window.PublicKeyCredential && navigator.credentials; }
+        function isBiometricSupported() {
+            return window.PublicKeyCredential && navigator.credentials;
+        }
 
         async function setupBiometric() {
-            if (!isBiometricSupported()) { alert('Biometria nao suportada neste dispositivo.'); return; }
+            if (!isBiometricSupported()) {
+                alert('Biometria nao suportada neste dispositivo.');
+                return;
+            }
             
             try {
                 const challenge = new Uint8Array(32);
@@ -1255,7 +1487,9 @@
                 
                 alert('✅ Biometria cadastrada com sucesso!');
                 updateBiometricUI();
-            } catch (err) { alert('Erro ao cadastrar biometria: ' + err.message); }
+            } catch (err) {
+                alert('Erro ao cadastrar biometria: ' + err.message);
+            }
         }
 
         async function tryBiometric() {
@@ -1280,7 +1514,9 @@
                     sessionStorage.setItem(STORAGE_KEYS.session, 'authenticated');
                     unlockApp();
                 }
-            } catch (err) { document.getElementById('loginError').textContent = 'Erro na biometria. Use a senha.'; }
+            } catch (err) {
+                document.getElementById('loginError').textContent = 'Erro na biometria. Use a senha.';
+            }
         }
 
         function updateBiometricUI() {
@@ -1314,7 +1550,10 @@
             initApp();
         }
 
-        function doLogout() { sessionStorage.removeItem(STORAGE_KEYS.session); location.reload(); }
+        function doLogout() {
+            sessionStorage.removeItem(STORAGE_KEYS.session);
+            location.reload();
+        }
 
         function checkSession() {
             if (sessionStorage.getItem(STORAGE_KEYS.session) === 'authenticated') {
@@ -1333,7 +1572,9 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             const passInput = document.getElementById('passwordInput');
-            if (passInput) { passInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') tryLogin(); }); }
+            if (passInput) {
+                passInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') tryLogin(); });
+            }
         });
 
         // ============ APP LOGIC ============
@@ -1373,7 +1614,9 @@
                     body: JSON.stringify({ events: events })
                 });
                 setSyncStatus('ok', 'Salvo na nuvem!');
-            } catch (err) { setSyncStatus('error', 'Erro ao salvar'); }
+            } catch (err) {
+                setSyncStatus('error', 'Erro ao salvar');
+            }
         }
 
         function scheduleSaveToCloud() {
@@ -1403,7 +1646,9 @@
         function getSelectedWeekdays() {
             var days = [];
             for (var i = 0; i < 7; i++) {
-                if (document.getElementById('day' + i).checked) days.push(i);
+                if (document.getElementById('day' + i).checked) {
+                    days.push(i);
+                }
             }
             return days;
         }
@@ -1412,7 +1657,9 @@
             var times = [];
             var inputs = document.querySelectorAll('.med-time');
             for (var i = 0; i < inputs.length; i++) {
-                if (inputs[i].value) times.push(inputs[i].value);
+                if (inputs[i].value) {
+                    times.push(inputs[i].value);
+                }
             }
             return times;
         }
@@ -1427,84 +1674,50 @@
 
         function removeTimeSlot(btn) {
             var slots = document.querySelectorAll('.time-slot');
-            if (slots.length > 1) btn.parentElement.remove();
-            else alert('Deve haver pelo menos um horario.');
-        }
-
-        // Ocultar/mostrar campos Data/Hora baseado na categoria
-        function updateDateTimeFieldsVisibility() {
-            var category = document.getElementById('category').value;
-            var dateField = document.getElementById('dateField');
-            var timeField = document.getElementById('timeField');
-            var dateInput = document.getElementById('date');
-            var timeInput = document.getElementById('time');
-            var medFields = document.getElementById('medicationFields');
-            
-            if (category === 'medicamento') {
-                // Ocultar Data e Hora do formulario principal
-                dateField.classList.add('hidden-field');
-                timeField.classList.add('hidden-field');
-                dateInput.removeAttribute('required');
-                timeInput.removeAttribute('required');
-                // Mostrar campos de medicamento
-                medFields.classList.add('show');
-                if (!document.getElementById('medStartDate').value) {
-                    document.getElementById('medStartDate').value = getTodayStr();
-                }
+            if (slots.length > 1) {
+                btn.parentElement.remove();
             } else {
-                // Mostrar Data e Hora
-                dateField.classList.remove('hidden-field');
-                timeField.classList.remove('hidden-field');
-                dateInput.setAttribute('required', 'required');
-                timeInput.setAttribute('required', 'required');
-                // Ocultar campos de medicamento
-                medFields.classList.remove('show');
+                alert('Deve haver pelo menos um horario.');
             }
         }
 
-        document.getElementById('category').addEventListener('change', updateDateTimeFieldsVisibility);
-
-        document.getElementById('frequency').addEventListener('change', function() {
-            var customDays = document.getElementById('customWeekdays');
-            customDays.style.display = this.value === 'custom' ? 'block' : 'none';
-        });
-
-        // ============ PROXIMO HORARIO DE MEDICAMENTO ============
         function getNextMedicationDate(event) {
             if (!event.medicationConfig) return null;
             
             var config = event.medicationConfig;
             var now = new Date();
+            var currentDay = now.getDay();
             var currentTime = getCurrentTimeStr();
-            var times = (config.times || []).slice().sort();
             
-            if (times.length === 0) return null;
-            
-            // Verificar se ainda ha horarios hoje
-            var todayValid = isMedicationDay(now.getDay(), config);
+            var times = config.times.sort();
             var nextTime = null;
             var nextDate = new Date(now);
             
-            if (todayValid) {
-                for (var i = 0; i < times.length; i++) {
-                    if (times[i] > currentTime) {
-                        nextTime = times[i];
-                        break;
-                    }
+            for (var i = 0; i < times.length; i++) {
+                if (times[i] > currentTime) {
+                    nextTime = times[i];
+                    break;
                 }
             }
             
-            // Se nao houver mais horarios hoje, ir para proximo dia valido
             if (!nextTime) {
-                for (var d = 1; d <= 365; d++) {
+                for (var d = 1; d <= 7; d++) {
                     var checkDate = new Date(now);
                     checkDate.setDate(now.getDate() + d);
                     var checkDay = checkDate.getDay();
                     
-                    if (isMedicationDay(checkDay, config)) {
-                        // Verificar periodo
-                        if (config.startDate && checkDate < new Date(config.startDate + 'T00:00:00')) continue;
-                        if (config.endDate && checkDate > new Date(config.endDate + 'T23:59:59')) return null;
+                    var isValidDay = false;
+                    if (config.frequency === 'diaria') {
+                        isValidDay = true;
+                    } else if (config.frequency === 'weekdays') {
+                        isValidDay = checkDay >= 1 && checkDay <= 5;
+                    } else if (config.frequency === 'custom') {
+                        isValidDay = config.weekdays && config.weekdays.indexOf(checkDay) !== -1;
+                    }
+                    
+                    if (isValidDay) {
+                        if (config.startDate && checkDate < new Date(config.startDate)) continue;
+                        if (config.endDate && checkDate > new Date(config.endDate)) return null;
                         
                         nextDate = checkDate;
                         nextTime = times[0];
@@ -1517,34 +1730,21 @@
                 var year = nextDate.getFullYear();
                 var month = String(nextDate.getMonth() + 1).padStart(2, '0');
                 var day = String(nextDate.getDate()).padStart(2, '0');
-                return { date: year + '-' + month + '-' + day, time: nextTime };
+                return {
+                    date: year + '-' + month + '-' + day,
+                    time: nextTime
+                };
             }
             
             return null;
         }
 
-        function isMedicationDay(dayOfWeek, config) {
-            if (config.frequency === 'diaria') return true;
-            if (config.frequency === 'weekdays') return dayOfWeek >= 1 && dayOfWeek <= 5;
-            if (config.frequency === 'custom') {
-                return config.weekdays && config.weekdays.indexOf(dayOfWeek) !== -1;
-            }
-            return false;
-        }
-
-        // ============ RENDERIZACAO ============
         function renderEvents() {
             var list = document.getElementById('eventsList');
             var filtered = events.slice();
 
             if (currentFilter === 'today') {
-                filtered = filtered.filter(function(e) { 
-                    if (e.category === 'medicamento' && e.medicationConfig) {
-                        // Para medicamentos, verificar se tem horario hoje
-                        return isMedicationDay(new Date().getDay(), e.medicationConfig) && !e.completed;
-                    }
-                    return isToday(e.date); 
-                });
+                filtered = filtered.filter(function(e) { return isToday(e.date); });
             } else if (currentFilter === 'completed') {
                 filtered = filtered.filter(function(e) { return e.completed; });
             } else if (currentFilter !== 'all') {
@@ -1557,12 +1757,9 @@
                 });
             }
 
-            // Ordenar: hoje primeiro, depois por data/hora
             filtered.sort(function(a, b) {
-                var aToday = a.category === 'medicamento' && a.medicationConfig ? isMedicationDay(new Date().getDay(), a.medicationConfig) : isToday(a.date);
-                var bToday = b.category === 'medicamento' && b.medicationConfig ? isMedicationDay(new Date().getDay(), b.medicationConfig) : isToday(b.date);
-                if (aToday && !bToday) return -1;
-                if (!aToday && bToday) return 1;
+                if (isToday(a.date) && !isToday(b.date)) return -1;
+                if (!isToday(a.date) && isToday(b.date)) return 1;
                 if (a.date !== b.date) return a.date.localeCompare(b.date);
                 return a.time.localeCompare(b.time);
             });
@@ -1575,46 +1772,38 @@
             var html = '';
             for (var i = 0; i < filtered.length; i++) {
                 var ev = filtered[i];
-                var isMed = ev.category === 'medicamento' && ev.medicationConfig;
-                var todayClass = '';
-                
-                if (isMed) {
-                    todayClass = isMedicationDay(new Date().getDay(), ev.medicationConfig) ? 'today' : '';
-                } else {
-                    todayClass = isToday(ev.date) ? 'today' : '';
-                }
-                
+                var todayClass = isToday(ev.date) ? 'today' : '';
                 var completedClass = ev.completed ? 'completed' : '';
-                var pastClass = (!isMed && isPast(ev.date) && !isToday(ev.date) && !ev.completed) ? 'style="opacity: 0.5;"' : '';
+                var pastClass = isPast(ev.date) && !isToday(ev.date) && !ev.completed ? 'style="opacity: 0.5;"' : '';
                 var icon = categoryIcons[ev.category] || '📅';
                 var badgeClass = categoryColors[ev.category] || '';
                 var badgeText = categoryNames[ev.category] || '';
-                var todayBadge = todayClass ? ' <strong style="color:#f0883e;">HOJE</strong>' : '';
+                var todayBadge = isToday(ev.date) ? ' <strong style="color:#f0883e;">HOJE</strong>' : '';
                 var completedBadge = ev.completed ? '<span class="completed-badge">✅ Realizado</span>' : '';
                 
-                var infoHtml = '';
-                if (isMed) {
+                var medicationInfo = '';
+                if (ev.category === 'medicamento' && ev.medicationConfig) {
                     var config = ev.medicationConfig;
                     var freqText = config.frequency === 'diaria' ? 'Diario' : config.frequency === 'weekdays' ? 'Seg-Sex' : 'Personalizado';
-                    var periodText = '';
-                    if (config.startDate) {
-                        periodText = formatDate(config.startDate);
-                        if (config.endDate) periodText += ' até ' + formatDate(config.endDate);
-                        else periodText += ' em diante';
-                    }
-                    infoHtml = '<div class="event-meta"> ' + periodText + '</div>';
-                    infoHtml += '<div class="medication-reminder">💊 ' + (ev.dosage || 'Sem dosagem') + ' | ' + freqText + ' | Horarios: ' + (config.times || []).join(', ') + '</div>';
-                } else {
-                    infoHtml = '<div class="event-meta">📅 ' + formatDate(ev.date) + '  🕐 ' + ev.time + '</div>';
+                    medicationInfo = '<div class="medication-reminder">💊 ' + (ev.dosage || '') + ' | ' + freqText + ' | ' + config.times.join(', ') + '</div>';
                 }
                 
                 html += '<div class="event-item category-' + ev.category + ' ' + todayClass + ' ' + completedClass + '" ' + pastClass + '>';
                 html += '<div class="event-icon">' + icon + '</div>';
                 html += '<div class="event-info">';
                 html += '<div class="event-title">' + escapeHtml(ev.title) + ' <span class="badge ' + badgeClass + '">' + badgeText + '</span>' + todayBadge + completedBadge + '</div>';
-                html += infoHtml;
+                
+                if (ev.category === 'medicamento') {
+                    html += '<div class="event-meta">💊 Recorrente - Prox: ' + formatDate(ev.date) + ' as ' + ev.time + '</div>';
+                } else {
+                    html += '<div class="event-meta">📅 ' + formatDate(ev.date) + '  🕐 ' + ev.time + '</div>';
+                }
+                
                 if (ev.description) {
                     html += '<div class="event-desc">' + escapeHtml(ev.description) + '</div>';
+                }
+                if (medicationInfo) {
+                    html += medicationInfo;
                 }
                 html += '</div>';
                 html += '<div class="event-actions">';
@@ -1631,19 +1820,16 @@
             var ev = events.find(function(e) { return e.id === id; });
             if (ev) {
                 if (ev.category === 'medicamento' && ev.medicationConfig && !ev.completed) {
-                    // Pular para proximo horario/dia
                     var next = getNextMedicationDate(ev);
                     if (next) {
                         ev.date = next.date;
                         ev.time = next.time;
                         ev.completed = false;
                         showSystemNotification('💊 Medicamento confirmado!', 'Proximo horario: ' + formatDate(next.date) + ' as ' + next.time, '');
-                        playSound(settings.soundType);
                     } else {
                         ev.completed = true;
                         ev.completedAt = new Date().toISOString();
                         showSystemNotification('✅ Tratamento concluido!', ev.title + ' foi concluido.', '');
-                        playSound(settings.soundType);
                     }
                 } else {
                     ev.completed = !ev.completed;
@@ -1653,6 +1839,10 @@
                 localStorage.setItem(STORAGE_KEYS.events, JSON.stringify(events));
                 scheduleSaveToCloud();
                 renderEvents();
+                
+                if (ev.completed) {
+                    playSound(settings.soundType);
+                }
             }
         }
 
@@ -1665,18 +1855,13 @@
 
         function updateStatusBar() {
             var now = new Date();
-            var todayEvents = events.filter(function(e) { 
-                if (e.category === 'medicamento' && e.medicationConfig) {
-                    return isMedicationDay(now.getDay(), e.medicationConfig) && !e.completed;
-                }
-                return isToday(e.date) && !e.completed;
-            });
+            var todayEvents = events.filter(function(e) { return isToday(e.date) && !e.completed; });
             var hour = now.getHours();
             var min = String(now.getMinutes()).padStart(2, '0');
             var timeStr = String(hour).padStart(2, '0') + ':' + min;
             var dateStr = formatDate(getTodayStr());
 
-            var status = '📆 ' + dateStr + ' • 🕐 ' + timeStr;
+            var status = '📆 ' + dateStr + ' •  ' + timeStr;
             if (todayEvents.length > 0) {
                 status += ' • 🔥 ' + todayEvents.length + ' compromisso(s) hoje';
             } else {
@@ -1685,13 +1870,14 @@
 
             if (hour >= 1 && hour < 12) status += ' • 🌅 Bom dia!';
             else if (hour >= 12 && hour < 18) status += ' • ☀️ Boa tarde!';
-            else status += ' • 🌙 Boa noite!';
+            else status += ' •  Boa noite!';
             
             if (settings.silentMode) status += ' • 🔇 Silencioso';
 
             document.getElementById('statusBar').textContent = status;
         }
 
+        // ============ FORMULÁRIO PRINCIPAL ============
         document.getElementById('eventForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -1706,27 +1892,41 @@
             };
             
             if (category === 'medicamento') {
-                // Para medicamentos, usar configuracao recorrente
+                // Para medicamentos: usar data/hora do próximo horário configurado
                 var times = getSelectedTimes();
+                var startDate = document.getElementById('medStartDate').value;
+                
                 if (times.length === 0) {
                     alert('Adicione pelo menos um horario para o medicamento.');
                     return;
                 }
                 
-                newEvent.date = document.getElementById('medStartDate').value || getTodayStr();
-                newEvent.time = times[0];
+                if (!startDate) {
+                    alert('Informe a data de inicio do medicamento.');
+                    return;
+                }
+                
+                // Definir data/hora inicial como o primeiro horário do dia de início
+                newEvent.date = startDate;
+                newEvent.time = times.sort()[0];
+                
                 newEvent.dosage = document.getElementById('dosage').value.trim();
                 newEvent.medicationConfig = {
                     frequency: document.getElementById('frequency').value,
                     weekdays: getSelectedWeekdays(),
                     times: times,
-                    startDate: document.getElementById('medStartDate').value,
+                    startDate: startDate,
                     endDate: document.getElementById('medEndDate').value
                 };
             } else {
-                // Para outras categorias, usar data/hora fixa
+                // Para outras categorias: usar data/hora principais
                 newEvent.date = document.getElementById('date').value;
                 newEvent.time = document.getElementById('time').value;
+                
+                if (!newEvent.date || !newEvent.time) {
+                    alert('Informe a data e hora do compromisso.');
+                    return;
+                }
             }
             
             events.push(newEvent);
@@ -1736,13 +1936,24 @@
             updateStatusBar();
             this.reset();
             document.getElementById('date').value = getTodayStr();
-            document.getElementById('time').value = '09:00';
             document.getElementById('medicationFields').classList.remove('show');
             document.getElementById('timeSlots').innerHTML = '<div class="time-slot"><input type="time" class="med-time" value="08:00"><button type="button" class="remove-time" onclick="removeTimeSlot(this)">✕</button></div>';
-            updateDateTimeFieldsVisibility();
+            updateFormFields();
             
             showSystemNotification('✅ Compromisso salvo!', newEvent.title, '');
             playSound(settings.soundType);
+        });
+
+        // Quando mudar a categoria, atualizar campos visíveis
+        document.getElementById('category').addEventListener('change', updateFormFields);
+
+        document.getElementById('frequency').addEventListener('change', function() {
+            var customDays = document.getElementById('customWeekdays');
+            if (this.value === 'custom') {
+                customDays.style.display = 'block';
+            } else {
+                customDays.style.display = 'none';
+            }
         });
 
         function deleteEvent(id) {
@@ -1763,88 +1974,20 @@
             document.getElementById('editId').value = ev.id;
             document.getElementById('editTitle').value = ev.title;
             document.getElementById('editCategory').value = ev.category;
-            document.getElementById('editDate').value = ev.date || '';
-            document.getElementById('editTime').value = ev.time || '';
+            document.getElementById('editDate').value = ev.date;
+            document.getElementById('editTime').value = ev.time;
             document.getElementById('editDescription').value = ev.description || '';
             
-            // Mostrar/ocultar campos baseado na categoria
-            var isMed = ev.category === 'medicamento';
-            document.getElementById('editDateField').style.display = isMed ? 'none' : 'block';
-            document.getElementById('editTimeField').style.display = isMed ? 'none' : 'block';
-            document.getElementById('editMedicationFields').classList.toggle('show', isMed);
-            
-            if (isMed && ev.medicationConfig) {
-                var config = ev.medicationConfig;
-                document.getElementById('editDosage').value = ev.dosage || '';
-                document.getElementById('editFrequency').value = config.frequency || 'diaria';
-                document.getElementById('editMedStartDate').value = config.startDate || '';
-                document.getElementById('editMedEndDate').value = config.endDate || '';
-                document.getElementById('editCustomWeekdays').style.display = config.frequency === 'custom' ? 'block' : 'none';
-                
-                // Dias da semana
-                for (var i = 0; i < 7; i++) {
-                    var cb = document.getElementById('editDay' + i);
-                    if (cb) cb.checked = config.weekdays && config.weekdays.indexOf(i) !== -1;
-                }
-                
-                // Horarios
-                var slotsContainer = document.getElementById('editTimeSlots');
-                slotsContainer.innerHTML = '';
-                var times = config.times || ['08:00'];
-                for (var j = 0; j < times.length; j++) {
-                    var slot = document.createElement('div');
-                    slot.className = 'time-slot';
-                    slot.innerHTML = '<input type="time" class="edit-med-time" value="' + times[j] + '"><button type="button" class="remove-time" onclick="removeEditTimeSlot(this)">✕</button>';
-                    slotsContainer.appendChild(slot);
-                }
-            }
+            // Mostrar/ocultar campos conforme categoria
+            var isMedication = (ev.category === 'medicamento');
+            document.getElementById('editFieldDate').classList.toggle('hide', isMedication);
+            document.getElementById('editFieldTime').classList.toggle('hide', isMedication);
             
             document.getElementById('editModal').classList.add('show');
         }
 
-        function closeEditModal() { document.getElementById('editModal').classList.remove('show'); }
-
-        document.getElementById('editCategory').addEventListener('change', function() {
-            var isMed = this.value === 'medicamento';
-            document.getElementById('editDateField').style.display = isMed ? 'none' : 'block';
-            document.getElementById('editTimeField').style.display = isMed ? 'none' : 'block';
-            document.getElementById('editMedicationFields').classList.toggle('show', isMed);
-        });
-
-        document.getElementById('editFrequency').addEventListener('change', function() {
-            document.getElementById('editCustomWeekdays').style.display = this.value === 'custom' ? 'block' : 'none';
-        });
-
-        function addEditTimeSlot() {
-            var container = document.getElementById('editTimeSlots');
-            var slot = document.createElement('div');
-            slot.className = 'time-slot';
-            slot.innerHTML = '<input type="time" class="edit-med-time" value="08:00"><button type="button" class="remove-time" onclick="removeEditTimeSlot(this)">✕</button>';
-            container.appendChild(slot);
-        }
-
-        function removeEditTimeSlot(btn) {
-            var slots = document.querySelectorAll('#editTimeSlots .time-slot');
-            if (slots.length > 1) btn.parentElement.remove();
-            else alert('Deve haver pelo menos um horario.');
-        }
-
-        function getEditSelectedWeekdays() {
-            var days = [];
-            for (var i = 0; i < 7; i++) {
-                var cb = document.getElementById('editDay' + i);
-                if (cb && cb.checked) days.push(i);
-            }
-            return days;
-        }
-
-        function getEditSelectedTimes() {
-            var times = [];
-            var inputs = document.querySelectorAll('.edit-med-time');
-            for (var i = 0; i < inputs.length; i++) {
-                if (inputs[i].value) times.push(inputs[i].value);
-            }
-            return times;
+        function closeEditModal() {
+            document.getElementById('editModal').classList.remove('show');
         }
 
         document.getElementById('editForm').addEventListener('submit', function(e) {
@@ -1852,45 +1995,23 @@
             
             var id = document.getElementById('editId').value;
             var ev = events.find(function(e) { return e.id === id; });
-            if (!ev) return;
             
-            var category = document.getElementById('editCategory').value;
-            
-            ev.title = document.getElementById('editTitle').value.trim();
-            ev.category = category;
-            ev.description = document.getElementById('editDescription').value.trim();
-            
-            if (category === 'medicamento') {
-                var times = getEditSelectedTimes();
-                if (times.length === 0) {
-                    alert('Adicione pelo menos um horario.');
-                    return;
-                }
-                ev.dosage = document.getElementById('editDosage').value.trim();
-                ev.medicationConfig = {
-                    frequency: document.getElementById('editFrequency').value,
-                    weekdays: getEditSelectedWeekdays(),
-                    times: times,
-                    startDate: document.getElementById('editMedStartDate').value,
-                    endDate: document.getElementById('editMedEndDate').value
-                };
-                ev.date = document.getElementById('editMedStartDate').value || getTodayStr();
-                ev.time = times[0];
-            } else {
+            if (ev) {
+                ev.title = document.getElementById('editTitle').value.trim();
+                ev.category = document.getElementById('editCategory').value;
                 ev.date = document.getElementById('editDate').value;
                 ev.time = document.getElementById('editTime').value;
-                delete ev.medicationConfig;
-                delete ev.dosage;
+                ev.description = document.getElementById('editDescription').value.trim();
+                
+                localStorage.setItem(STORAGE_KEYS.events, JSON.stringify(events));
+                scheduleSaveToCloud();
+                renderEvents();
+                updateStatusBar();
+                
+                closeEditModal();
+                showSystemNotification('✏️ Compromisso editado!', ev.title + ' foi atualizado.', '');
+                playSound(settings.soundType);
             }
-            
-            localStorage.setItem(STORAGE_KEYS.events, JSON.stringify(events));
-            scheduleSaveToCloud();
-            renderEvents();
-            updateStatusBar();
-            
-            closeEditModal();
-            showSystemNotification('✏️ Compromisso editado!', ev.title + ' foi atualizado.', '');
-            playSound(settings.soundType);
         });
 
         document.getElementById('editModal').addEventListener('click', function(e) {
@@ -1900,15 +2021,25 @@
         var filterBtns = document.querySelectorAll('.filter-btn');
         for (var i = 0; i < filterBtns.length; i++) {
             filterBtns[i].addEventListener('click', function() {
-                for (var j = 0; j < filterBtns.length; j++) { filterBtns[j].classList.remove('active'); }
+                for (var j = 0; j < filterBtns.length; j++) {
+                    filterBtns[j].classList.remove('active');
+                }
                 this.classList.add('active');
                 currentFilter = this.getAttribute('data-filter');
                 renderEvents();
             });
         }
 
-        function syncFromCloud() { loadFromCloud().then(function() { renderEvents(); updateStatusBar(); }); }
-        function forceSyncToCloud() { saveToCloud(); }
+        function syncFromCloud() {
+            loadFromCloud().then(function() {
+                renderEvents();
+                updateStatusBar();
+            });
+        }
+
+        function forceSyncToCloud() {
+            saveToCloud();
+        }
 
         function checkDailyAlerts() {
             var now = new Date();
@@ -1918,23 +2049,13 @@
             if (hour < 1) return;
             if (alertedToday[todayStr]) return;
 
-            var todayEvents = events.filter(function(e) { 
-                if (e.category === 'medicamento' && e.medicationConfig) {
-                    return isMedicationDay(now.getDay(), e.medicationConfig) && !e.completed;
-                }
-                return e.date === todayStr && !e.completed;
-            });
-            
+            var todayEvents = events.filter(function(e) { return e.date === todayStr && !e.completed; });
             if (todayEvents.length === 0) return;
 
             var msg = 'Voce tem ' + todayEvents.length + ' compromisso(s) hoje!\n\n';
             for (var i = 0; i < todayEvents.length; i++) {
                 var e = todayEvents[i];
-                if (e.category === 'medicamento' && e.medicationConfig) {
-                    msg += '💊 ' + e.title + ' - Horarios: ' + e.medicationConfig.times.join(', ') + '\n';
-                } else {
-                    msg += '🕐 ' + e.time + ' - ' + e.title + '\n';
-                }
+                msg += '🕐 ' + e.time + ' - ' + e.title + '\n';
             }
 
             showSystemNotification('🔔 Lembrete do dia!', msg, '');
@@ -1952,9 +2073,7 @@
             if (medicationAlerts[alertKey]) return;
             
             var medications = events.filter(function(e) {
-                if (e.category !== 'medicamento' || !e.medicationConfig || e.completed) return false;
-                if (!isMedicationDay(now.getDay(), e.medicationConfig)) return false;
-                return e.medicationConfig.times && e.medicationConfig.times.indexOf(currentTime) !== -1;
+                return e.category === 'medicamento' && e.time === currentTime && !e.completed && e.date === todayStr;
             });
             
             if (medications.length === 0) return;
@@ -1967,7 +2086,7 @@
                 msg += '\n';
             }
             
-            showSystemNotification(' Hora do Medicamento!', msg, '');
+            showSystemNotification('⏰ Hora do Medicamento!', msg, '');
             playSound(settings.soundType);
             medicationAlerts[alertKey] = true;
             localStorage.setItem(STORAGE_KEYS.medAlerts, JSON.stringify(medicationAlerts));
@@ -1982,15 +2101,16 @@
         }
 
         function testNotification() {
-            showSystemNotification(' Teste de Notificacao', 'Esta e uma notificacao de teste do sistema!', '');
+            showSystemNotification('🔔 Teste de Notificacao', 'Esta e uma notificacao de teste do sistema!', '');
             playSound(settings.soundType);
         }
 
         function initApp() {
             document.getElementById('date').value = getTodayStr();
             document.getElementById('time').value = '09:00';
-            updateDateTimeFieldsVisibility();
+            
             checkNotificationPermission();
+            updateFormFields();
             
             loadFromCloud().then(function() {
                 renderEvents();
@@ -2007,7 +2127,9 @@
             });
         }
 
-        document.addEventListener('DOMContentLoaded', function() { checkSession(); });
+        document.addEventListener('DOMContentLoaded', function() {
+            checkSession();
+        });
     </script>
 </body>
 </html>
