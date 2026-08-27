@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#0a0e27">
+    <meta name="theme-color" content="#00d4ff">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Agenda Amiga">
@@ -11,8 +11,9 @@
     <meta name="description" content="Agenda Amiga - Sua companheira para nao esquecer nenhum compromisso!">
     <title>Agenda Amiga</title>
     
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" href="./icon-192.png" type="image/png">
+    <link rel="apple-touch-icon" href="./icon-192.png">
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -33,7 +34,6 @@
         
         .container { max-width: 1100px; margin: 0 auto; }
         
-        /* ============ TELA DE LOGIN ============ */
         .login-screen {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -177,7 +177,6 @@
             margin-top: 8px;
         }
         
-        /* ============ APP PRINCIPAL ============ */
         #mainApp { display: none; }
         #mainApp.show { display: block; animation: fadeIn 0.5s; }
         
@@ -544,7 +543,6 @@
         footer a { color: #58a6ff; text-decoration: none; }
         footer a:hover { text-decoration: underline; }
 
-        /* ============ RESPONSIVIDADE ============ */
         @media (max-width: 600px) {
             body { padding: 10px; }
             .card { padding: 18px 15px; }
@@ -568,32 +566,23 @@
             body { padding: 30px; }
         }
         
-        /* Suporte a telas muito pequenas */
         @media (max-width: 360px) {
             header h1 { font-size: 1.6em; }
             .login-box { padding: 30px 20px; }
         }
         
-        /* Landscape em mobile */
         @media (max-height: 500px) and (orientation: landscape) {
             .login-screen { padding: 10px; }
             .login-box { padding: 20px; max-width: 500px; }
             .login-icon { font-size: 2.5em; margin-bottom: 8px; }
         }
         
-        /* Dark mode do sistema */
-        @media (prefers-color-scheme: dark) {
-            body { background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0d1117 100%); }
-        }
-        
-        /* Reduzir movimento para acessibilidade */
         @media (prefers-reduced-motion: reduce) {
             * { animation: none !important; transition: none !important; }
         }
     </style>
 </head>
 <body>
-    <!-- ============ TELA DE LOGIN ============ -->
     <div class="login-screen" id="loginScreen">
         <div class="login-box">
             <div class="login-icon">🔐</div>
@@ -621,11 +610,10 @@
         </div>
     </div>
 
-    <!-- ============ APP PRINCIPAL ============ -->
     <div id="mainApp">
         <div class="container">
             <header>
-                <h1>📅 Agenda Amiga</h1>
+                <h1> Agenda Amiga</h1>
                 <p>Sua companheira para nao esquecer nenhum compromisso!</p>
             </header>
 
@@ -653,9 +641,9 @@
                                 <option value="medico">🏥 Medico</option>
                                 <option value="escola">🎓 Escola</option>
                                 <option value="reuniao">💼 Reuniao</option>
-                                <option value="evento"> Evento</option>
+                                <option value="evento">🎉 Evento</option>
                                 <option value="aniversario">🎂 Aniversario</option>
-                                <option value="medicamento"> Medicamento</option>
+                                <option value="medicamento">💊 Medicamento</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -699,7 +687,7 @@
             </div>
 
             <div class="card">
-                <h2> Meus Compromissos</h2>
+                <h2>📋 Meus Compromissos</h2>
                 <div class="filters">
                     <button class="filter-btn active" data-filter="all">Todos</button>
                     <button class="filter-btn" data-filter="today">🔥 Hoje</button>
@@ -723,14 +711,12 @@
         </div>
     </div>
 
-    <!-- Banner de instalação PWA -->
     <div class="install-banner" id="installBanner">
-        <div class="install-banner-text">📲 Instalar Agenda Amiga no seu dispositivo?</div>
+        <div class="install-banner-text"> Instalar Agenda Amiga no seu dispositivo?</div>
         <button onclick="installPWA()">Instalar</button>
         <button class="close-install" onclick="dismissInstall()">✕</button>
     </div>
 
-    <!-- Balão de alerta -->
     <div class="alert-balloon" id="alertBalloon">
         <button class="alert-close" onclick="closeAlert()">✕</button>
         <h3 class="alert-title" id="alertTitle">Lembrete!</h3>
@@ -738,7 +724,6 @@
     </div>
 
     <script>
-        // ============ CONFIGURAÇÃO ============
         const CLOUD_CONFIG = {
             binId: '6a8f816cda38895dfe15b0d6',
             masterKey: '$2a$10$8Wm2Ixc0mRA38i0rNyecw.HFCnENmYPaEOnz6iIeon0uyxDxgzHAS',
@@ -754,7 +739,6 @@
             session: 'agendaAmiga_session'
         };
 
-        // ============ ESTADO ============
         let events = [];
         let currentFilter = 'all';
         let alertedToday = JSON.parse(localStorage.getItem(STORAGE_KEYS.alerted) || '{}');
@@ -762,82 +746,36 @@
         let saveTimeout = null;
         let deferredPrompt = null;
 
-        const categoryIcons = { medico: '🏥', escola: '🎓', reuniao: '💼', evento: '🎉', aniversario: '🎂', medicamento: '💊' };
+        const categoryIcons = { medico: '🏥', escola: '', reuniao: '💼', evento: '🎉', aniversario: '🎂', medicamento: '💊' };
         const categoryNames = { medico: 'Medico', escola: 'Escola', reuniao: 'Reuniao', evento: 'Evento', aniversario: 'Aniversario', medicamento: 'Medicamento' };
         const categoryColors = { medico: 'badge-medico', escola: 'badge-escola', reuniao: 'badge-reuniao', evento: 'badge-evento', aniversario: 'badge-aniversario', medicamento: 'badge-medicamento' };
 
-        // ============ PWA - MANIFEST DINÂMICO ============
-        function setupPWA() {
-            const manifest = {
-                name: 'Agenda Amiga',
-                short_name: 'Agenda Amiga',
-                description: 'Sua companheira para nao esquecer nenhum compromisso!',
-                start_url: '.',
-                display: 'standalone',
-                background_color: '#0a0e27',
-                theme_color: '#00d4ff',
-                orientation: 'any',
-                icons: [
-                    {
-                        src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="100" fill="%230a0e27"/><text x="256" y="360" font-size="320" text-anchor="middle" fill="%2300d4ff">📅</text></svg>',
-                        sizes: '512x512',
-                        type: 'image/svg+xml',
-                        purpose: 'any maskable'
-                    },
-                    {
-                        src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" rx="40" fill="%230a0e27"/><text x="96" y="135" font-size="120" text-anchor="middle" fill="%2300d4ff"></text></svg>',
-                        sizes: '192x192',
-                        type: 'image/svg+xml'
-                    }
-                ]
-            };
-            
-            const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('link');
-            link.rel = 'manifest';
-            link.href = url;
-            document.head.appendChild(link);
-            
-            // Registrar Service Worker para offline
-            if ('serviceWorker' in navigator) {
-                const swCode = `
-                    self.addEventListener('install', e => { self.skipWaiting(); });
-                    self.addEventListener('activate', e => { e.waitUntil(clients.claim()); });
-                    self.addEventListener('fetch', e => {
-                        e.respondWith(
-                            caches.open('agenda-amiga-v1').then(cache => {
-                                return cache.match(e.request).then(response => {
-                                    return response || fetch(e.request).then(fetchResponse => {
-                                        if (e.request.url.startsWith('http')) {
-                                            cache.put(e.request, fetchResponse.clone());
-                                        }
-                                        return fetchResponse;
-                                    }).catch(() => cache.match('/'));
-                                });
-                            })
-                        );
+        // ============ PWA SETUP ============
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(registration => {
+                        console.log('SW registrado com sucesso:', registration.scope);
+                    })
+                    .catch(err => {
+                        console.log('Falha ao registrar SW:', err);
                     });
-                `;
-                const swBlob = new Blob([swCode], {type: 'application/javascript'});
-                const swUrl = URL.createObjectURL(swBlob);
-                navigator.serviceWorker.register(swUrl).catch(err => console.log('SW não registrado:', err));
-            }
-            
-            // Capturar evento de instalação
-            window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                deferredPrompt = e;
-                setTimeout(() => {
-                    document.getElementById('installBanner').classList.add('show');
-                }, 2000);
-            });
-            
-            window.addEventListener('appinstalled', () => {
-                document.getElementById('installBanner').classList.remove('show');
-                deferredPrompt = null;
             });
         }
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            setTimeout(() => {
+                document.getElementById('installBanner').classList.add('show');
+            }, 2000);
+        });
+
+        window.addEventListener('appinstalled', () => {
+            document.getElementById('installBanner').classList.remove('show');
+            deferredPrompt = null;
+            console.log('PWA instalado com sucesso!');
+        });
 
         function installPWA() {
             if (deferredPrompt) {
@@ -849,7 +787,6 @@
                     deferredPrompt = null;
                 });
             } else {
-                // Instruções manuais
                 const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
                 const isAndroid = /Android/.test(navigator.userAgent);
                 
@@ -867,7 +804,7 @@
             document.getElementById('installBanner').classList.remove('show');
         }
 
-        // ============ BIOMETRIA (WebAuthn) ============
+        // ============ BIOMETRIA ============
         function isBiometricSupported() {
             return window.PublicKeyCredential && navigator.credentials;
         }
@@ -1004,7 +941,6 @@
                 input.value = '';
                 input.focus();
                 
-                // Efeito de tremer
                 const box = document.querySelector('.login-box');
                 box.style.animation = 'none';
                 setTimeout(() => {
@@ -1036,12 +972,10 @@
             }
         }
 
-        // Adicionar animação de shake via JS
         const style = document.createElement('style');
         style.textContent = `@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }`;
         document.head.appendChild(style);
 
-        // Enter para login
         document.addEventListener('DOMContentLoaded', () => {
             const passInput = document.getElementById('passwordInput');
             if (passInput) {
@@ -1135,7 +1069,7 @@
             });
 
             if (filtered.length === 0) {
-                list.innerHTML = '<div class="empty"><div class="empty-icon"></div><p>Nenhum compromisso encontrado.</p><p>Adicione um novo acima!</p></div>';
+                list.innerHTML = '<div class="empty"><div class="empty-icon">📭</div><p>Nenhum compromisso encontrado.</p><p>Adicione um novo acima!</p></div>';
                 return;
             }
 
@@ -1196,7 +1130,7 @@
                 status += ' • ✨ Dia livre!';
             }
 
-            if (hour >= 1 && hour < 12) status += ' • 🌅 Bom dia!';
+            if (hour >= 1 && hour < 12) status += ' •  Bom dia!';
             else if (hour >= 12 && hour < 18) status += ' • ☀️ Boa tarde!';
             else status += ' • 🌙 Boa noite!';
 
@@ -1329,7 +1263,7 @@
                 msg += e.time + ' - ' + e.title + '\n';
             }
 
-            showBalloon(' Lembrete do dia!', msg, false);
+            showBalloon('🔔 Lembrete do dia!', msg, false);
             alertedToday[todayStr] = true;
             localStorage.setItem(STORAGE_KEYS.alerted, JSON.stringify(alertedToday));
         }
@@ -1356,7 +1290,7 @@
                 msg += '\n';
             }
             
-            showBalloon('⏰ Hora do Medicamento!', msg, true);
+            showBalloon(' Hora do Medicamento!', msg, true);
             medicationAlerts[alertKey] = true;
             localStorage.setItem(STORAGE_KEYS.medAlerts, JSON.stringify(medicationAlerts));
             
@@ -1387,9 +1321,7 @@
             });
         }
 
-        // ============ INICIALIZAÇÃO ============
         document.addEventListener('DOMContentLoaded', function() {
-            setupPWA();
             checkSession();
         });
     </script>
