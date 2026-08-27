@@ -1,664 +1,372 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Agenda Amiga - Sua companheira para não esquecer nenhum compromisso!">
-  <meta name="theme-color" content="#764ba2">
-  <title>📅 Agenda Amiga</title>
-  
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
-    body {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-      padding: 20px;
-      color: #333;
-    }
-    .container { max-width: 1000px; margin: 0 auto; }
-    header {
-      text-align: center;
-      color: white;
-      margin-bottom: 20px;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    }
-    header h1 { font-size: 2.8em; margin-bottom: 5px; }
-    header p { font-size: 1.1em; opacity: 0.95; }
-
-    .sync-status {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255,255,255,0.2);
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 0.85em;
-      margin-top: 10px;
-      backdrop-filter: blur(10px);
-    }
-    .sync-dot {
-      width: 10px; height: 10px; border-radius: 50%;
-      background: #ffd700;
-    }
-    .sync-dot.ok { background: #4caf50; }
-    .sync-dot.error { background: #f44336; }
-    .sync-dot.saving { background: #ffd700; animation: blink 1s infinite; }
-    @keyframes blink { 50% { opacity: 0.3; } }
-
-    .card {
-      background: white;
-      border-radius: 15px;
-      padding: 25px;
-      margin-bottom: 25px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    }
-    .card h2 { color: #764ba2; margin-bottom: 15px; font-size: 1.4em; }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-      margin-bottom: 15px;
-    }
-    .form-group { display: flex; flex-direction: column; }
-    label { font-weight: 600; margin-bottom: 5px; color: #555; font-size: 0.9em; }
-    input, select, textarea {
-      padding: 10px;
-      border: 2px solid #e0e0e0;
-      border-radius: 8px;
-      font-size: 1em;
-      transition: border 0.3s;
-    }
-    input:focus, select:focus, textarea:focus {
-      outline: none;
-      border-color: #764ba2;
-    }
-    textarea { resize: vertical; min-height: 60px; grid-column: 1 / -1; }
-
-    .btn {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-      border: none;
-      padding: 12px 25px;
-      border-radius: 8px;
-      font-size: 1em;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(118,75,162,0.4); }
-    .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-    .btn-danger { background: linear-gradient(135deg, #ff6b6b, #ee5a6f); }
-    .btn-small { padding: 6px 12px; font-size: 0.85em; }
-    .btn-secondary { background: linear-gradient(135deg, #6c757d, #495057); }
-
-    .events-list { display: flex; flex-direction: column; gap: 12px; }
-    .event-item {
-      display: flex;
-      align-items: center;
-      padding: 15px;
-      border-radius: 10px;
-      background: #f8f9ff;
-      border-left: 5px solid #764ba2;
-      position: relative;
-      transition: transform 0.2s;
-    }
-    .event-item:hover { transform: translateX(5px); }
-    .event-item.today { background: #fff4e6; border-left-color: #ff9800; animation: pulse 2s infinite; }
-    .event-item.past { opacity: 0.6; }
-
-    @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(255,152,0,0.4); }
-      50% { box-shadow: 0 0 0 10px rgba(255,152,0,0); }
-    }
-
-    .event-icon { font-size: 2em; margin-right: 15px; min-width: 50px; text-align: center; }
-    .event-info { flex: 1; }
-    .event-title { font-weight: 700; font-size: 1.1em; color: #333; }
-    .event-meta { color: #666; font-size: 0.9em; margin-top: 3px; }
-    .event-desc { color: #777; font-size: 0.85em; margin-top: 5px; font-style: italic; }
-    .event-actions { display: flex; gap: 8px; }
-
-    .category-medico { border-left-color: #e74c3c; }
-    .category-escola { border-left-color: #3498db; }
-    .category-reuniao { border-left-color: #27ae60; }
-    .category-evento { border-left-color: #f39c12; }
-
-    .badge {
-      display: inline-block;
-      padding: 3px 10px;
-      border-radius: 12px;
-      font-size: 0.75em;
-      font-weight: 600;
-      color: white;
-      margin-left: 5px;
-    }
-    .badge-medico { background: #e74c3c; }
-    .badge-escola { background: #3498db; }
-    .badge-reuniao { background: #27ae60; }
-    .badge-evento { background: #f39c12; }
-
-    .empty { text-align: center; padding: 40px; color: #888; }
-    .empty-icon { font-size: 3em; margin-bottom: 10px; }
-
-    .alert-balloon {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: white;
-      border-radius: 15px;
-      padding: 20px 25px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-      max-width: 350px;
-      z-index: 1000;
-      border-left: 6px solid #ff9800;
-      animation: slideIn 0.5s ease-out;
-      display: none;
-    }
-    .alert-balloon.show { display: block; }
-    .alert-balloon::before {
-      content: '';
-      position: absolute;
-      top: -15px;
-      right: 20px;
-      font-size: 2em;
-      background: white;
-      border-radius: 50%;
-      padding: 5px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-    }
-    @keyframes slideIn {
-      from { transform: translateX(400px); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
-    .alert-title { color: #ff9800; font-weight: 700; font-size: 1.2em; margin-bottom: 8px; }
-    .alert-content { color: #555; line-height: 1.5; }
-    .alert-close {
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      background: none;
-      border: none;
-      font-size: 1.5em;
-      cursor: pointer;
-      color: #999;
-    }
-
-    .tooltip-balloon {
-      position: absolute;
-      bottom: calc(100% + 10px);
-      left: 50%;
-      transform: translateX(-50%);
-      background: #333;
-      color: white;
-      padding: 10px 15px;
-      border-radius: 8px;
-      font-size: 0.85em;
-      white-space: nowrap;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s;
-      z-index: 100;
-    }
-    .tooltip-balloon::after {
-      content: '';
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      border: 6px solid transparent;
-      border-top-color: #333;
-    }
-    .event-item:hover .tooltip-balloon { opacity: 1; }
-
-    .status-bar {
-      background: rgba(255,255,255,0.2);
-      color: white;
-      padding: 10px;
-      border-radius: 8px;
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 0.9em;
-    }
-
-    .filters {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 15px;
-    }
-    .filter-btn {
-      padding: 6px 14px;
-      border: 2px solid #764ba2;
-      background: white;
-      color: #764ba2;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 0.85em;
-      font-weight: 600;
-      transition: all 0.3s;
-    }
-    .filter-btn.active { background: #764ba2; color: white; }
-
-    .cloud-actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 15px;
-      flex-wrap: wrap;
-    }
-
-    footer {
-      text-align: center;
-      color: white;
-      padding: 20px;
-      font-size: 0.9em;
-      opacity: 0.9;
-    }
-    footer a { color: white; font-weight: 600; }
-
-    @media (max-width: 600px) {
-      header h1 { font-size: 2em; }
-      .event-item { flex-direction: column; align-items: flex-start; }
-      .event-actions { margin-top: 10px; width: 100%; justify-content: flex-end; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda Amiga</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        header { text-align: center; color: white; margin-bottom: 30px; }
+        header h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .card { background: white; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .card h2 { color: #764ba2; margin-bottom: 15px; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px; }
+        .form-group { display: flex; flex-direction: column; }
+        label { font-weight: bold; margin-bottom: 5px; color: #555; }
+        input, select, textarea { padding: 10px; border: 2px solid #e0e0e0; border-radius: 5px; font-size: 1em; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: #764ba2; }
+        textarea { grid-column: 1 / -1; resize: vertical; }
+        .btn { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 12px 25px; border-radius: 5px; font-size: 1em; font-weight: bold; cursor: pointer; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(118,75,162,0.4); }
+        .btn-danger { background: #ff6b6b; }
+        .btn-small { padding: 5px 10px; font-size: 0.9em; }
+        .btn-secondary { background: #6c757d; }
+        .filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
+        .filter-btn { padding: 6px 14px; border: 2px solid #764ba2; background: white; color: #764ba2; border-radius: 20px; cursor: pointer; font-weight: bold; }
+        .filter-btn.active { background: #764ba2; color: white; }
+        .event-item { display: flex; align-items: center; padding: 15px; border-radius: 8px; background: #f8f9ff; border-left: 5px solid #764ba2; margin-bottom: 10px; }
+        .event-item.today { background: #fff4e6; border-left-color: #ff9800; }
+        .event-icon { font-size: 2em; margin-right: 15px; }
+        .event-info { flex: 1; }
+        .event-title { font-weight: bold; font-size: 1.1em; }
+        .event-meta { color: #666; font-size: 0.9em; margin-top: 3px; }
+        .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 0.75em; font-weight: bold; color: white; margin-left: 5px; }
+        .badge-medico { background: #e74c3c; }
+        .badge-escola { background: #3498db; }
+        .badge-reuniao { background: #27ae60; }
+        .badge-evento { background: #f39c12; }
+        .status-bar { background: rgba(255,255,255,0.2); color: white; padding: 10px; border-radius: 5px; text-align: center; margin-bottom: 20px; }
+        .alert-balloon { position: fixed; top: 20px; right: 20px; background: white; border-radius: 10px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); max-width: 350px; z-index: 1000; border-left: 6px solid #ff9800; display: none; }
+        .alert-balloon.show { display: block; }
+        .alert-close { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 1.5em; cursor: pointer; }
+        .empty { text-align: center; padding: 40px; color: #888; }
+        footer { text-align: center; color: white; margin-top: 20px; }
+        footer a { color: white; }
+        @media (max-width: 600px) { .event-item { flex-direction: column; align-items: flex-start; } }
+    </style>
 </head>
 <body>
-<div class="container">
-  <header>
-    <h1>📅 Agenda Amiga</h1>
-    <p>Sua companheira para não esquecer nenhum compromisso!</p>
-    <div class="sync-status" id="syncStatus">
-      <span class="sync-dot" id="syncDot"></span>
-      <span id="syncText">Conectando à nuvem...</span>
+    <div class="container">
+        <header>
+            <h1>Agenda Amiga</h1>
+            <p>Sua companheira para nao esquecer nenhum compromisso!</p>
+        </header>
+
+        <div class="status-bar" id="statusBar">Carregando...</div>
+
+        <div class="card">
+            <h2>Novo Compromisso</h2>
+            <form id="eventForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Titulo *</label>
+                        <input type="text" id="title" required placeholder="Ex: Consulta Dr. Silva">
+                    </div>
+                    <div class="form-group">
+                        <label>Categoria *</label>
+                        <select id="category" required>
+                            <option value="medico">Medico</option>
+                            <option value="escola">Escola</option>
+                            <option value="reuniao">Reuniao</option>
+                            <option value="evento">Evento</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Data *</label>
+                        <input type="date" id="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Hora *</label>
+                        <input type="time" id="time" required>
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Descricao (opcional)</label>
+                        <textarea id="description" placeholder="Detalhes do compromisso..."></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn">Salvar Compromisso</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>Meus Compromissos</h2>
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">Todos</button>
+                <button class="filter-btn" data-filter="today">Hoje</button>
+                <button class="filter-btn" data-filter="medico">Medico</button>
+                <button class="filter-btn" data-filter="escola">Escola</button>
+                <button class="filter-btn" data-filter="reuniao">Reuniao</button>
+                <button class="filter-btn" data-filter="evento">Evento</button>
+            </div>
+            <div id="eventsList"></div>
+            <div style="margin-top: 15px; display: flex; gap: 10px;">
+                <button class="btn btn-secondary btn-small" onclick="syncFromCloud()">Sincronizar da Nuvem</button>
+                <button class="btn btn-secondary btn-small" onclick="forceSyncToCloud()">Enviar para Nuvem</button>
+            </div>
+        </div>
+
+        <footer>
+            <p>Feito com amor | <a href="https://github.com/evicom/agenda_amiga">Codigo no GitHub</a></p>
+        </footer>
     </div>
-  </header>
 
-  <div class="status-bar" id="statusBar">Carregando...</div>
-
-  <div class="card">
-    <h2>➕ Novo Compromisso</h2>
-    <form id="eventForm">
-      <div class="form-grid">
-        <div class="form-group">
-          <label>Título *</label>
-          <input type="text" id="title" required placeholder="Ex: Consulta Dr. Silva">
-        </div>
-        <div class="form-group">
-          <label>Categoria *</label>
-          <select id="category" required>
-            <option value="medico">🏥 Médico</option>
-            <option value="escola">🎓 Escola</option>
-            <option value="reuniao">💼 Reunião</option>
-            <option value="evento">🎉 Evento</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Data *</label>
-          <input type="date" id="date" required>
-        </div>
-        <div class="form-group">
-          <label>Hora *</label>
-          <input type="time" id="time" required>
-        </div>
-        <div class="form-group" style="grid-column: 1 / -1;">
-          <label>Descrição (opcional)</label>
-          <textarea id="description" placeholder="Detalhes do compromisso..."></textarea>
-        </div>
-      </div>
-      <button type="submit" class="btn">💾 Salvar Compromisso</button>
-    </form>
-  </div>
-
-  <div class="card">
-    <h2>📋 Meus Compromissos</h2>
-    <div class="filters">
-      <button class="filter-btn active" data-filter="all">Todos</button>
-      <button class="filter-btn" data-filter="today">🔥 Hoje</button>
-      <button class="filter-btn" data-filter="medico">🏥 Médico</button>
-      <button class="filter-btn" data-filter="escola">🎓 Escola</button>
-      <button class="filter-btn" data-filter="reuniao">💼 Reunião</button>
-      <button class="filter-btn" data-filter="evento">🎉 Evento</button>
+    <div class="alert-balloon" id="alertBalloon">
+        <button class="alert-close" onclick="closeAlert()">x</button>
+        <h3 id="alertTitle">Lembrete!</h3>
+        <p id="alertContent"></p>
     </div>
-    <div class="events-list" id="eventsList"></div>
-    <div class="cloud-actions">
-      <button class="btn btn-secondary btn-small" onclick="syncFromCloud()">🔄 Sincronizar da Nuvem</button>
-      <button class="btn btn-secondary btn-small" onclick="forceSyncToCloud()">☁️ Enviar para Nuvem</button>
-    </div>
-  </div>
 
-  <footer>
-    <p>Feito com ❤️ | <a href="https://github.com/evicom/agenda_amiga" target="_blank">Código no GitHub</a></p>
-  </footer>
-</div>
+    <script>
+        // CONFIGURACAO DA NUVEM
+        const CLOUD_CONFIG = {
+            binId: '6a8f816cda38895dfe15b0d6',
+            masterKey: '$2a$10$8Wm2Ixc0mRA38i0rNyecw.HFCnENmYPaEOnz6iIeon0uyxDxgzHAS',
+            baseUrl: 'https://api.jsonbin.io/v3/b'
+        };
 
-<div class="alert-balloon" id="alertBalloon">
-  <button class="alert-close" onclick="closeAlert()">×</button>
-  <div class="alert-title" id="alertTitle"> Lembrete!</div>
-  <div class="alert-content" id="alertContent"></div>
-</div>
+        let events = [];
+        let currentFilter = 'all';
+        let alertedToday = JSON.parse(localStorage.getItem('agendaAmiga_alerted') || '{}');
+        let saveTimeout = null;
 
-<script>
-// ============================================
-// ⚙️ CONFIGURAÇÃO DA NUVEM (JSONBin.io)
-// ============================================
-// ⚠️ ATENÇÃO: Para usar a nuvem, preencha abaixo:
-const CLOUD_CONFIG = {
-  binId: '6a8f816cda38895dfe15b0d6',           // SEU BIN ID
-  masterKey: '$2a$10$8Wm2Ixc0mRA38i0rNyecw.HFCnENmYPaEOnz6iIeon0uyxDxgzHAS', // SUA CHAVE
-  baseUrl: 'https://api.jsonbin.io/v3/b'
-};
+        const categoryIcons = { medico: '🏥', escola: '', reuniao: '💼', evento: '🎉' };
+        const categoryNames = { medico: 'Medico', escola: 'Escola', reuniao: 'Reuniao', evento: 'Evento' };
+        const categoryColors = { medico: 'badge-medico', escola: 'badge-escola', reuniao: 'badge-reuniao', evento: 'badge-evento' };
 
-// ============ ESTADO ============
-let events = [];
-let currentFilter = 'all';
-let alertedToday = JSON.parse(localStorage.getItem('agendaAmiga_alerted') || '{}');
-let saveTimeout = null;
+        function setSyncStatus(state, text) {
+            const statusBar = document.getElementById('statusBar');
+            if (statusBar) statusBar.textContent = text;
+        }
 
-const categoryIcons = { medico: '🏥', escola: '🎓', reuniao: '💼', evento: '🎉' };
-const categoryNames = { medico: 'Médico', escola: 'Escola', reuniao: 'Reunião', evento: 'Evento' };
+        async function loadFromCloud() {
+            try {
+                const response = await fetch(CLOUD_CONFIG.baseUrl + '/' + CLOUD_CONFIG.binId + '/latest', {
+                    method: 'GET',
+                    headers: { 'X-Master-Key': CLOUD_CONFIG.masterKey }
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    events = data.record?.events || [];
+                    localStorage.setItem('agendaAmiga_events', JSON.stringify(events));
+                    setSyncStatus('Sincronizado (' + events.length + ' compromissos)');
+                } else {
+                    events = JSON.parse(localStorage.getItem('agendaAmiga_events') || '[]');
+                    setSyncStatus('Modo offline - ' + events.length + ' compromissos');
+                }
+            } catch (err) {
+                events = JSON.parse(localStorage.getItem('agendaAmiga_events') || '[]');
+                setSyncStatus('Modo offline - ' + events.length + ' compromissos');
+            }
+        }
 
-// ============ STATUS DE SINCRONIZAÇÃO ============
-function setSyncStatus(state, text) {
-  const dot = document.getElementById('syncDot');
-  const txt = document.getElementById('syncText');
-  if (!dot || !txt) return;
-  dot.className = 'sync-dot ' + state;
-  txt.textContent = text;
-}
+        async function saveToCloud() {
+            try {
+                await fetch(CLOUD_CONFIG.baseUrl + '/' + CLOUD_CONFIG.binId, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json', 'X-Master-Key': CLOUD_CONFIG.masterKey },
+                    body: JSON.stringify({ events: events })
+                });
+                setSyncStatus('Salvo na nuvem!');
+            } catch (err) {
+                setSyncStatus('Erro ao salvar na nuvem');
+            }
+        }
 
-// ============ CARREGAR DA NUVEM ============
-async function loadFromCloud() {
-  if (!CLOUD_CONFIG?.binId || !CLOUD_CONFIG?.masterKey) {
-    setSyncStatus('error', '⚠️ Configure as credenciais');
-    events = JSON.parse(localStorage.getItem('agendaAmiga_events') || '[]');
-    return;
-  }
-  setSyncStatus('saving', '🔄 Baixando da nuvem...');
-  try {
-    const response = await fetch(`${CLOUD_CONFIG.baseUrl}/${CLOUD_CONFIG.binId}/latest`, {
-      method: 'GET',
-      headers: { 'X-Master-Key': CLOUD_CONFIG.masterKey }
-    });
+        function scheduleSaveToCloud() {
+            if (saveTimeout) clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(saveToCloud, 1000);
+        }
 
-    if (!response.ok) {
-      if (response.status === 404) {
-        events = JSON.parse(localStorage.getItem('agendaAmiga_events') || '[]');
-        setSyncStatus('ok', '✅ Nuvem vazia — usando dados locais');
-        return;
-      }
-      throw new Error('Erro HTTP: ' + response.status);
-    }
+        function formatDate(dateStr) {
+            var parts = dateStr.split('-');
+            return parts[2] + '/' + parts[1] + '/' + parts[0];
+        }
 
-    const data = await response.json();
-    const cloudEvents = data.record?.events || [];
-    const cloudIds = new Set(cloudEvents.map(e => e.id));
-    const localOnly = JSON.parse(localStorage.getItem('agendaAmiga_events') || '[]')
-      .filter(e => !cloudIds.has(e.id));
+        function getTodayStr() {
+            var d = new Date();
+            var year = d.getFullYear();
+            var month = String(d.getMonth() + 1).padStart(2, '0');
+            var day = String(d.getDate()).padStart(2, '0');
+            return year + '-' + month + '-' + day;
+        }
 
-    events = [...cloudEvents, ...localOnly];
-    localStorage.setItem('agendaAmiga_events', JSON.stringify(events));
+        function isToday(dateStr) { return dateStr === getTodayStr(); }
+        function isPast(dateStr) { return dateStr < getTodayStr(); }
 
-    const count = events.length;
-    setSyncStatus('ok', `✅ Sincronizado (${count} compromisso${count !== 1 ? 's' : ''})`);
-  } catch (err) {
-    console.error('Erro ao baixar da nuvem:', err);
-    events = JSON.parse(localStorage.getItem('agendaAmiga_events') || '[]');
-    setSyncStatus('error', '⚠️ Offline — usando dados locais');
-  }
-}
+        function renderEvents() {
+            var list = document.getElementById('eventsList');
+            var filtered = events.slice();
 
-// ============ SALVAR NA NUVEM ============
-async function saveToCloud() {
-  if (!CLOUD_CONFIG?.binId || !CLOUD_CONFIG?.masterKey) return;
-  setSyncStatus('saving', '☁️ Salvando na nuvem...');
-  try {
-    const response = await fetch(`${CLOUD_CONFIG.baseUrl}/${CLOUD_CONFIG.binId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Master-Key': CLOUD_CONFIG.masterKey
-      },
-      body: JSON.stringify({ events: events })
-    });
-    if (!response.ok) throw new Error('Erro HTTP: ' + response.status);
-    setSyncStatus('ok', '✅ Salvo na nuvem com sucesso');
-  } catch (err) {
-    console.error('Erro ao salvar na nuvem:', err);
-    setSyncStatus('error', '️ Erro ao salvar — dados em cache local');
-  }
-}
+            if (currentFilter === 'today') {
+                filtered = filtered.filter(function(e) { return isToday(e.date); });
+            } else if (currentFilter !== 'all') {
+                filtered = filtered.filter(function(e) { return e.category === currentFilter; });
+            }
 
-function scheduleSaveToCloud() {
-  if (saveTimeout) clearTimeout(saveTimeout);
-  setSyncStatus('saving', ' Aguardando para sincronizar...');
-  saveTimeout = setTimeout(() => saveToCloud(), 1000);
-}
+            filtered.sort(function(a, b) {
+                if (isToday(a.date) && !isToday(b.date)) return -1;
+                if (!isToday(a.date) && isToday(b.date)) return 1;
+                if (a.date !== b.date) return a.date.localeCompare(b.date);
+                return a.time.localeCompare(b.time);
+            });
 
-// ============ UTILITÁRIOS ============
-function saveLocal() { localStorage.setItem('agendaAmiga_events', JSON.stringify(events)); }
+            if (filtered.length === 0) {
+                list.innerHTML = '<div class="empty"><p>Nenhum compromisso encontrado.</p><p>Adicione um novo acima!</p></div>';
+                return;
+            }
 
-function formatDate(dateStr) {
-  const [y, m, d] = dateStr.split('-');
-  return `${d}/${m}/${y}`;
-}
+            var html = '';
+            for (var i = 0; i < filtered.length; i++) {
+                var ev = filtered[i];
+                var todayClass = isToday(ev.date) ? 'today' : '';
+                var pastClass = isPast(ev.date) && !isToday(ev.date) ? 'style="opacity: 0.6;"' : '';
+                var icon = categoryIcons[ev.category] || '📅';
+                var badgeClass = categoryColors[ev.category] || '';
+                var badgeText = categoryNames[ev.category] || '';
+                var todayBadge = isToday(ev.date) ? ' <strong style="color:#ff9800;">HOJE</strong>' : '';
+                
+                html += '<div class="event-item ' + todayClass + '" ' + pastClass + '>';
+                html += '<div class="event-icon">' + icon + '</div>';
+                html += '<div class="event-info">';
+                html += '<div class="event-title">' + ev.title + ' <span class="badge ' + badgeClass + '">' + badgeText + '</span>' + todayBadge + '</div>';
+                html += '<div class="event-meta">' + formatDate(ev.date) + ' as ' + ev.time + '</div>';
+                if (ev.description) {
+                    html += '<div style="color:#777;font-size:0.85em;margin-top:5px;">' + ev.description + '</div>';
+                }
+                html += '</div>';
+                html += '<button class="btn btn-danger btn-small" onclick="deleteEvent(\'' + ev.id + '\')">Excluir</button>';
+                html += '</div>';
+            }
+            list.innerHTML = html;
+        }
 
-function getTodayStr() {
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-}
+        function updateStatusBar() {
+            var now = new Date();
+            var todayEvents = events.filter(function(e) { return isToday(e.date); });
+            var hour = now.getHours();
+            var min = String(now.getMinutes()).padStart(2, '0');
+            var timeStr = String(hour).padStart(2, '0') + ':' + min;
+            var dateStr = formatDate(getTodayStr());
 
-function isToday(dateStr) { return dateStr === getTodayStr(); }
-function isPast(dateStr) { return dateStr < getTodayStr(); }
+            var status = dateStr + ' - ' + timeStr;
+            if (todayEvents.length > 0) {
+                status += ' - ' + todayEvents.length + ' compromisso(s) hoje';
+            } else {
+                status += ' - Dia livre!';
+            }
 
-// ============ SOM DE ALERTA ============
-function playAlertSound() {
-  try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const notes = [523.25, 659.25, 783.99, 1046.50];
-    notes.forEach((freq, i) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.type = 'sine';
-      osc.frequency.value = freq;
-      gain.gain.setValueAtTime(0, ctx.currentTime + i * 0.2);
-      gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + i * 0.2 + 0.05);
-      gain.gain.linearRampToValueAtTime(0, ctx.currentTime + i * 0.2 + 0.3);
-      osc.start(ctx.currentTime + i * 0.2);
-      osc.stop(ctx.currentTime + i * 0.2 + 0.3);
-    });
-  } catch (e) { console.log('Áudio não suportado'); }
-}
+            if (hour >= 1 && hour < 12) status += ' - Bom dia!';
+            else if (hour >= 12 && hour < 18) status += ' - Boa tarde!';
+            else status += ' - Boa noite!';
 
-// ============ RENDERIZAÇÃO ============
-function renderEvents() {
-  const list = document.getElementById('eventsList');
-  let filtered = [...events];
+            document.getElementById('statusBar').textContent = status;
+        }
 
-  if (currentFilter === 'today') filtered = filtered.filter(e => isToday(e.date));
-  else if (currentFilter !== 'all') filtered = filtered.filter(e => e.category === currentFilter);
+        document.getElementById('eventForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var newEvent = {
+                id: Date.now().toString(),
+                title: document.getElementById('title').value.trim(),
+                category: document.getElementById('category').value,
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value,
+                description: document.getElementById('description').value.trim()
+            };
+            events.push(newEvent);
+            localStorage.setItem('agendaAmiga_events', JSON.stringify(events));
+            scheduleSaveToCloud();
+            renderEvents();
+            updateStatusBar();
+            this.reset();
+            document.getElementById('date').value = getTodayStr();
+            showBalloon('Compromisso salvo!', newEvent.title + ' em ' + formatDate(newEvent.date) + ' as ' + newEvent.time);
+        });
 
-  filtered.sort((a, b) => {
-    const aToday = isToday(a.date) ? 0 : 1;
-    const bToday = isToday(b.date) ? 0 : 1;
-    if (aToday !== bToday) return aToday - bToday;
-    const dateCompare = a.date.localeCompare(b.date);
-    if (dateCompare !== 0) return dateCompare;
-    return a.time.localeCompare(b.time);
-  });
+        function deleteEvent(id) {
+            if (confirm('Deseja realmente excluir este compromisso?')) {
+                events = events.filter(function(e) { return e.id !== id; });
+                localStorage.setItem('agendaAmiga_events', JSON.stringify(events));
+                scheduleSaveToCloud();
+                renderEvents();
+                updateStatusBar();
+            }
+        }
 
-  if (filtered.length === 0) {
-    list.innerHTML = `
-      <div class="empty">
-        <div class="empty-icon">📭</div>
-        <p>Nenhum compromisso encontrado.</p>
-        <p style="font-size:0.9em;margin-top:5px;">Adicione um novo acima!</p>
-      </div>`;
-    return;
-  }
+        var filterBtns = document.querySelectorAll('.filter-btn');
+        for (var i = 0; i < filterBtns.length; i++) {
+            filterBtns[i].addEventListener('click', function() {
+                for (var j = 0; j < filterBtns.length; j++) {
+                    filterBtns[j].classList.remove('active');
+                }
+                this.classList.add('active');
+                currentFilter = this.getAttribute('data-filter');
+                renderEvents();
+            });
+        }
 
-  list.innerHTML = filtered.map(ev => {
-    const todayClass = isToday(ev.date) ? 'today' : '';
-    const pastClass = isPast(ev.date) && !isToday(ev.date) ? 'past' : '';
-    const tooltipText = ev.description ? ev.description.replace(/"/g, '&quot;') : 'Sem detalhes adicionais';
-    return `
-      <div class="event-item category-${ev.category} ${todayClass} ${pastClass}">
-        <div class="event-icon">${categoryIcons[ev.category]}</div>
-        <div class="event-info">
-          <div class="event-title">
-            ${ev.title}
-            <span class="badge badge-${ev.category}">${categoryNames[ev.category]}</span>
-          </div>
-          <div class="event-meta">
-            📅 ${formatDate(ev.date)} &nbsp; ⏰ ${ev.time}
-            ${isToday(ev.date) ? ' &nbsp; <strong style="color:#ff9800;">🔥 HOJE</strong>' : ''}
-          </div>
-          ${ev.description ? `<div class="event-desc">"${ev.description}"</div>` : ''}
-        </div>
-        <div class="tooltip-balloon">${tooltipText}</div>
-        <div class="event-actions">
-          <button class="btn btn-small btn-danger" onclick="deleteEvent('${ev.id}')">🗑️</button>
-        </div>
-      </div>
-    `;
-  }).join('');
-}
+        function showBalloon(title, content) {
+            document.getElementById('alertTitle').textContent = title;
+            document.getElementById('alertContent').textContent = content;
+            var balloon = document.getElementById('alertBalloon');
+            balloon.classList.add('show');
+            setTimeout(function() { balloon.classList.remove('show'); }, 5000);
+        }
 
-function updateStatusBar() {
-  const now = new Date();
-  const todayEvents = events.filter(e => isToday(e.date));
-  const hour = now.getHours();
-  const min = now.getMinutes();
-  const timeStr = `${String(hour).padStart(2,'0')}:${String(min).padStart(2,'0')}`;
-  const dateStr = formatDate(getTodayStr());
+        function closeAlert() {
+            document.getElementById('alertBalloon').classList.remove('show');
+        }
 
-  let status = `📆 ${dateStr} • 🕐 ${timeStr}`;
-  if (todayEvents.length > 0) status += ` • <strong>🔥 ${todayEvents.length} compromisso(s) hoje</strong>`;
-  else status += ` • ✨ Dia livre!`;
+        function syncFromCloud() {
+            loadFromCloud().then(function() {
+                renderEvents();
+                updateStatusBar();
+            });
+        }
 
-  if (hour >= 1 && hour < 12) status += ` • 🌅 Bom dia!`;
-  else if (hour >= 12 && hour < 18) status += ` • ☀️ Boa tarde!`;
-  else status += ` • 🌙 Boa noite!`;
+        function forceSyncToCloud() {
+            saveToCloud();
+        }
 
-  document.getElementById('statusBar').innerHTML = status;
-}
+        function checkDailyAlerts() {
+            var now = new Date();
+            var hour = now.getHours();
+            var todayStr = getTodayStr();
 
-// ============ FORMULÁRIO ============
-document.getElementById('eventForm').addEventListener('submit', (e) => {
-  e.preventDefault();
-  const newEvent = {
-    id: Date.now().toString(),
-    title: document.getElementById('title').value.trim(),
-    category: document.getElementById('category').value,
-    date: document.getElementById('date').value,
-    time: document.getElementById('time').value,
-    description: document.getElementById('description').value.trim()
-  };
-  events.push(newEvent);
-  saveLocal();
-  scheduleSaveToCloud();
-  renderEvents();
-  updateStatusBar();
-  e.target.reset();
-  document.getElementById('date').value = getTodayStr();
-  showBalloon('✅ Compromisso salvo!', `${newEvent.title} em ${formatDate(newEvent.date)} às ${newEvent.time}`);
-});
+            if (hour < 1) return;
+            if (alertedToday[todayStr]) return;
 
-function deleteEvent(id) {
-  if (confirm('Deseja realmente excluir este compromisso?')) {
-    events = events.filter(e => e.id !== id);
-    saveLocal();
-    scheduleSaveToCloud();
-    renderEvents();
-    updateStatusBar();
-  }
-}
+            var todayEvents = events.filter(function(e) { return e.date === todayStr; });
+            if (todayEvents.length === 0) return;
 
-// ============ FILTROS ============
-document.querySelectorAll('.filter-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    currentFilter = btn.dataset.filter;
-    renderEvents();
-  });
-});
+            var msg = 'Voce tem ' + todayEvents.length + ' compromisso(s) hoje!\n\n';
+            for (var i = 0; i < todayEvents.length; i++) {
+                var e = todayEvents[i];
+                msg += e.time + ' - ' + e.title + '\n';
+            }
 
-// ============ BALÃO DE ALERTA ============
-function showBalloon(title, content) {
-  document.getElementById('alertTitle').innerHTML = title;
-  document.getElementById('alertContent').innerHTML = content;
-  const balloon = document.getElementById('alertBalloon');
-  balloon.classList.add('show');
-  playAlertSound();
-  setTimeout(() => { balloon.classList.remove('show'); }, 10000);
-}
+            showBalloon('Lembrete!', msg);
+            alertedToday[todayStr] = true;
+            localStorage.setItem('agendaAmiga_alerted', JSON.stringify(alertedToday));
+        }
 
-function closeAlert() {
-  document.getElementById('alertBalloon').classList.remove('show');
-}
+        function init() {
+            document.getElementById('date').value = getTodayStr();
+            document.getElementById('time').value = '09:00';
+            
+            loadFromCloud().then(function() {
+                renderEvents();
+                updateStatusBar();
+                
+                setInterval(function() {
+                    checkDailyAlerts();
+                    updateStatusBar();
+                }, 30000);
+            });
+        }
 
-// ============ AÇÕES MANUAIS ============
-async function syncFromCloud() {
-  await loadFromCloud();
-  renderEvents();
-  updateStatusBar();
-}
-
-async function forceSyncToCloud() { await saveToCloud(); }
-
-// ============ ALERTAS DIÁRIOS ============
-function checkDailyAlerts() {
-  const now = new Date();
-  const hour = now.getHours();
-  const todayStr = getTodayStr();
-
-  if (hour < 1) return;
-  if (alertedToday[todayStr]) return;
-
-  const todayEvents = events.filter(e => e.date === todayStr);
-  if (todayEvents.length === 0) return;
-
-  const list = todayEvents.map(e =>
-    `• <strong>${e.time}</strong> - ${e.title} (${categoryNames[e.category]})`
-  ).join('<br>');
-
-  showBalloon(
-    `🔔 Você tem ${todayEvents.length} compromisso(s) hoje!`,
-    `<br>${list}<br><br><em>Bom dia! Não esqueça de seus compromissos!</em>`
-  );
-
-  alertedToday[todayStr] = true;
-  localStorage.setItem('agendaAmiga_alerted', JSON.stringify(alertedToday));
-}
-
-// ============ INICIALIZAÇÃO ============
-async function init() {
-  document.getElementById('date').value = getTodayStr();
-  document.getElementById('time').value = '09:00';
-
-  await loadFromCloud();
-  renderEvents();
-  updateStatusBar();
-
-  checkDailyAlerts();
-  setInterval(() => {
-    checkDailyAlerts();
-    updateStatusBar();
-  }, 30000);
-
-  const keys = Object.keys(alertedToday);
-  if (keys.length > 7) {
-    keys.sort();
-    const toRemove = keys.slice(0, keys.length - 7);
-    toRemove.forEach(k => delete alertedToday[k]);
-    localStorage.setItem('agendaAmiga_alerted', JSON.stringify(alertedToday));
-  }
-}
-
-init();
-</script>
+        init();
+    </script>
 </body>
 </html>
