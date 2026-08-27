@@ -323,7 +323,74 @@
             margin-top: 10px;
         }
         
-        .medication-fields.show { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+        .medication-fields.show { display: block; }
+
+        .weekdays-selector {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-top: 8px;
+        }
+        
+        .weekday-checkbox {
+            display: none;
+        }
+        
+        .weekday-label {
+            background: #0d1117;
+            border: 2px solid #30363d;
+            border-radius: 8px;
+            padding: 8px 4px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 0.75em;
+            font-weight: 600;
+            transition: all 0.3s;
+            color: #8b949e;
+        }
+        
+        .weekday-checkbox:checked + .weekday-label {
+            background: rgba(63, 185, 80, 0.2);
+            border-color: #3fb950;
+            color: #3fb950;
+        }
+
+        .time-slots {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        
+        .time-slot {
+            background: #0d1117;
+            border: 2px solid #30363d;
+            border-radius: 8px;
+            padding: 6px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+        }
+        
+        .time-slot input {
+            padding: 4px;
+            font-size: 0.9em;
+        }
+        
+        .remove-time {
+            background: rgba(248, 81, 73, 0.2);
+            color: #f85149;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
         .btn { 
             background: linear-gradient(135deg, #1f6feb, #0099ff); 
@@ -459,6 +526,14 @@
             background: #3fb950;
             color: white;
         }
+        
+        .btn-edit {
+            background: rgba(88, 166, 255, 0.15);
+            color: #58a6ff;
+            border: 1px solid rgba(88, 166, 255, 0.3);
+        }
+        
+        .btn-edit:hover { background: rgba(88, 166, 255, 0.3); transform: scale(1.1); }
 
         .category-medico { border-left-color: #f85149; }
         .category-escola { border-left-color: #58a6ff; }
@@ -498,139 +573,35 @@
             font-weight: 500;
         }
 
-        /* ============ BALÕES DE NOTIFICAÇÃO SOBREPOSTOS ============ */
-        .notification-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            left: 20px;
-            z-index: 10000;
-            pointer-events: none;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-width: 420px;
-            margin: 0 auto;
-        }
-        
-        .notification-balloon { 
-            background: linear-gradient(135deg, #1e2444, #161b33);
-            border-radius: 14px; 
-            padding: 18px 20px; 
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(0, 212, 255, 0.3);
-            border-left: 6px solid #00d4ff;
-            animation: notifSlideIn 0.4s ease-out, notifPulse 2s ease-in-out;
-            pointer-events: auto;
-            position: relative;
-            backdrop-filter: blur(10px);
-        }
-        
-        .notification-balloon.medication { 
-            border-left-color: #3fb950;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(63, 185, 80, 0.3);
-        }
-        
-        .notification-balloon.urgent {
-            border-left-color: #f85149;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(248, 81, 73, 0.3);
-            animation: notifSlideIn 0.4s ease-out, urgentShake 0.5s ease-in-out;
-        }
-        
-        .notification-balloon.birthday {
-            border-left-color: #d2a8ff;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(210, 168, 255, 0.3);
-        }
-        
-        .notification-balloon.closing {
-            animation: notifSlideOut 0.3s ease-in forwards;
-        }
-        
-        @keyframes notifSlideIn {
-            from { transform: translateX(120%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        
-        @keyframes notifSlideOut {
-            from { transform: translateX(0); opacity: 1; max-height: 200px; }
-            to { transform: translateX(120%); opacity: 0; max-height: 0; padding: 0; margin: 0; }
-        }
-        
-        @keyframes notifPulse {
-            0%, 100% { box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(0, 212, 255, 0.3); }
-            50% { box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), 0 0 0 3px rgba(0, 212, 255, 0.5); }
-        }
-        
-        @keyframes urgentShake {
-            0%, 100% { transform: translateX(0); }
-            20% { transform: translateX(-8px); }
-            40% { transform: translateX(8px); }
-            60% { transform: translateX(-5px); }
-            80% { transform: translateX(5px); }
-        }
-        
-        .notif-header {
+        .notification-permission {
+            background: linear-gradient(135deg, #1f6feb, #0099ff);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 8px;
+            gap: 15px;
+            flex-wrap: wrap;
         }
         
-        .notif-title { 
-            color: #00d4ff; 
-            font-weight: 700; 
-            font-size: 1.1em;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .notification-permission-text {
+            flex: 1;
+            font-weight: 600;
+            font-size: 0.95em;
         }
         
-        .notification-balloon.medication .notif-title { color: #3fb950; }
-        .notification-balloon.urgent .notif-title { color: #f85149; }
-        .notification-balloon.birthday .notif-title { color: #d2a8ff; }
-        
-        .notif-close { 
-            background: rgba(255,255,255,0.1);
-            border: none; 
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            font-size: 1em; 
-            cursor: pointer; 
-            color: #8b949e;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
+        .notification-permission button {
+            background: white;
+            color: #1f6feb;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.9em;
         }
-        
-        .notif-close:hover { background: rgba(255,255,255,0.2); color: #e6edf3; }
-        
-        .notif-content { 
-            color: #c9d1d9; 
-            line-height: 1.5; 
-            font-size: 0.92em; 
-            white-space: pre-wrap; 
-            word-break: break-word;
-        }
-        
-        .notif-timer {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #00d4ff, #58a6ff);
-            border-radius: 0 0 0 14px;
-            transition: width linear;
-        }
-        
-        .notification-balloon.medication .notif-timer { background: linear-gradient(90deg, #3fb950, #56d364); }
-        .notification-balloon.urgent .notif-timer { background: linear-gradient(90deg, #f85149, #ff7b72); }
-        .notification-balloon.birthday .notif-timer { background: linear-gradient(90deg, #d2a8ff, #bc8cff); }
-
-        .empty { text-align: center; padding: 40px 20px; color: #8b949e; }
-        .empty-icon { font-size: 3em; margin-bottom: 10px; }
-
-        .cloud-actions { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
 
         .medication-reminder {
             display: inline-block;
@@ -656,7 +627,7 @@
             border: 1px solid rgba(63, 185, 80, 0.4);
         }
 
-        /* ============ MODAL DE CONFIGURAÇÕES ============ */
+        /* ============ MODAL ============ */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -727,7 +698,6 @@
             margin-top: 2px;
         }
         
-        /* Toggle Switch */
         .toggle {
             position: relative;
             width: 50px;
@@ -845,11 +815,10 @@
             .event-actions { margin-top: 10px; width: 100%; justify-content: flex-end; }
             .event-icon { font-size: 1.8em; }
             .form-grid { grid-template-columns: 1fr; }
-            .medication-fields.show { grid-template-columns: 1fr; }
             .top-bar { flex-direction: column; align-items: stretch; }
-            .notification-container { left: 10px; right: 10px; top: 10px; }
             .filters { gap: 6px; }
             .filter-btn { padding: 7px 12px; font-size: 0.8em; }
+            .weekdays-selector { grid-template-columns: repeat(4, 1fr); }
         }
         
         @media (min-width: 601px) and (max-width: 900px) {
@@ -858,7 +827,6 @@
         
         @media (min-width: 901px) {
             body { padding: 30px; }
-            .notification-container { left: auto; }
         }
         
         @media (max-width: 360px) {
@@ -881,7 +849,7 @@
     <!-- TELA DE LOGIN -->
     <div class="login-screen" id="loginScreen">
         <div class="login-box">
-            <div class="login-icon">🔐</div>
+            <div class="login-icon"></div>
             <h1 class="login-title">Agenda Amiga</h1>
             <p class="login-subtitle">Digite a senha para acessar</p>
             
@@ -914,6 +882,13 @@
                 <p>Sua companheira para nao esquecer nenhum compromisso!</p>
             </header>
 
+            <div class="notification-permission" id="notifPermission" style="display: none;">
+                <div class="notification-permission-text">
+                    🔔 Ativar notificacoes do sistema para receber alertas mesmo com o app fechado
+                </div>
+                <button onclick="requestNotificationPermission()">Ativar</button>
+            </div>
+
             <div class="top-bar">
                 <div class="sync-status" id="syncStatus">
                     <span class="sync-dot" id="syncDot"></span>
@@ -939,10 +914,10 @@
                         <div class="form-group">
                             <label>Categoria *</label>
                             <select id="category" required>
-                                <option value="medico">🏥 Medico</option>
+                                <option value="medico"> Medico</option>
                                 <option value="escola">🎓 Escola</option>
                                 <option value="reuniao">💼 Reuniao</option>
-                                <option value="evento"> Evento</option>
+                                <option value="evento">🎉 Evento</option>
                                 <option value="aniversario">🎂 Aniversario</option>
                                 <option value="medicamento">💊 Medicamento</option>
                             </select>
@@ -962,28 +937,72 @@
                     </div>
                     
                     <div class="medication-fields" id="medicationFields">
-                        <div class="form-group">
+                        <h4 style="color: #3fb950; margin-bottom: 12px;">💊 Configuracao de Medicamento Recorrente</h4>
+                        
+                        <div class="form-group" style="margin-bottom: 12px;">
                             <label>Dosagem</label>
-                            <input type="text" id="dosage" placeholder="Ex: 500mg">
+                            <input type="text" id="dosage" placeholder="Ex: 500mg, 1 comprimido">
                         </div>
-                        <div class="form-group">
+                        
+                        <div class="form-group" style="margin-bottom: 12px;">
                             <label>Frequencia</label>
                             <select id="frequency">
-                                <option value="unica">Dose unica</option>
-                                <option value="diaria">Diaria</option>
-                                <option value="12h">De 12 em 12h</option>
-                                <option value="8h">De 8 em 8h</option>
-                                <option value="6h">De 6 em 6h</option>
-                                <option value="semanal">Semanal</option>
+                                <option value="diaria">Diaria (todos os dias)</option>
+                                <option value="weekdays">Dias da semana (Seg-Sex)</option>
+                                <option value="custom">Dias personalizados</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label>Duracao (dias)</label>
-                            <input type="number" id="duration" placeholder="Ex: 7" min="1">
+                        
+                        <div class="form-group" id="customWeekdays" style="display: none; margin-bottom: 12px;">
+                            <label>Dias da Semana</label>
+                            <div class="weekdays-selector">
+                                <input type="checkbox" id="day0" class="weekday-checkbox" value="0">
+                                <label for="day0" class="weekday-label">Dom</label>
+                                
+                                <input type="checkbox" id="day1" class="weekday-checkbox" value="1">
+                                <label for="day1" class="weekday-label">Seg</label>
+                                
+                                <input type="checkbox" id="day2" class="weekday-checkbox" value="2">
+                                <label for="day2" class="weekday-label">Ter</label>
+                                
+                                <input type="checkbox" id="day3" class="weekday-checkbox" value="3">
+                                <label for="day3" class="weekday-label">Qua</label>
+                                
+                                <input type="checkbox" id="day4" class="weekday-checkbox" value="4">
+                                <label for="day4" class="weekday-label">Qui</label>
+                                
+                                <input type="checkbox" id="day5" class="weekday-checkbox" value="5">
+                                <label for="day5" class="weekday-label">Sex</label>
+                                
+                                <input type="checkbox" id="day6" class="weekday-checkbox" value="6">
+                                <label for="day6" class="weekday-label">Sab</label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label>Horarios (multiplos)</label>
+                            <div class="time-slots" id="timeSlots">
+                                <div class="time-slot">
+                                    <input type="time" class="med-time" value="08:00">
+                                    <button type="button" class="remove-time" onclick="removeTimeSlot(this)">✕</button>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-small btn-secondary" style="margin-top: 8px;" onclick="addTimeSlot()">+ Adicionar Horario</button>
+                        </div>
+                        
+                        <div class="form-grid" style="margin-top: 12px;">
+                            <div class="form-group">
+                                <label>Data Inicio</label>
+                                <input type="date" id="medStartDate">
+                            </div>
+                            <div class="form-group">
+                                <label>Data Fim (opcional)</label>
+                                <input type="date" id="medEndDate">
+                            </div>
                         </div>
                     </div>
                     
-                    <button type="submit" class="btn" style="width: 100%;"> Salvar Compromisso</button>
+                    <button type="submit" class="btn" style="width: 100%;">💾 Salvar Compromisso</button>
                 </form>
             </div>
 
@@ -992,16 +1011,16 @@
                 <div class="filters">
                     <button class="filter-btn active" data-filter="all">Todos</button>
                     <button class="filter-btn" data-filter="today">🔥 Hoje</button>
-                    <button class="filter-btn" data-filter="medico">🏥 Medico</button>
+                    <button class="filter-btn" data-filter="medico"> Medico</button>
                     <button class="filter-btn" data-filter="escola">🎓 Escola</button>
-                    <button class="filter-btn" data-filter="reuniao"> Reuniao</button>
-                    <button class="filter-btn" data-filter="evento"> Evento</button>
-                    <button class="filter-btn" data-filter="aniversario"> Aniversario</button>
-                    <button class="filter-btn" data-filter="medicamento"> Medicamento</button>
+                    <button class="filter-btn" data-filter="reuniao">💼 Reuniao</button>
+                    <button class="filter-btn" data-filter="evento">🎉 Evento</button>
+                    <button class="filter-btn" data-filter="aniversario">🎂 Aniversario</button>
+                    <button class="filter-btn" data-filter="medicamento">💊 Medicamento</button>
                     <button class="filter-btn" data-filter="completed">✅ Realizados</button>
                 </div>
                 <div class="events-list" id="eventsList"></div>
-                <div class="cloud-actions">
+                <div class="cloud-actions" style="display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap;">
                     <button class="btn btn-secondary btn-small" onclick="syncFromCloud()">🔄 Sincronizar</button>
                     <button class="btn btn-secondary btn-small" onclick="forceSyncToCloud()">☁️ Enviar Nuvem</button>
                 </div>
@@ -1013,13 +1032,10 @@
         </div>
     </div>
 
-    <!-- Container de Notificações -->
-    <div class="notification-container" id="notificationContainer"></div>
-
-    <!-- Modal de Configurações -->
+    <!-- Modal de Configuracoes -->
     <div class="modal-overlay" id="settingsModal">
         <div class="modal">
-            <h3>⚙️ Configuracoes de Notificacao</h3>
+            <h3>️ Configuracoes de Notificacao</h3>
             
             <div class="modal-section">
                 <h4>🔊 Som das Notificacoes</h4>
@@ -1044,11 +1060,11 @@
                         Sino
                     </div>
                     <div class="sound-option" data-sound="beep" onclick="selectSound('beep')">
-                        <span class="sound-icon"></span>
+                        <span class="sound-icon">📟</span>
                         Bip
                     </div>
                     <div class="sound-option" data-sound="alert" onclick="selectSound('alert')">
-                        <span class="sound-icon"></span>
+                        <span class="sound-icon">🚨</span>
                         Alerta
                     </div>
                     <div class="sound-option" data-sound="gentle" onclick="selectSound('gentle')">
@@ -1088,7 +1104,7 @@
             </div>
             
             <div class="modal-section">
-                <h4> Silenciar Temporariamente</h4>
+                <h4>🔇 Silenciar Temporariamente</h4>
                 <div class="setting-row">
                     <div class="setting-label">
                         <strong>Modo silencioso</strong>
@@ -1102,6 +1118,47 @@
             </div>
             
             <button class="modal-close" onclick="closeSettings()">Fechar Configuracoes</button>
+        </div>
+    </div>
+
+    <!-- Modal de Edicao -->
+    <div class="modal-overlay" id="editModal">
+        <div class="modal">
+            <h3>✏️ Editar Compromisso</h3>
+            <form id="editForm">
+                <input type="hidden" id="editId">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Titulo *</label>
+                        <input type="text" id="editTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Categoria *</label>
+                        <select id="editCategory" required>
+                            <option value="medico">🏥 Medico</option>
+                            <option value="escola">🎓 Escola</option>
+                            <option value="reuniao">💼 Reuniao</option>
+                            <option value="evento"> Evento</option>
+                            <option value="aniversario">🎂 Aniversario</option>
+                            <option value="medicamento"> Medicamento</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Data *</label>
+                        <input type="date" id="editDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Hora *</label>
+                        <input type="time" id="editTime" required>
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Descricao</label>
+                        <textarea id="editDescription"></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">💾 Salvar Alteracoes</button>
+                <button type="button" class="btn btn-secondary" style="width: 100%; margin-top: 10px;" onclick="closeEditModal()">Cancelar</button>
+            </form>
         </div>
     </div>
 
@@ -1128,7 +1185,6 @@
         let medicationAlerts = JSON.parse(localStorage.getItem(STORAGE_KEYS.medAlerts) || '{}');
         let saveTimeout = null;
         
-        // Configuracoes padrao
         let settings = JSON.parse(localStorage.getItem(STORAGE_KEYS.settings) || JSON.stringify({
             soundEnabled: true,
             soundType: 'chime',
@@ -1137,9 +1193,60 @@
             silentMode: false
         }));
 
-        const categoryIcons = { medico: '', escola: '🎓', reuniao: '💼', evento: '🎉', aniversario: '🎂', medicamento: '💊' };
+        const categoryIcons = { medico: '🏥', escola: '🎓', reuniao: '💼', evento: '', aniversario: '🎂', medicamento: '💊' };
         const categoryNames = { medico: 'Medico', escola: 'Escola', reuniao: 'Reuniao', evento: 'Evento', aniversario: 'Aniversario', medicamento: 'Medicamento' };
         const categoryColors = { medico: 'badge-medico', escola: 'badge-escola', reuniao: 'badge-reuniao', evento: 'badge-evento', aniversario: 'badge-aniversario', medicamento: 'badge-medicamento' };
+        const weekdayNames = ['Domingo', 'Segunda', 'Terca', 'Quarta', 'Quinta', 'Sexta', 'Sabado'];
+
+        // ============ NOTIFICACOES DO SISTEMA ============
+        function requestNotificationPermission() {
+            if (!('Notification' in window)) {
+                alert('Seu navegador nao suporta notificacoes do sistema.');
+                return;
+            }
+            
+            Notification.requestPermission().then(permission => {
+                if (permission === 'granted') {
+                    document.getElementById('notifPermission').style.display = 'none';
+                    showSystemNotification('Notificacoes ativadas!', 'Voce recebera alertas do sistema.', '');
+                } else {
+                    alert('Permissao negada. As notificacoes aparecerao apenas no app.');
+                }
+            });
+        }
+
+        function showSystemNotification(title, body, icon) {
+            if ('Notification' in window && Notification.permission === 'granted') {
+                try {
+                    const notif = new Notification(title, {
+                        body: body,
+                        icon: icon || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">📅</text></svg>',
+                        badge: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">📅</text></svg>',
+                        tag: 'agenda-amiga-' + Date.now(),
+                        requireInteraction: false
+                    });
+                    
+                    notif.onclick = function() {
+                        window.focus();
+                        notif.close();
+                    };
+                    
+                    setTimeout(() => notif.close(), 10000);
+                } catch (e) {
+                    console.log('Erro ao mostrar notificacao:', e);
+                }
+            }
+        }
+
+        function checkNotificationPermission() {
+            if ('Notification' in window) {
+                if (Notification.permission === 'default') {
+                    document.getElementById('notifPermission').style.display = 'flex';
+                } else if (Notification.permission === 'granted') {
+                    document.getElementById('notifPermission').style.display = 'none';
+                }
+            }
+        }
 
         // ============ SISTEMA DE SONS ============
         function playSound(type) {
@@ -1151,7 +1258,6 @@
                 
                 switch(type) {
                     case 'chime':
-                        // Sino: Dó-Mi-Sol-Dó agudo
                         [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
                             const osc = ctx.createOscillator();
                             const gain = ctx.createGain();
@@ -1168,7 +1274,6 @@
                         break;
                         
                     case 'beep':
-                        // Bip simples
                         for (let i = 0; i < 3; i++) {
                             const osc = ctx.createOscillator();
                             const gain = ctx.createGain();
@@ -1184,7 +1289,6 @@
                         break;
                         
                     case 'alert':
-                        // Alerta: som descendente urgente
                         [880, 660, 440, 330].forEach((freq, i) => {
                             const osc = ctx.createOscillator();
                             const gain = ctx.createGain();
@@ -1200,7 +1304,6 @@
                         break;
                         
                     case 'gentle':
-                        // Suave: arpeggio ascendente
                         [392, 493.88, 587.33, 783.99].forEach((freq, i) => {
                             const osc = ctx.createOscillator();
                             const gain = ctx.createGain();
@@ -1217,7 +1320,6 @@
                         break;
                         
                     case 'urgent':
-                        // Urgente: bip-bip-bip rapido
                         for (let i = 0; i < 5; i++) {
                             const osc = ctx.createOscillator();
                             const gain = ctx.createGain();
@@ -1233,7 +1335,6 @@
                         break;
                         
                     case 'ding':
-                        // Ding: som de notificacao classico
                         const osc1 = ctx.createOscillator();
                         const gain1 = ctx.createGain();
                         osc1.connect(gain1);
@@ -1256,102 +1357,6 @@
             playSound(settings.soundType);
         }
 
-        // ============ SISTEMA DE NOTIFICACOES SOBREPOSTAS ============
-        let notificationQueue = [];
-        let isPlayingNotifications = false;
-
-        function showNotification(title, content, type, duration) {
-            duration = duration || 6000;
-            const container = document.getElementById('notificationContainer');
-            
-            const notif = document.createElement('div');
-            notif.className = 'notification-balloon ' + (type || '');
-            
-            const icons = {
-                '': '',
-                'medication': '',
-                'urgent': '🚨',
-                'birthday': '🎂'
-            };
-            
-            notif.innerHTML = `
-                <div class="notif-header">
-                    <div class="notif-title">${icons[type] || '🔔'} ${title}</div>
-                    <button class="notif-close" onclick="closeNotification(this)">✕</button>
-                </div>
-                <div class="notif-content">${content}</div>
-                <div class="notif-timer" style="width: 100%;"></div>
-            `;
-            
-            container.appendChild(notif);
-            
-            // Animacao da barra de tempo
-            const timer = notif.querySelector('.notif-timer');
-            timer.style.transition = `width ${duration}ms linear`;
-            setTimeout(() => { timer.style.width = '0%'; }, 50);
-            
-            // Auto-fechar
-            setTimeout(() => {
-                if (notif.parentNode) {
-                    notif.classList.add('closing');
-                    setTimeout(() => {
-                        if (notif.parentNode) notif.parentNode.removeChild(notif);
-                    }, 300);
-                }
-            }, duration);
-            
-            // Limitar numero de notificacoes visiveis
-            while (container.children.length > 3) {
-                container.removeChild(container.firstChild);
-            }
-        }
-
-        function closeNotification(btn) {
-            const notif = btn.closest('.notification-balloon');
-            if (notif) {
-                notif.classList.add('closing');
-                setTimeout(() => {
-                    if (notif.parentNode) notif.parentNode.removeChild(notif);
-                }, 300);
-            }
-        }
-
-        function showNotificationWithRepeat(title, content, type) {
-            const count = settings.repeatCount || 1;
-            const interval = (settings.repeatInterval || 5) * 1000;
-            const duration = 6000;
-            
-            // Primeira notificacao imediata
-            showNotification(title, content, type, duration);
-            if (settings.soundEnabled && !settings.silentMode) {
-                playSound(settings.soundType);
-            }
-            
-            // Repeticoes
-            if (count > 1) {
-                let remaining = count - 1;
-                const repeatInterval = setInterval(() => {
-                    if (remaining <= 0) {
-                        clearInterval(repeatInterval);
-                        return;
-                    }
-                    showNotification(title, content, type, duration);
-                    if (settings.soundEnabled && !settings.silentMode) {
-                        playSound(settings.soundType);
-                    }
-                    remaining--;
-                }, interval);
-            }
-        }
-
-        function testNotification() {
-            showNotificationWithRepeat(
-                'Teste de Notificacao',
-                'Esta e uma notificacao de teste!\nSom: ' + settings.soundType + '\nRepeticoes: ' + settings.repeatCount,
-                ''
-            );
-        }
-
         // ============ CONFIGURACOES ============
         function openSettings() {
             document.getElementById('soundEnabled').checked = settings.soundEnabled;
@@ -1359,7 +1364,6 @@
             document.getElementById('repeatCount').value = settings.repeatCount;
             document.getElementById('repeatInterval').value = settings.repeatInterval;
             
-            // Atualizar seletor de som
             document.querySelectorAll('.sound-option').forEach(opt => {
                 opt.classList.toggle('active', opt.dataset.sound === settings.soundType);
             });
@@ -1389,7 +1393,6 @@
             localStorage.setItem(STORAGE_KEYS.settings, JSON.stringify(settings));
         }
 
-        // Fechar modal ao clicar fora
         document.getElementById('settingsModal').addEventListener('click', function(e) {
             if (e.target === this) closeSettings();
         });
@@ -1587,6 +1590,106 @@
         function isToday(dateStr) { return dateStr === getTodayStr(); }
         function isPast(dateStr) { return dateStr < getTodayStr(); }
 
+        function getSelectedWeekdays() {
+            var days = [];
+            for (var i = 0; i < 7; i++) {
+                if (document.getElementById('day' + i).checked) {
+                    days.push(i);
+                }
+            }
+            return days;
+        }
+
+        function getSelectedTimes() {
+            var times = [];
+            var inputs = document.querySelectorAll('.med-time');
+            for (var i = 0; i < inputs.length; i++) {
+                if (inputs[i].value) {
+                    times.push(inputs[i].value);
+                }
+            }
+            return times;
+        }
+
+        function addTimeSlot() {
+            var container = document.getElementById('timeSlots');
+            var slot = document.createElement('div');
+            slot.className = 'time-slot';
+            slot.innerHTML = '<input type="time" class="med-time" value="08:00"><button type="button" class="remove-time" onclick="removeTimeSlot(this)">✕</button>';
+            container.appendChild(slot);
+        }
+
+        function removeTimeSlot(btn) {
+            var slots = document.querySelectorAll('.time-slot');
+            if (slots.length > 1) {
+                btn.parentElement.remove();
+            } else {
+                alert('Deve haver pelo menos um horario.');
+            }
+        }
+
+        function getNextMedicationDate(event) {
+            if (!event.medicationConfig) return null;
+            
+            var config = event.medicationConfig;
+            var now = new Date();
+            var currentDay = now.getDay();
+            var currentTime = getCurrentTimeStr();
+            
+            // Encontrar proximo horario
+            var times = config.times.sort();
+            var nextTime = null;
+            var nextDate = new Date(now);
+            
+            // Verificar horarios de hoje
+            for (var i = 0; i < times.length; i++) {
+                if (times[i] > currentTime) {
+                    nextTime = times[i];
+                    break;
+                }
+            }
+            
+            // Se nao houver mais horarios hoje, ir para proximo dia valido
+            if (!nextTime) {
+                for (var d = 1; d <= 7; d++) {
+                    var checkDate = new Date(now);
+                    checkDate.setDate(now.getDate() + d);
+                    var checkDay = checkDate.getDay();
+                    
+                    var isValidDay = false;
+                    if (config.frequency === 'diaria') {
+                        isValidDay = true;
+                    } else if (config.frequency === 'weekdays') {
+                        isValidDay = checkDay >= 1 && checkDay <= 5;
+                    } else if (config.frequency === 'custom') {
+                        isValidDay = config.weekdays && config.weekdays.indexOf(checkDay) !== -1;
+                    }
+                    
+                    if (isValidDay) {
+                        // Verificar se esta dentro do periodo
+                        if (config.startDate && checkDate < new Date(config.startDate)) continue;
+                        if (config.endDate && checkDate > new Date(config.endDate)) return null;
+                        
+                        nextDate = checkDate;
+                        nextTime = times[0];
+                        break;
+                    }
+                }
+            }
+            
+            if (nextTime) {
+                var year = nextDate.getFullYear();
+                var month = String(nextDate.getMonth() + 1).padStart(2, '0');
+                var day = String(nextDate.getDate()).padStart(2, '0');
+                return {
+                    date: year + '-' + month + '-' + day,
+                    time: nextTime
+                };
+            }
+            
+            return null;
+        }
+
         function renderEvents() {
             var list = document.getElementById('eventsList');
             var filtered = events.slice();
@@ -1598,7 +1701,6 @@
             } else if (currentFilter !== 'all') {
                 filtered = filtered.filter(function(e) { return e.category === currentFilter && !e.completed; });
             } else {
-                // Mostrar todos, mas realizados no final
                 filtered.sort(function(a, b) {
                     if (a.completed && !b.completed) return 1;
                     if (!a.completed && b.completed) return -1;
@@ -1614,7 +1716,7 @@
             });
 
             if (filtered.length === 0) {
-                list.innerHTML = '<div class="empty"><div class="empty-icon">📭</div><p>Nenhum compromisso encontrado.</p><p>Adicione um novo acima!</p></div>';
+                list.innerHTML = '<div class="empty"><div class="empty-icon"></div><p>Nenhum compromisso encontrado.</p><p>Adicione um novo acima!</p></div>';
                 return;
             }
 
@@ -1631,8 +1733,10 @@
                 var completedBadge = ev.completed ? '<span class="completed-badge">✅ Realizado</span>' : '';
                 
                 var medicationInfo = '';
-                if (ev.category === 'medicamento' && ev.dosage) {
-                    medicationInfo = '<div class="medication-reminder">💊 ' + ev.dosage + ' - ' + (ev.frequency || 'unica') + '</div>';
+                if (ev.category === 'medicamento' && ev.medicationConfig) {
+                    var config = ev.medicationConfig;
+                    var freqText = config.frequency === 'diaria' ? 'Diario' : config.frequency === 'weekdays' ? 'Seg-Sex' : 'Personalizado';
+                    medicationInfo = '<div class="medication-reminder">💊 ' + (ev.dosage || '') + ' | ' + freqText + ' | ' + config.times.join(', ') + '</div>';
                 }
                 
                 html += '<div class="event-item category-' + ev.category + ' ' + todayClass + ' ' + completedClass + '" ' + pastClass + '>';
@@ -1649,6 +1753,7 @@
                 html += '</div>';
                 html += '<div class="event-actions">';
                 html += '<button class="action-icon-btn btn-check ' + (ev.completed ? 'done' : '') + '" onclick="toggleCompleted(\'' + ev.id + '\')" title="' + (ev.completed ? 'Desmarcar' : 'Marcar como realizado') + '">' + (ev.completed ? '↩️' : '✓') + '</button>';
+                html += '<button class="action-icon-btn btn-edit" onclick="openEditModal(\'' + ev.id + '\')" title="Editar">✏️</button>';
                 html += '<button class="action-icon-btn btn-delete" onclick="deleteEvent(\'' + ev.id + '\')" title="Excluir">🗑️</button>';
                 html += '</div>';
                 html += '</div>';
@@ -1659,18 +1764,30 @@
         function toggleCompleted(id) {
             var ev = events.find(function(e) { return e.id === id; });
             if (ev) {
-                ev.completed = !ev.completed;
-                ev.completedAt = ev.completed ? new Date().toISOString() : null;
+                if (ev.category === 'medicamento' && ev.medicationConfig && !ev.completed) {
+                    // Pular para proximo horario/dia
+                    var next = getNextMedicationDate(ev);
+                    if (next) {
+                        ev.date = next.date;
+                        ev.time = next.time;
+                        ev.completed = false;
+                        showSystemNotification('💊 Medicamento confirmado!', 'Proximo horario: ' + formatDate(next.date) + ' as ' + next.time, '');
+                    } else {
+                        ev.completed = true;
+                        ev.completedAt = new Date().toISOString();
+                        showSystemNotification('✅ Tratamento concluido!', ev.title + ' foi concluido.', '');
+                    }
+                } else {
+                    ev.completed = !ev.completed;
+                    ev.completedAt = ev.completed ? new Date().toISOString() : null;
+                }
+                
                 localStorage.setItem(STORAGE_KEYS.events, JSON.stringify(events));
                 scheduleSaveToCloud();
                 renderEvents();
                 
                 if (ev.completed) {
-                    showNotificationWithRepeat(
-                        '✅ Compromisso Realizado!',
-                        ev.title + '\n' + formatDate(ev.date) + ' as ' + ev.time,
-                        ''
-                    );
+                    playSound(settings.soundType);
                 }
             }
         }
@@ -1697,11 +1814,11 @@
                 status += ' • ✨ Dia livre!';
             }
 
-            if (hour >= 1 && hour < 12) status += ' • 🌅 Bom dia!';
+            if (hour >= 1 && hour < 12) status += ' •  Bom dia!';
             else if (hour >= 12 && hour < 18) status += ' • ☀️ Boa tarde!';
-            else status += ' •  Boa noite!';
+            else status += ' • 🌙 Boa noite!';
             
-            if (settings.silentMode) status += ' •  Silencioso';
+            if (settings.silentMode) status += ' • 🔇 Silencioso';
 
             document.getElementById('statusBar').textContent = status;
         }
@@ -1721,8 +1838,13 @@
             
             if (newEvent.category === 'medicamento') {
                 newEvent.dosage = document.getElementById('dosage').value.trim();
-                newEvent.frequency = document.getElementById('frequency').value;
-                newEvent.duration = document.getElementById('duration').value;
+                newEvent.medicationConfig = {
+                    frequency: document.getElementById('frequency').value,
+                    weekdays: getSelectedWeekdays(),
+                    times: getSelectedTimes(),
+                    startDate: document.getElementById('medStartDate').value,
+                    endDate: document.getElementById('medEndDate').value
+                };
             }
             
             events.push(newEvent);
@@ -1733,19 +1855,28 @@
             this.reset();
             document.getElementById('date').value = getTodayStr();
             document.getElementById('medicationFields').classList.remove('show');
-            showNotificationWithRepeat(
-                '✅ Compromisso salvo!',
-                newEvent.title + '\n' + formatDate(newEvent.date) + ' as ' + newEvent.time,
-                ''
-            );
+            document.getElementById('timeSlots').innerHTML = '<div class="time-slot"><input type="time" class="med-time" value="08:00"><button type="button" class="remove-time" onclick="removeTimeSlot(this)">✕</button></div>';
+            
+            showSystemNotification('✅ Compromisso salvo!', newEvent.title + ' em ' + formatDate(newEvent.date) + ' as ' + newEvent.time, '');
+            playSound(settings.soundType);
         });
 
         document.getElementById('category').addEventListener('change', function() {
             var medFields = document.getElementById('medicationFields');
             if (this.value === 'medicamento') {
                 medFields.classList.add('show');
+                document.getElementById('medStartDate').value = getTodayStr();
             } else {
                 medFields.classList.remove('show');
+            }
+        });
+
+        document.getElementById('frequency').addEventListener('change', function() {
+            var customDays = document.getElementById('customWeekdays');
+            if (this.value === 'custom') {
+                customDays.style.display = 'block';
+            } else {
+                customDays.style.display = 'none';
             }
         });
 
@@ -1758,6 +1889,53 @@
                 updateStatusBar();
             }
         }
+
+        // ============ EDICAO ============
+        function openEditModal(id) {
+            var ev = events.find(function(e) { return e.id === id; });
+            if (!ev) return;
+            
+            document.getElementById('editId').value = ev.id;
+            document.getElementById('editTitle').value = ev.title;
+            document.getElementById('editCategory').value = ev.category;
+            document.getElementById('editDate').value = ev.date;
+            document.getElementById('editTime').value = ev.time;
+            document.getElementById('editDescription').value = ev.description || '';
+            
+            document.getElementById('editModal').classList.add('show');
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').classList.remove('show');
+        }
+
+        document.getElementById('editForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            var id = document.getElementById('editId').value;
+            var ev = events.find(function(e) { return e.id === id; });
+            
+            if (ev) {
+                ev.title = document.getElementById('editTitle').value.trim();
+                ev.category = document.getElementById('editCategory').value;
+                ev.date = document.getElementById('editDate').value;
+                ev.time = document.getElementById('editTime').value;
+                ev.description = document.getElementById('editDescription').value.trim();
+                
+                localStorage.setItem(STORAGE_KEYS.events, JSON.stringify(events));
+                scheduleSaveToCloud();
+                renderEvents();
+                updateStatusBar();
+                
+                closeEditModal();
+                showSystemNotification('✏️ Compromisso editado!', ev.title + ' foi atualizado.', '');
+                playSound(settings.soundType);
+            }
+        });
+
+        document.getElementById('editModal').addEventListener('click', function(e) {
+            if (e.target === this) closeEditModal();
+        });
 
         var filterBtns = document.querySelectorAll('.filter-btn');
         for (var i = 0; i < filterBtns.length; i++) {
@@ -1799,7 +1977,8 @@
                 msg += '🕐 ' + e.time + ' - ' + e.title + '\n';
             }
 
-            showNotificationWithRepeat('🔔 Lembrete do dia!', msg, '');
+            showSystemNotification('🔔 Lembrete do dia!', msg, '');
+            playSound(settings.soundType);
             alertedToday[todayStr] = true;
             localStorage.setItem(STORAGE_KEYS.alerted, JSON.stringify(alertedToday));
         }
@@ -1813,7 +1992,7 @@
             if (medicationAlerts[alertKey]) return;
             
             var medications = events.filter(function(e) {
-                return e.category === 'medicamento' && e.time === currentTime && !e.completed;
+                return e.category === 'medicamento' && e.time === currentTime && !e.completed && e.date === todayStr;
             });
             
             if (medications.length === 0) return;
@@ -1826,7 +2005,8 @@
                 msg += '\n';
             }
             
-            showNotificationWithRepeat('⏰ Hora do Medicamento!', msg, 'medication');
+            showSystemNotification('⏰ Hora do Medicamento!', msg, '');
+            playSound(settings.soundType);
             medicationAlerts[alertKey] = true;
             localStorage.setItem(STORAGE_KEYS.medAlerts, JSON.stringify(medicationAlerts));
             
@@ -1839,38 +2019,16 @@
             }
         }
 
-        function checkUpcomingAlerts() {
-            var now = new Date();
-            var currentTime = getCurrentTimeStr();
-            var todayStr = getTodayStr();
-            var alertKey = 'upcoming_' + todayStr + '_' + currentTime;
-            
-            if (medicationAlerts[alertKey]) return;
-            
-            // Alertar 5 minutos antes
-            var upcomingTime = new Date(now.getTime() + 5 * 60000);
-            var upcomingTimeStr = String(upcomingTime.getHours()).padStart(2, '0') + ':' + String(upcomingTime.getMinutes()).padStart(2, '0');
-            
-            var upcoming = events.filter(function(e) {
-                return e.date === todayStr && e.time === upcomingTimeStr && !e.completed;
-            });
-            
-            if (upcoming.length === 0) return;
-            
-            var msg = 'Em 5 minutos:\n\n';
-            for (var i = 0; i < upcoming.length; i++) {
-                var ev = upcoming[i];
-                msg += '🕐 ' + ev.time + ' - ' + ev.title + '\n';
-            }
-            
-            showNotificationWithRepeat('⏳ Lembrete: em 5 minutos!', msg, 'urgent');
-            medicationAlerts[alertKey] = true;
-            localStorage.setItem(STORAGE_KEYS.medAlerts, JSON.stringify(medicationAlerts));
+        function testNotification() {
+            showSystemNotification('🔔 Teste de Notificacao', 'Esta e uma notificacao de teste do sistema!', '');
+            playSound(settings.soundType);
         }
 
         function initApp() {
             document.getElementById('date').value = getTodayStr();
             document.getElementById('time').value = '09:00';
+            
+            checkNotificationPermission();
             
             loadFromCloud().then(function() {
                 renderEvents();
@@ -1879,7 +2037,6 @@
                 setInterval(function() {
                     checkDailyAlerts();
                     checkMedicationAlerts();
-                    checkUpcomingAlerts();
                     updateStatusBar();
                 }, 30000);
                 
