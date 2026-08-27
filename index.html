@@ -2,39 +2,210 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0a0e27">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Agenda Amiga">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="description" content="Agenda Amiga - Sua companheira para nao esquecer nenhum compromisso!">
     <title>Agenda Amiga</title>
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>">
+    
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        html, body { 
+            overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
+        }
         
         body { 
             background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0d1117 100%);
             min-height: 100vh; 
-            padding: 20px; 
+            min-height: -webkit-fill-available;
+            padding: 15px; 
             color: #e6edf3;
+            padding-bottom: env(safe-area-inset-bottom, 15px);
         }
         
         .container { max-width: 1100px; margin: 0 auto; }
         
-        header { 
-            text-align: center; 
-            margin-bottom: 30px;
+        /* ============ TELA DE LOGIN ============ */
+        .login-screen {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0d1117 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
             padding: 20px;
+            transition: opacity 0.5s, visibility 0.5s;
         }
         
-        header h1 { 
-            font-size: 2.8em; 
-            margin-bottom: 10px;
+        .login-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        
+        .login-box {
+            background: linear-gradient(135deg, #161b33, #1e2444);
+            border: 1px solid #30363d;
+            border-radius: 20px;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        }
+        
+        .login-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .login-title {
+            font-size: 1.8em;
+            margin-bottom: 8px;
             background: linear-gradient(135deg, #00d4ff, #58a6ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
         }
         
-        header p { 
+        .login-subtitle {
             color: #8b949e;
+            margin-bottom: 30px;
+            font-size: 0.95em;
+        }
+        
+        .login-input {
+            width: 100%;
+            padding: 15px;
+            background: #0d1117;
+            border: 2px solid #30363d;
+            border-radius: 12px;
+            color: #e6edf3;
             font-size: 1.1em;
+            text-align: center;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+        
+        .login-input:focus {
+            outline: none;
+            border-color: #00d4ff;
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #1f6feb, #0099ff);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(31, 111, 235, 0.3);
+        }
+        
+        .login-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(31, 111, 235, 0.5); }
+        .login-btn:active { transform: translateY(0); }
+        
+        .login-btn.biometric {
+            background: linear-gradient(135deg, #238636, #3fb950);
+            box-shadow: 0 4px 15px rgba(63, 185, 80, 0.3);
+        }
+        
+        .login-btn.biometric:hover { box-shadow: 0 6px 20px rgba(63, 185, 80, 0.5); }
+        
+        .login-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        .login-error {
+            color: #f85149;
+            margin-top: 10px;
+            font-size: 0.9em;
+            min-height: 20px;
+        }
+        
+        .login-divider {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            color: #8b949e;
+            font-size: 0.85em;
+        }
+        
+        .login-divider::before, .login-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #30363d;
+        }
+        
+        .login-divider span { padding: 0 10px; }
+        
+        .biometric-setup {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #30363d;
+        }
+        
+        .biometric-setup small {
+            color: #8b949e;
+            font-size: 0.8em;
+            display: block;
+            margin-top: 8px;
+        }
+        
+        /* ============ APP PRINCIPAL ============ */
+        #mainApp { display: none; }
+        #mainApp.show { display: block; animation: fadeIn 0.5s; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        header { text-align: center; margin-bottom: 25px; padding: 10px; }
+        
+        header h1 { 
+            font-size: clamp(1.8em, 5vw, 2.8em); 
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #00d4ff, #58a6ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        header p { color: #8b949e; font-size: clamp(0.9em, 2.5vw, 1.1em); }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
         .sync-status {
@@ -45,62 +216,69 @@
             padding: 6px 14px;
             border-radius: 20px;
             font-size: 0.85em;
-            margin-top: 10px;
             border: 1px solid #30363d;
             color: #8b949e;
         }
         
-        .sync-dot {
-            width: 10px; height: 10px; border-radius: 50%;
-            background: #f0883e;
-        }
+        .sync-dot { width: 10px; height: 10px; border-radius: 50%; background: #f0883e; }
         .sync-dot.ok { background: #3fb950; box-shadow: 0 0 10px #3fb950; }
         .sync-dot.error { background: #f85149; }
         .sync-dot.saving { background: #f0883e; animation: blink 1s infinite; }
         @keyframes blink { 50% { opacity: 0.3; } }
 
+        .logout-btn {
+            background: rgba(248, 81, 73, 0.15);
+            color: #f85149;
+            border: 1px solid rgba(248, 81, 73, 0.3);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .logout-btn:hover { background: rgba(248, 81, 73, 0.3); }
+
         .card { 
             background: linear-gradient(135deg, #161b33, #1e2444);
             border-radius: 15px; 
-            padding: 25px; 
-            margin-bottom: 25px; 
+            padding: 20px; 
+            margin-bottom: 20px; 
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
             border: 1px solid #30363d;
         }
         
         .card h2 { 
             color: #58a6ff; 
-            margin-bottom: 20px; 
-            font-size: 1.5em;
+            margin-bottom: 18px; 
+            font-size: clamp(1.2em, 3vw, 1.5em);
             display: flex;
             align-items: center;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
         .form-grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-            gap: 15px; 
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
+            gap: 12px; 
             margin-bottom: 15px; 
         }
         
         .form-group { display: flex; flex-direction: column; }
         
-        label { 
-            font-weight: 600; 
-            margin-bottom: 6px; 
-            color: #c9d1d9;
-            font-size: 0.9em;
-        }
+        label { font-weight: 600; margin-bottom: 6px; color: #c9d1d9; font-size: 0.9em; }
         
         input, select, textarea { 
             padding: 12px; 
             background: #0d1117;
             border: 2px solid #30363d; 
-            border-radius: 8px; 
+            border-radius: 10px; 
             font-size: 1em;
             color: #e6edf3;
             transition: all 0.3s;
+            width: 100%;
         }
         
         input:focus, select:focus, textarea:focus { 
@@ -110,65 +288,46 @@
         }
         
         textarea { grid-column: 1 / -1; resize: vertical; min-height: 70px; }
-        
         select option { background: #0d1117; color: #e6edf3; }
-
-        .btn { 
-            background: linear-gradient(135deg, #1f6feb, #0099ff); 
-            color: white; 
-            border: none; 
-            padding: 12px 25px; 
-            border-radius: 8px; 
-            font-size: 1em; 
-            font-weight: 600; 
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(31, 111, 235, 0.3);
-        }
-        
-        .btn:hover { 
-            transform: translateY(-2px); 
-            box-shadow: 0 6px 20px rgba(31, 111, 235, 0.5);
-            background: linear-gradient(135deg, #0099ff, #00d4ff);
-        }
-        
-        .btn-danger { 
-            background: linear-gradient(135deg, #da3633, #f85149); 
-            box-shadow: 0 4px 15px rgba(248, 81, 73, 0.3);
-        }
-        
-        .btn-danger:hover {
-            box-shadow: 0 6px 20px rgba(248, 81, 73, 0.5);
-        }
-        
-        .btn-small { padding: 6px 12px; font-size: 0.85em; }
-        
-        .btn-secondary { 
-            background: linear-gradient(135deg, #30363d, #484f58);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-        }
 
         .medication-fields {
             display: none;
             grid-column: 1 / -1;
-            background: rgba(0, 212, 255, 0.05);
-            border: 1px solid rgba(0, 212, 255, 0.2);
+            background: rgba(63, 185, 80, 0.08);
+            border: 1px solid rgba(63, 185, 80, 0.3);
             border-radius: 10px;
             padding: 15px;
             margin-top: 10px;
         }
         
-        .medication-fields.show { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+        .medication-fields.show { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
 
-        .filters { 
-            display: flex; 
-            gap: 10px; 
-            flex-wrap: wrap; 
-            margin-bottom: 20px; 
+        .btn { 
+            background: linear-gradient(135deg, #1f6feb, #0099ff); 
+            color: white; 
+            border: none; 
+            padding: 14px 25px; 
+            border-radius: 10px; 
+            font-size: 1em; 
+            font-weight: 600; 
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(31, 111, 235, 0.3);
+            min-height: 48px;
+            touch-action: manipulation;
         }
         
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(31, 111, 235, 0.5); }
+        .btn:active { transform: translateY(0); }
+        
+        .btn-danger { background: linear-gradient(135deg, #da3633, #f85149); box-shadow: 0 4px 15px rgba(248, 81, 73, 0.3); }
+        .btn-small { padding: 8px 14px; font-size: 0.85em; min-height: 40px; }
+        .btn-secondary { background: linear-gradient(135deg, #30363d, #484f58); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); }
+
+        .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+        
         .filter-btn { 
-            padding: 8px 16px; 
+            padding: 8px 14px; 
             border: 2px solid #30363d; 
             background: #0d1117; 
             color: #c9d1d9; 
@@ -176,14 +335,12 @@
             cursor: pointer; 
             font-weight: 600;
             transition: all 0.3s;
-            font-size: 0.9em;
+            font-size: 0.85em;
+            min-height: 40px;
+            touch-action: manipulation;
         }
         
-        .filter-btn:hover {
-            border-color: #58a6ff;
-            color: #58a6ff;
-        }
-        
+        .filter-btn:hover { border-color: #58a6ff; color: #58a6ff; }
         .filter-btn.active { 
             background: linear-gradient(135deg, #1f6feb, #0099ff); 
             color: white; 
@@ -196,19 +353,16 @@
         .event-item { 
             display: flex; 
             align-items: center; 
-            padding: 18px; 
+            padding: 15px; 
             border-radius: 12px; 
             background: linear-gradient(135deg, #1e2444, #161b33);
             border-left: 5px solid #58a6ff; 
             transition: all 0.3s;
             border: 1px solid #30363d;
-            border-left-width: 5px;
+            gap: 12px;
         }
         
-        .event-item:hover { 
-            transform: translateX(5px);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
-        }
+        .event-item:hover { transform: translateX(3px); box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4); }
         
         .event-item.today { 
             background: linear-gradient(135deg, #2d1f0a, #3d2810);
@@ -234,12 +388,18 @@
             50% { box-shadow: 0 0 0 12px rgba(63, 185, 80, 0); }
         }
 
-        .event-icon { font-size: 2.2em; margin-right: 15px; min-width: 50px; text-align: center; }
-        .event-info { flex: 1; }
-        .event-title { font-weight: 700; font-size: 1.15em; color: #e6edf3; margin-bottom: 4px; }
-        .event-meta { color: #8b949e; font-size: 0.9em; margin-top: 3px; }
-        .event-desc { color: #8b949e; font-size: 0.85em; margin-top: 6px; font-style: italic; }
-        .event-actions { display: flex; gap: 8px; margin-left: 10px; }
+        .event-icon { font-size: 2em; min-width: 45px; text-align: center; }
+        .event-info { flex: 1; min-width: 0; }
+        .event-title { 
+            font-weight: 700; 
+            font-size: 1.05em; 
+            color: #e6edf3; 
+            margin-bottom: 4px;
+            word-break: break-word;
+        }
+        .event-meta { color: #8b949e; font-size: 0.85em; margin-top: 3px; }
+        .event-desc { color: #8b949e; font-size: 0.82em; margin-top: 6px; font-style: italic; word-break: break-word; }
+        .event-actions { display: flex; gap: 8px; flex-shrink: 0; }
 
         .category-medico { border-left-color: #f85149; }
         .category-escola { border-left-color: #58a6ff; }
@@ -250,14 +410,15 @@
 
         .badge { 
             display: inline-block; 
-            padding: 3px 10px; 
+            padding: 3px 8px; 
             border-radius: 12px; 
-            font-size: 0.75em; 
+            font-size: 0.7em; 
             font-weight: 700; 
             color: white; 
-            margin-left: 6px;
+            margin-left: 4px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            vertical-align: middle;
         }
         .badge-medico { background: #f85149; }
         .badge-escola { background: #58a6ff; }
@@ -272,8 +433,8 @@
             padding: 12px; 
             border-radius: 10px; 
             text-align: center; 
-            margin-bottom: 20px; 
-            font-size: 0.95em;
+            margin-bottom: 18px; 
+            font-size: 0.9em;
             border: 1px solid #30363d;
             font-weight: 500;
         }
@@ -282,11 +443,13 @@
             position: fixed; 
             top: 20px; 
             right: 20px; 
+            left: 20px;
             background: linear-gradient(135deg, #1e2444, #161b33);
             border-radius: 12px; 
-            padding: 20px 25px; 
+            padding: 20px; 
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6); 
-            max-width: 380px; 
+            max-width: 400px; 
+            margin: 0 auto;
             z-index: 1000; 
             border: 2px solid #00d4ff;
             border-left: 6px solid #00d4ff;
@@ -295,51 +458,28 @@
         }
         
         .alert-balloon.show { display: block; }
-        .alert-balloon.medication {
-            border-color: #3fb950;
-            border-left-color: #3fb950;
-        }
+        .alert-balloon.medication { border-color: #3fb950; border-left-color: #3fb950; }
         
         @keyframes slideIn {
-            from { transform: translateX(400px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+            from { transform: translateY(-100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
         
-        .alert-title { 
-            color: #00d4ff; 
-            font-weight: 700; 
-            font-size: 1.3em; 
-            margin-bottom: 10px;
-        }
-        
-        .alert-balloon.medication .alert-title {
-            color: #3fb950;
-        }
-        
-        .alert-content { color: #c9d1d9; line-height: 1.6; font-size: 0.95em; }
+        .alert-title { color: #00d4ff; font-weight: 700; font-size: 1.2em; margin-bottom: 10px; }
+        .alert-balloon.medication .alert-title { color: #3fb950; }
+        .alert-content { color: #c9d1d9; line-height: 1.6; font-size: 0.95em; white-space: pre-wrap; word-break: break-word; }
         
         .alert-close { 
-            position: absolute; 
-            top: 10px; 
-            right: 15px; 
-            background: none; 
-            border: none; 
-            font-size: 1.5em; 
-            cursor: pointer; 
-            color: #8b949e;
+            position: absolute; top: 10px; right: 15px; 
+            background: none; border: none; font-size: 1.5em; 
+            cursor: pointer; color: #8b949e;
+            min-width: 40px; min-height: 40px;
         }
         
-        .alert-close:hover { color: #e6edf3; }
-
-        .empty { text-align: center; padding: 40px; color: #8b949e; }
+        .empty { text-align: center; padding: 40px 20px; color: #8b949e; }
         .empty-icon { font-size: 3em; margin-bottom: 10px; }
 
-        .cloud-actions { 
-            display: flex; 
-            gap: 10px; 
-            margin-top: 20px; 
-            flex-wrap: wrap; 
-        }
+        .cloud-actions { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
 
         .medication-reminder {
             display: inline-block;
@@ -353,175 +493,565 @@
             border: 1px solid rgba(63, 185, 80, 0.3);
         }
 
-        footer { 
-            text-align: center; 
-            color: #8b949e; 
-            padding: 20px; 
-            font-size: 0.9em; 
+        .install-banner {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #1f6feb, #0099ff);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            max-width: 500px;
+            margin: 0 auto;
+            animation: slideUp 0.5s ease-out;
         }
         
+        .install-banner.show { display: flex; }
+        
+        @keyframes slideUp {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .install-banner-text { flex: 1; font-weight: 600; font-size: 0.95em; }
+        
+        .install-banner button {
+            background: white;
+            color: #1f6feb;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.9em;
+            white-space: nowrap;
+        }
+        
+        .install-banner .close-install {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 12px;
+        }
+
+        footer { text-align: center; color: #8b949e; padding: 20px 10px; font-size: 0.85em; }
         footer a { color: #58a6ff; text-decoration: none; }
         footer a:hover { text-decoration: underline; }
 
-        @media (max-width: 600px) { 
-            header h1 { font-size: 2em; } 
-            .event-item { flex-direction: column; align-items: flex-start; } 
+        /* ============ RESPONSIVIDADE ============ */
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .card { padding: 18px 15px; }
+            .event-item { flex-direction: column; align-items: flex-start; padding: 14px; }
             .event-actions { margin-top: 10px; width: 100%; justify-content: flex-end; }
+            .event-icon { font-size: 1.8em; }
+            .form-grid { grid-template-columns: 1fr; }
+            .medication-fields.show { grid-template-columns: 1fr; }
+            .top-bar { flex-direction: column; align-items: stretch; }
+            .alert-balloon { left: 10px; right: 10px; top: 10px; }
+            .install-banner { flex-direction: column; text-align: center; left: 10px; right: 10px; bottom: 10px; }
+            .filters { gap: 6px; }
+            .filter-btn { padding: 7px 12px; font-size: 0.8em; }
+        }
+        
+        @media (min-width: 601px) and (max-width: 900px) {
+            .form-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        
+        @media (min-width: 901px) {
+            body { padding: 30px; }
+        }
+        
+        /* Suporte a telas muito pequenas */
+        @media (max-width: 360px) {
+            header h1 { font-size: 1.6em; }
+            .login-box { padding: 30px 20px; }
+        }
+        
+        /* Landscape em mobile */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .login-screen { padding: 10px; }
+            .login-box { padding: 20px; max-width: 500px; }
+            .login-icon { font-size: 2.5em; margin-bottom: 8px; }
+        }
+        
+        /* Dark mode do sistema */
+        @media (prefers-color-scheme: dark) {
+            body { background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0d1117 100%); }
+        }
+        
+        /* Reduzir movimento para acessibilidade */
+        @media (prefers-reduced-motion: reduce) {
+            * { animation: none !important; transition: none !important; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Agenda Amiga</h1>
-            <p>Sua companheira para nao esquecer nenhum compromisso!</p>
-            <div class="sync-status" id="syncStatus">
-                <span class="sync-dot" id="syncDot"></span>
-                <span id="syncText">Conectando...</span>
+    <!-- ============ TELA DE LOGIN ============ -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-box">
+            <div class="login-icon">🔐</div>
+            <h1 class="login-title">Agenda Amiga</h1>
+            <p class="login-subtitle">Digite a senha para acessar</p>
+            
+            <input type="password" class="login-input" id="passwordInput" placeholder="Senha" autocomplete="current-password">
+            <button class="login-btn" id="loginBtn" onclick="tryLogin()">Entrar</button>
+            
+            <div class="login-error" id="loginError"></div>
+            
+            <div id="biometricSection" style="display: none;">
+                <div class="login-divider"><span>ou</span></div>
+                <button class="login-btn biometric" id="biometricBtn" onclick="tryBiometric()">
+                    🔓 Entrar com Biometria
+                </button>
             </div>
-        </header>
-
-        <div class="status-bar" id="statusBar">Carregando...</div>
-
-        <div class="card">
-            <h2>Novo Compromisso</h2>
-            <form id="eventForm">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Titulo *</label>
-                        <input type="text" id="title" required placeholder="Ex: Consulta Dr. Silva">
-                    </div>
-                    <div class="form-group">
-                        <label>Categoria *</label>
-                        <select id="category" required>
-                            <option value="medico">Medico</option>
-                            <option value="escola">Escola</option>
-                            <option value="reuniao">Reuniao</option>
-                            <option value="evento">Evento</option>
-                            <option value="aniversario">Aniversario</option>
-                            <option value="medicamento">Medicamento</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Data *</label>
-                        <input type="date" id="date" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Hora *</label>
-                        <input type="time" id="time" required>
-                    </div>
-                    <div class="form-group" style="grid-column: 1 / -1;">
-                        <label>Descricao (opcional)</label>
-                        <textarea id="description" placeholder="Detalhes do compromisso..."></textarea>
-                    </div>
-                </div>
-                
-                <div class="medication-fields" id="medicationFields">
-                    <div class="form-group">
-                        <label>Dosagem</label>
-                        <input type="text" id="dosage" placeholder="Ex: 500mg, 1 comprimido">
-                    </div>
-                    <div class="form-group">
-                        <label>Frequencia</label>
-                        <select id="frequency">
-                            <option value="unica">Dose unica</option>
-                            <option value="diaria">Diaria</option>
-                            <option value="12h">De 12 em 12 horas</option>
-                            <option value="8h">De 8 em 8 horas</option>
-                            <option value="6h">De 6 em 6 horas</option>
-                            <option value="semanal">Semanal</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Duracao (dias)</label>
-                        <input type="number" id="duration" placeholder="Ex: 7" min="1">
-                    </div>
-                </div>
-                
-                <button type="submit" class="btn">Salvar Compromisso</button>
-            </form>
-        </div>
-
-        <div class="card">
-            <h2>Meus Compromissos</h2>
-            <div class="filters">
-                <button class="filter-btn active" data-filter="all">Todos</button>
-                <button class="filter-btn" data-filter="today">Hoje</button>
-                <button class="filter-btn" data-filter="medico">Medico</button>
-                <button class="filter-btn" data-filter="escola">Escola</button>
-                <button class="filter-btn" data-filter="reuniao">Reuniao</button>
-                <button class="filter-btn" data-filter="evento">Evento</button>
-                <button class="filter-btn" data-filter="aniversario">Aniversario</button>
-                <button class="filter-btn" data-filter="medicamento">Medicamento</button>
-            </div>
-            <div class="events-list" id="eventsList"></div>
-            <div class="cloud-actions">
-                <button class="btn btn-secondary btn-small" onclick="syncFromCloud()">Sincronizar da Nuvem</button>
-                <button class="btn btn-secondary btn-small" onclick="forceSyncToCloud()">Enviar para Nuvem</button>
+            
+            <div class="biometric-setup" id="biometricSetup" style="display: none;">
+                <button class="login-btn biometric" onclick="setupBiometric()">
+                    ⚙️ Cadastrar Biometria
+                </button>
+                <small>Toque longo para usar impressao digital ou reconhecimento facial</small>
             </div>
         </div>
-
-        <footer>
-            <p>Feito com amor | <a href="https://github.com/evicom/agenda_amiga">Codigo no GitHub</a></p>
-        </footer>
     </div>
 
+    <!-- ============ APP PRINCIPAL ============ -->
+    <div id="mainApp">
+        <div class="container">
+            <header>
+                <h1>📅 Agenda Amiga</h1>
+                <p>Sua companheira para nao esquecer nenhum compromisso!</p>
+            </header>
+
+            <div class="top-bar">
+                <div class="sync-status" id="syncStatus">
+                    <span class="sync-dot" id="syncDot"></span>
+                    <span id="syncText">Conectando...</span>
+                </div>
+                <button class="logout-btn" onclick="doLogout()">🔒 Sair</button>
+            </div>
+
+            <div class="status-bar" id="statusBar">Carregando...</div>
+
+            <div class="card">
+                <h2>➕ Novo Compromisso</h2>
+                <form id="eventForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Titulo *</label>
+                            <input type="text" id="title" required placeholder="Ex: Consulta Dr. Silva">
+                        </div>
+                        <div class="form-group">
+                            <label>Categoria *</label>
+                            <select id="category" required>
+                                <option value="medico">🏥 Medico</option>
+                                <option value="escola">🎓 Escola</option>
+                                <option value="reuniao">💼 Reuniao</option>
+                                <option value="evento"> Evento</option>
+                                <option value="aniversario">🎂 Aniversario</option>
+                                <option value="medicamento"> Medicamento</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Data *</label>
+                            <input type="date" id="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Hora *</label>
+                            <input type="time" id="time" required>
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label>Descricao (opcional)</label>
+                            <textarea id="description" placeholder="Detalhes do compromisso..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="medication-fields" id="medicationFields">
+                        <div class="form-group">
+                            <label>Dosagem</label>
+                            <input type="text" id="dosage" placeholder="Ex: 500mg">
+                        </div>
+                        <div class="form-group">
+                            <label>Frequencia</label>
+                            <select id="frequency">
+                                <option value="unica">Dose unica</option>
+                                <option value="diaria">Diaria</option>
+                                <option value="12h">De 12 em 12h</option>
+                                <option value="8h">De 8 em 8h</option>
+                                <option value="6h">De 6 em 6h</option>
+                                <option value="semanal">Semanal</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Duracao (dias)</label>
+                            <input type="number" id="duration" placeholder="Ex: 7" min="1">
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn" style="width: 100%;">💾 Salvar Compromisso</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2> Meus Compromissos</h2>
+                <div class="filters">
+                    <button class="filter-btn active" data-filter="all">Todos</button>
+                    <button class="filter-btn" data-filter="today">🔥 Hoje</button>
+                    <button class="filter-btn" data-filter="medico">🏥 Medico</button>
+                    <button class="filter-btn" data-filter="escola">🎓 Escola</button>
+                    <button class="filter-btn" data-filter="reuniao">💼 Reuniao</button>
+                    <button class="filter-btn" data-filter="evento">🎉 Evento</button>
+                    <button class="filter-btn" data-filter="aniversario">🎂 Aniversario</button>
+                    <button class="filter-btn" data-filter="medicamento">💊 Medicamento</button>
+                </div>
+                <div class="events-list" id="eventsList"></div>
+                <div class="cloud-actions">
+                    <button class="btn btn-secondary btn-small" onclick="syncFromCloud()">🔄 Sincronizar</button>
+                    <button class="btn btn-secondary btn-small" onclick="forceSyncToCloud()">☁️ Enviar Nuvem</button>
+                </div>
+            </div>
+
+            <footer>
+                <p>Feito com ❤️ | <a href="https://github.com/evicom/agenda_amiga" target="_blank">Codigo no GitHub</a></p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Banner de instalação PWA -->
+    <div class="install-banner" id="installBanner">
+        <div class="install-banner-text">📲 Instalar Agenda Amiga no seu dispositivo?</div>
+        <button onclick="installPWA()">Instalar</button>
+        <button class="close-install" onclick="dismissInstall()">✕</button>
+    </div>
+
+    <!-- Balão de alerta -->
     <div class="alert-balloon" id="alertBalloon">
-        <button class="alert-close" onclick="closeAlert()">x</button>
+        <button class="alert-close" onclick="closeAlert()">✕</button>
         <h3 class="alert-title" id="alertTitle">Lembrete!</h3>
         <p class="alert-content" id="alertContent"></p>
     </div>
 
     <script>
+        // ============ CONFIGURAÇÃO ============
         const CLOUD_CONFIG = {
             binId: '6a8f816cda38895dfe15b0d6',
             masterKey: '$2a$10$8Wm2Ixc0mRA38i0rNyecw.HFCnENmYPaEOnz6iIeon0uyxDxgzHAS',
             baseUrl: 'https://api.jsonbin.io/v3/b'
         };
+        
+        const APP_PASSWORD = 'abrir';
+        const STORAGE_KEYS = {
+            events: 'agendaAmiga_events',
+            alerted: 'agendaAmiga_alerted',
+            medAlerts: 'agendaAmiga_medAlerts',
+            biometric: 'agendaAmiga_biometric',
+            session: 'agendaAmiga_session'
+        };
 
+        // ============ ESTADO ============
         let events = [];
         let currentFilter = 'all';
-        let alertedToday = JSON.parse(localStorage.getItem('agendaAmiga_alerted') || '{}');
-        let medicationAlerts = JSON.parse(localStorage.getItem('agendaAmiga_medAlerts') || '{}');
+        let alertedToday = JSON.parse(localStorage.getItem(STORAGE_KEYS.alerted) || '{}');
+        let medicationAlerts = JSON.parse(localStorage.getItem(STORAGE_KEYS.medAlerts) || '{}');
         let saveTimeout = null;
+        let deferredPrompt = null;
 
-        const categoryIcons = { 
-            medico: '🏥', 
-            escola: '🎓', 
-            reuniao: '💼', 
-            evento: '',
-            aniversario: '',
-            medicamento: '💊'
-        };
-        
-        const categoryNames = { 
-            medico: 'Medico', 
-            escola: 'Escola', 
-            reuniao: 'Reuniao', 
-            evento: 'Evento',
-            aniversario: 'Aniversario',
-            medicamento: 'Medicamento'
-        };
-        
-        const categoryColors = { 
-            medico: 'badge-medico', 
-            escola: 'badge-escola', 
-            reuniao: 'badge-reuniao', 
-            evento: 'badge-evento',
-            aniversario: 'badge-aniversario',
-            medicamento: 'badge-medicamento'
-        };
+        const categoryIcons = { medico: '🏥', escola: '🎓', reuniao: '💼', evento: '🎉', aniversario: '🎂', medicamento: '💊' };
+        const categoryNames = { medico: 'Medico', escola: 'Escola', reuniao: 'Reuniao', evento: 'Evento', aniversario: 'Aniversario', medicamento: 'Medicamento' };
+        const categoryColors = { medico: 'badge-medico', escola: 'badge-escola', reuniao: 'badge-reuniao', evento: 'badge-evento', aniversario: 'badge-aniversario', medicamento: 'badge-medicamento' };
 
-        // Mostrar campos de medicamento quando selecionado
-        document.getElementById('category').addEventListener('change', function() {
-            const medFields = document.getElementById('medicationFields');
-            if (this.value === 'medicamento') {
-                medFields.classList.add('show');
+        // ============ PWA - MANIFEST DINÂMICO ============
+        function setupPWA() {
+            const manifest = {
+                name: 'Agenda Amiga',
+                short_name: 'Agenda Amiga',
+                description: 'Sua companheira para nao esquecer nenhum compromisso!',
+                start_url: '.',
+                display: 'standalone',
+                background_color: '#0a0e27',
+                theme_color: '#00d4ff',
+                orientation: 'any',
+                icons: [
+                    {
+                        src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="100" fill="%230a0e27"/><text x="256" y="360" font-size="320" text-anchor="middle" fill="%2300d4ff">📅</text></svg>',
+                        sizes: '512x512',
+                        type: 'image/svg+xml',
+                        purpose: 'any maskable'
+                    },
+                    {
+                        src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" rx="40" fill="%230a0e27"/><text x="96" y="135" font-size="120" text-anchor="middle" fill="%2300d4ff"></text></svg>',
+                        sizes: '192x192',
+                        type: 'image/svg+xml'
+                    }
+                ]
+            };
+            
+            const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('link');
+            link.rel = 'manifest';
+            link.href = url;
+            document.head.appendChild(link);
+            
+            // Registrar Service Worker para offline
+            if ('serviceWorker' in navigator) {
+                const swCode = `
+                    self.addEventListener('install', e => { self.skipWaiting(); });
+                    self.addEventListener('activate', e => { e.waitUntil(clients.claim()); });
+                    self.addEventListener('fetch', e => {
+                        e.respondWith(
+                            caches.open('agenda-amiga-v1').then(cache => {
+                                return cache.match(e.request).then(response => {
+                                    return response || fetch(e.request).then(fetchResponse => {
+                                        if (e.request.url.startsWith('http')) {
+                                            cache.put(e.request, fetchResponse.clone());
+                                        }
+                                        return fetchResponse;
+                                    }).catch(() => cache.match('/'));
+                                });
+                            })
+                        );
+                    });
+                `;
+                const swBlob = new Blob([swCode], {type: 'application/javascript'});
+                const swUrl = URL.createObjectURL(swBlob);
+                navigator.serviceWorker.register(swUrl).catch(err => console.log('SW não registrado:', err));
+            }
+            
+            // Capturar evento de instalação
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                setTimeout(() => {
+                    document.getElementById('installBanner').classList.add('show');
+                }, 2000);
+            });
+            
+            window.addEventListener('appinstalled', () => {
+                document.getElementById('installBanner').classList.remove('show');
+                deferredPrompt = null;
+            });
+        }
+
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(choice => {
+                    if (choice.outcome === 'accepted') {
+                        document.getElementById('installBanner').classList.remove('show');
+                    }
+                    deferredPrompt = null;
+                });
             } else {
-                medFields.classList.remove('show');
+                // Instruções manuais
+                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+                const isAndroid = /Android/.test(navigator.userAgent);
+                
+                if (isIOS) {
+                    alert('Para instalar no iPhone/iPad:\n1. Toque no botão Compartilhar (quadrado com seta)\n2. Role para baixo e toque em "Adicionar à Tela de Início"');
+                } else if (isAndroid) {
+                    alert('Para instalar no Android:\n1. Toque no menu (⋮) do navegador\n2. Selecione "Adicionar à tela inicial" ou "Instalar aplicativo"');
+                } else {
+                    alert('Para instalar no computador:\n1. Clique no ícone de instalação na barra de endereço\n2. Ou use o menu do navegador para "Instalar aplicativo"');
+                }
+            }
+        }
+
+        function dismissInstall() {
+            document.getElementById('installBanner').classList.remove('show');
+        }
+
+        // ============ BIOMETRIA (WebAuthn) ============
+        function isBiometricSupported() {
+            return window.PublicKeyCredential && navigator.credentials;
+        }
+
+        async function checkBiometricAvailability() {
+            if (!isBiometricSupported()) return false;
+            try {
+                return await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+            } catch (e) {
+                return false;
+            }
+        }
+
+        async function setupBiometric() {
+            if (!isBiometricSupported()) {
+                alert('Biometria nao suportada neste dispositivo. Use a senha.');
+                return;
+            }
+            
+            try {
+                const challenge = new Uint8Array(32);
+                crypto.getRandomValues(challenge);
+                
+                const userId = new Uint8Array(16);
+                crypto.getRandomValues(userId);
+                
+                const publicKey = {
+                    challenge: challenge,
+                    rp: { name: 'Agenda Amiga' },
+                    user: {
+                        id: userId,
+                        name: 'usuario@agendaamiga',
+                        displayName: 'Usuario Agenda Amiga'
+                    },
+                    pubKeyCredParams: [
+                        { type: 'public-key', alg: -7 },
+                        { type: 'public-key', alg: -257 }
+                    ],
+                    authenticatorSelection: {
+                        authenticatorAttachment: 'platform',
+                        userVerification: 'required',
+                        requireResidentKey: false
+                    },
+                    timeout: 60000,
+                    attestation: 'none'
+                };
+                
+                const credential = await navigator.credentials.create({ publicKey });
+                
+                const credentialData = {
+                    id: credential.id,
+                    rawId: Array.from(new Uint8Array(credential.rawId)),
+                    type: credential.type,
+                    publicKey: Array.from(new Uint8Array(credential.response.getPublicKey ? credential.response.getPublicKey() : []))
+                };
+                
+                localStorage.setItem(STORAGE_KEYS.biometric, JSON.stringify(credentialData));
+                alert('✅ Biometria cadastrada com sucesso!\nAgora voce pode usar impressao digital ou reconhecimento facial para entrar.');
+                updateBiometricUI();
+            } catch (err) {
+                console.error('Erro ao cadastrar biometria:', err);
+                if (err.name === 'NotAllowedError') {
+                    alert('Cadastro cancelado pelo usuario.');
+                } else {
+                    alert('Erro ao cadastrar biometria: ' + err.message);
+                }
+            }
+        }
+
+        async function tryBiometric() {
+            const saved = localStorage.getItem(STORAGE_KEYS.biometric);
+            if (!saved) {
+                alert('Nenhuma biometria cadastrada. Cadastre primeiro.');
+                return;
+            }
+            
+            try {
+                const credData = JSON.parse(saved);
+                const challenge = new Uint8Array(32);
+                crypto.getRandomValues(challenge);
+                
+                const publicKey = {
+                    challenge: challenge,
+                    allowCredentials: [{
+                        type: 'public-key',
+                        id: new Uint8Array(credData.rawId),
+                        transports: ['internal']
+                    }],
+                    userVerification: 'required',
+                    timeout: 60000
+                };
+                
+                const assertion = await navigator.credentials.get({ publicKey });
+                
+                if (assertion) {
+                    sessionStorage.setItem(STORAGE_KEYS.session, 'authenticated');
+                    unlockApp();
+                }
+            } catch (err) {
+                console.error('Erro na biometria:', err);
+                if (err.name === 'NotAllowedError') {
+                    document.getElementById('loginError').textContent = 'Autenticacao cancelada.';
+                } else {
+                    document.getElementById('loginError').textContent = 'Erro na biometria. Use a senha.';
+                }
+            }
+        }
+
+        function updateBiometricUI() {
+            const hasBiometric = localStorage.getItem(STORAGE_KEYS.biometric);
+            const biometricSection = document.getElementById('biometricSection');
+            const biometricSetup = document.getElementById('biometricSetup');
+            
+            if (hasBiometric) {
+                biometricSection.style.display = 'block';
+                biometricSetup.style.display = 'none';
+            } else if (isBiometricSupported()) {
+                biometricSection.style.display = 'none';
+                biometricSetup.style.display = 'block';
+            }
+        }
+
+        // ============ LOGIN ============
+        function tryLogin() {
+            const input = document.getElementById('passwordInput');
+            const error = document.getElementById('loginError');
+            
+            if (input.value === APP_PASSWORD) {
+                sessionStorage.setItem(STORAGE_KEYS.session, 'authenticated');
+                error.textContent = '';
+                unlockApp();
+            } else {
+                error.textContent = '❌ Senha incorreta!';
+                input.value = '';
+                input.focus();
+                
+                // Efeito de tremer
+                const box = document.querySelector('.login-box');
+                box.style.animation = 'none';
+                setTimeout(() => {
+                    box.style.animation = 'shake 0.5s';
+                }, 10);
+            }
+        }
+
+        function unlockApp() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('mainApp').classList.add('show');
+            initApp();
+        }
+
+        function doLogout() {
+            sessionStorage.removeItem(STORAGE_KEYS.session);
+            location.reload();
+        }
+
+        function checkSession() {
+            const authenticated = sessionStorage.getItem(STORAGE_KEYS.session);
+            if (authenticated === 'authenticated') {
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('mainApp').classList.add('show');
+                initApp();
+            } else {
+                updateBiometricUI();
+                document.getElementById('passwordInput').focus();
+            }
+        }
+
+        // Adicionar animação de shake via JS
+        const style = document.createElement('style');
+        style.textContent = `@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }`;
+        document.head.appendChild(style);
+
+        // Enter para login
+        document.addEventListener('DOMContentLoaded', () => {
+            const passInput = document.getElementById('passwordInput');
+            if (passInput) {
+                passInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') tryLogin();
+                });
             }
         });
 
+        // ============ APP LOGIC ============
         function setSyncStatus(state, text) {
             const dot = document.getElementById('syncDot');
             const txt = document.getElementById('syncText');
@@ -538,14 +1068,14 @@
                 if (response.ok) {
                     const data = await response.json();
                     events = data.record?.events || [];
-                    localStorage.setItem('agendaAmiga_events', JSON.stringify(events));
+                    localStorage.setItem(STORAGE_KEYS.events, JSON.stringify(events));
                     setSyncStatus('ok', 'Sincronizado (' + events.length + ')');
                 } else {
-                    events = JSON.parse(localStorage.getItem('agendaAmiga_events') || '[]');
+                    events = JSON.parse(localStorage.getItem(STORAGE_KEYS.events) || '[]');
                     setSyncStatus('error', 'Offline - ' + events.length + ' itens');
                 }
             } catch (err) {
-                events = JSON.parse(localStorage.getItem('agendaAmiga_events') || '[]');
+                events = JSON.parse(localStorage.getItem(STORAGE_KEYS.events) || '[]');
                 setSyncStatus('error', 'Offline - ' + events.length + ' itens');
             }
         }
@@ -576,10 +1106,7 @@
 
         function getTodayStr() {
             var d = new Date();
-            var year = d.getFullYear();
-            var month = String(d.getMonth() + 1).padStart(2, '0');
-            var day = String(d.getDate()).padStart(2, '0');
-            return year + '-' + month + '-' + day;
+            return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
         }
 
         function getCurrentTimeStr() {
@@ -608,7 +1135,7 @@
             });
 
             if (filtered.length === 0) {
-                list.innerHTML = '<div class="empty"><div class="empty-icon">📭</div><p>Nenhum compromisso encontrado.</p><p>Adicione um novo acima!</p></div>';
+                list.innerHTML = '<div class="empty"><div class="empty-icon"></div><p>Nenhum compromisso encontrado.</p><p>Adicione um novo acima!</p></div>';
                 return;
             }
 
@@ -630,21 +1157,28 @@
                 html += '<div class="event-item category-' + ev.category + ' ' + todayClass + '" ' + pastClass + '>';
                 html += '<div class="event-icon">' + icon + '</div>';
                 html += '<div class="event-info">';
-                html += '<div class="event-title">' + ev.title + ' <span class="badge ' + badgeClass + '">' + badgeText + '</span>' + todayBadge + '</div>';
-                html += '<div class="event-meta">' + formatDate(ev.date) + ' as ' + ev.time + '</div>';
+                html += '<div class="event-title">' + escapeHtml(ev.title) + ' <span class="badge ' + badgeClass + '">' + badgeText + '</span>' + todayBadge + '</div>';
+                html += '<div class="event-meta">📅 ' + formatDate(ev.date) + '  ' + ev.time + '</div>';
                 if (ev.description) {
-                    html += '<div class="event-desc">' + ev.description + '</div>';
+                    html += '<div class="event-desc">' + escapeHtml(ev.description) + '</div>';
                 }
                 if (medicationInfo) {
                     html += medicationInfo;
                 }
                 html += '</div>';
                 html += '<div class="event-actions">';
-                html += '<button class="btn btn-danger btn-small" onclick="deleteEvent(\'' + ev.id + '\')">Excluir</button>';
+                html += '<button class="btn btn-danger btn-small" onclick="deleteEvent(\'' + ev.id + '\')">️</button>';
                 html += '</div>';
                 html += '</div>';
             }
             list.innerHTML = html;
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            var div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
 
         function updateStatusBar() {
@@ -655,16 +1189,16 @@
             var timeStr = String(hour).padStart(2, '0') + ':' + min;
             var dateStr = formatDate(getTodayStr());
 
-            var status = dateStr + ' - ' + timeStr;
+            var status = '📆 ' + dateStr + ' • 🕐 ' + timeStr;
             if (todayEvents.length > 0) {
-                status += ' - ' + todayEvents.length + ' compromisso(s) hoje';
+                status += ' • 🔥 ' + todayEvents.length + ' compromisso(s) hoje';
             } else {
-                status += ' - Dia livre!';
+                status += ' • ✨ Dia livre!';
             }
 
-            if (hour >= 1 && hour < 12) status += ' - Bom dia!';
-            else if (hour >= 12 && hour < 18) status += ' - Boa tarde!';
-            else status += ' - Boa noite!';
+            if (hour >= 1 && hour < 12) status += ' • 🌅 Bom dia!';
+            else if (hour >= 12 && hour < 18) status += ' • ☀️ Boa tarde!';
+            else status += ' • 🌙 Boa noite!';
 
             document.getElementById('statusBar').textContent = status;
         }
@@ -681,7 +1215,6 @@
                 description: document.getElementById('description').value.trim()
             };
             
-            // Adicionar campos de medicamento se for categoria medicamento
             if (newEvent.category === 'medicamento') {
                 newEvent.dosage = document.getElementById('dosage').value.trim();
                 newEvent.frequency = document.getElementById('frequency').value;
@@ -689,20 +1222,29 @@
             }
             
             events.push(newEvent);
-            localStorage.setItem('agendaAmiga_events', JSON.stringify(events));
+            localStorage.setItem(STORAGE_KEYS.events, JSON.stringify(events));
             scheduleSaveToCloud();
             renderEvents();
             updateStatusBar();
             this.reset();
             document.getElementById('date').value = getTodayStr();
             document.getElementById('medicationFields').classList.remove('show');
-            showBalloon('Compromisso salvo!', newEvent.title + ' em ' + formatDate(newEvent.date) + ' as ' + newEvent.time, false);
+            showBalloon('✅ Compromisso salvo!', newEvent.title + ' em ' + formatDate(newEvent.date) + ' as ' + newEvent.time, false);
+        });
+
+        document.getElementById('category').addEventListener('change', function() {
+            var medFields = document.getElementById('medicationFields');
+            if (this.value === 'medicamento') {
+                medFields.classList.add('show');
+            } else {
+                medFields.classList.remove('show');
+            }
         });
 
         function deleteEvent(id) {
             if (confirm('Deseja realmente excluir este compromisso?')) {
                 events = events.filter(function(e) { return e.id !== id; });
-                localStorage.setItem('agendaAmiga_events', JSON.stringify(events));
+                localStorage.setItem(STORAGE_KEYS.events, JSON.stringify(events));
                 scheduleSaveToCloud();
                 renderEvents();
                 updateStatusBar();
@@ -787,19 +1329,17 @@
                 msg += e.time + ' - ' + e.title + '\n';
             }
 
-            showBalloon('Lembrete do dia!', msg, false);
+            showBalloon(' Lembrete do dia!', msg, false);
             alertedToday[todayStr] = true;
-            localStorage.setItem('agendaAmiga_alerted', JSON.stringify(alertedToday));
+            localStorage.setItem(STORAGE_KEYS.alerted, JSON.stringify(alertedToday));
         }
 
-        // Sistema de alerta de medicamentos - verifica a cada minuto
         function checkMedicationAlerts() {
             var now = new Date();
             var currentTime = getCurrentTimeStr();
             var todayStr = getTodayStr();
             var alertKey = todayStr + '_' + currentTime;
             
-            // Não alertar duas vezes no mesmo horário
             if (medicationAlerts[alertKey]) return;
             
             var medications = events.filter(function(e) {
@@ -816,21 +1356,20 @@
                 msg += '\n';
             }
             
-            showBalloon('Hora do Medicamento!', msg, true);
+            showBalloon('⏰ Hora do Medicamento!', msg, true);
             medicationAlerts[alertKey] = true;
-            localStorage.setItem('agendaAmiga_medAlerts', JSON.stringify(medicationAlerts));
+            localStorage.setItem(STORAGE_KEYS.medAlerts, JSON.stringify(medicationAlerts));
             
-            // Limpar alertas antigos (manter só últimos 2 dias)
             var keys = Object.keys(medicationAlerts);
             if (keys.length > 200) {
                 keys.sort();
                 var toRemove = keys.slice(0, keys.length - 200);
                 toRemove.forEach(function(k) { delete medicationAlerts[k]; });
-                localStorage.setItem('agendaAmiga_medAlerts', JSON.stringify(medicationAlerts));
+                localStorage.setItem(STORAGE_KEYS.medAlerts, JSON.stringify(medicationAlerts));
             }
         }
 
-        function init() {
+        function initApp() {
             document.getElementById('date').value = getTodayStr();
             document.getElementById('time').value = '09:00';
             
@@ -838,21 +1377,21 @@
                 renderEvents();
                 updateStatusBar();
                 
-                // Verificar alertas diários a cada 30 segundos
                 setInterval(function() {
                     checkDailyAlerts();
                     updateStatusBar();
                 }, 30000);
                 
-                // Verificar medicamentos a cada minuto
                 setInterval(checkMedicationAlerts, 60000);
-                
-                // Verificar imediatamente ao carregar
                 checkMedicationAlerts();
             });
         }
 
-        init();
+        // ============ INICIALIZAÇÃO ============
+        document.addEventListener('DOMContentLoaded', function() {
+            setupPWA();
+            checkSession();
+        });
     </script>
 </body>
 </html>
